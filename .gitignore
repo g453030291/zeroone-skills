@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# MacOS garbage
+.DS_Store
+
+# IDEA
+.idea

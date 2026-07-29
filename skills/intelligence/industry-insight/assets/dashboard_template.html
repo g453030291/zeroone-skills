@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZeroOne · 行业情报流水线</title>
+<style>
+:root{
+  --bg:#04060d; --panel:rgba(16,22,38,.72); --line:rgba(120,160,255,.14);
+  --ink:#e6ecff; --dim:#8a97b8; --faint:#5a6684;
+  --cyan:#22d3ee; --violet:#a78bfa; --lime:#7dd87d; --amber:#fbbf24; --rose:#fb7185;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.65;
+  overflow-x:hidden; padding-bottom:80px; -webkit-font-smoothing:antialiased}
+body::before{content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(900px 520px at 12% -8%, rgba(34,211,238,.12), transparent 62%),
+    radial-gradient(760px 460px at 88% 4%, rgba(167,139,250,.11), transparent 60%),
+    linear-gradient(transparent 95%, rgba(120,160,255,.05) 95%) 0 0/100% 28px,
+    linear-gradient(90deg, transparent 95%, rgba(120,160,255,.05) 95%) 0 0/28px 100%}
+.wrap{position:relative; z-index:1; max-width:1180px; margin:0 auto; padding:0 22px}
+.mono{font-family:var(--mono); font-variant-numeric:tabular-nums}
+
+header{padding:52px 0 30px}
+.brand{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--cyan);
+  box-shadow:0 0 0 4px rgba(34,211,238,.15), 0 0 18px var(--cyan); animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(.82)}}
+.brand-name{font-family:var(--mono); font-size:12px; letter-spacing:.22em; color:var(--cyan); text-transform:uppercase}
+h1{font-size:clamp(28px,4.4vw,46px); line-height:1.18; letter-spacing:-.02em; margin:16px 0 12px; font-weight:700}
+h1 em{font-style:normal; background:linear-gradient(96deg,var(--cyan),var(--violet));
+  -webkit-background-clip:text; background-clip:text; color:transparent}
+.sub{color:var(--dim); max-width:64ch; font-size:15px}
+.meta{margin-top:18px; display:flex; gap:10px; flex-wrap:wrap; font-family:var(--mono); font-size:11.5px; color:var(--faint)}
+.meta span{border:1px solid var(--line); border-radius:999px; padding:4px 11px; background:rgba(10,15,28,.6)}
+
+section{margin-top:52px}
+.sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:20px; flex-wrap:wrap}
+.sec-head h2{font-size:16px; letter-spacing:.02em; font-weight:650}
+.sec-head .tag{font-family:var(--mono); font-size:11px; color:var(--faint); letter-spacing:.16em; text-transform:uppercase}
+.rule{flex:1; min-width:40px; height:1px; background:linear-gradient(90deg,var(--line),transparent)}
+
+.stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px}
+.stat{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px; position:relative; overflow:hidden}
+.stat::after{content:""; position:absolute; inset:auto 0 0 0; height:1px;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent); opacity:.4}
+.stat .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; color:var(--faint); text-transform:uppercase}
+.stat .v{font-family:var(--mono); font-size:32px; font-weight:600; letter-spacing:-.02em; margin-top:8px; font-variant-numeric:tabular-nums}
+.stat .u{font-size:12px; color:var(--dim); margin-top:2px}
+
+.pipe{display:grid; grid-template-columns:repeat(6,1fr); align-items:stretch;
+  background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:26px 18px; overflow-x:auto}
+.node{position:relative; padding:0 12px; min-width:132px}
+.node + .node::before{content:""; position:absolute; left:-2px; top:34px; width:4px; height:4px; border-radius:50%;
+  background:var(--cyan); box-shadow:0 0 10px var(--cyan); animation:flow 2.6s linear infinite; animation-delay:var(--d,0s)}
+.node .track{position:absolute; left:-50%; top:36px; width:50%; height:1px;
+  background:linear-gradient(90deg,rgba(120,160,255,.06),rgba(34,211,238,.35))}
+@keyframes flow{0%{transform:translateX(-58px);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translateX(8px);opacity:0}}
+.node .idx{font-family:var(--mono); font-size:10px; color:var(--faint); letter-spacing:.2em}
+.node .label{font-size:13px; font-weight:600; margin-top:6px}
+.node .num{font-family:var(--mono); font-size:26px; font-weight:600; margin-top:14px; letter-spacing:-.02em}
+.node .desc{font-size:11.5px; color:var(--faint); margin-top:6px; line-height:1.5}
+.node .drop{font-family:var(--mono); font-size:11px; margin-top:8px; color:var(--rose)}
+.node .drop.keep{color:var(--lime)}
+.n0 .num{color:var(--ink)} .n1 .num{color:#9ec5ff} .n2 .num{color:var(--cyan)}
+.n3 .num{color:#7ddce8} .n4 .num{color:var(--violet)} .n5 .num{color:var(--amber)}
+.bar{height:3px; border-radius:2px; margin-top:12px; background:rgba(120,160,255,.12); overflow:hidden}
+.bar i{display:block; height:100%; border-radius:2px; background:linear-gradient(90deg,var(--cyan),var(--violet));
+  width:0; transition:width 1.1s cubic-bezier(.16,1,.3,1)}
+
+.tabs{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px}
+.tab{font-family:var(--mono); font-size:12px; padding:7px 14px; border-radius:999px; cursor:pointer;
+  border:1px solid var(--line); background:rgba(10,15,28,.6); color:var(--dim); transition:.18s}
+.tab:hover{color:var(--ink); border-color:rgba(34,211,238,.4)}
+.tab.on{color:#04060d; background:linear-gradient(96deg,var(--cyan),var(--violet)); border-color:transparent; font-weight:600}
+.profile-desc{color:var(--dim); font-size:13.5px; margin-bottom:18px}
+.profile-desc b{color:var(--ink); font-weight:600}
+
+.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px}
+.card{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px; transition:.2s}
+.card:hover{border-color:rgba(34,211,238,.34); transform:translateY(-2px)}
+.card h3{font-size:14.5px; font-weight:650; line-height:1.45; margin-bottom:10px}
+.card .row{display:flex; gap:8px; flex-wrap:wrap; font-family:var(--mono); font-size:10.5px; color:var(--faint); margin-bottom:12px}
+.card .row b{color:var(--cyan); font-weight:500}
+.card ul{list-style:none; display:flex; flex-direction:column; gap:7px}
+.card li{font-size:12.5px; color:var(--dim); padding-left:14px; position:relative; line-height:1.5}
+.card li::before{content:""; position:absolute; left:0; top:8px; width:5px; height:5px; border-radius:50%; background:rgba(34,211,238,.5)}
+.card li span{color:var(--faint); font-family:var(--mono); font-size:10.5px}
+
+/* ---------- daily digest ---------- */
+.sum{background:var(--panel); border:1px solid var(--line); border-radius:16px; margin-bottom:14px; overflow:hidden}
+.sum-head{padding:18px 22px; cursor:pointer; display:flex; align-items:flex-start; gap:14px; transition:.18s}
+.sum-head:hover{background:rgba(34,211,238,.045)}
+.sum-head .arrow{color:var(--cyan); font-family:var(--mono); font-size:12px; margin-top:4px; transition:transform .22s}
+.sum.open .sum-head .arrow{transform:rotate(90deg)}
+.sum-head h3{font-size:15.5px; font-weight:650; line-height:1.45}
+.sum-head .m{font-family:var(--mono); font-size:10.5px; color:var(--faint); margin-top:7px; display:flex; gap:9px; flex-wrap:wrap}
+.sum-body{display:none; padding:0 22px 24px; border-top:1px solid var(--line)}
+.sum.open .sum-body{display:block}
+
+.usage{display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 22px}
+.chip{font-family:var(--mono); font-size:11px; border:1px solid var(--line); border-radius:8px;
+  padding:7px 12px; background:rgba(10,15,28,.55); color:var(--dim)}
+.chip b{color:var(--cyan); font-weight:600; font-size:13px; margin-right:3px}
+.chip.alt b{color:var(--violet)}
+
+.hl{background:rgba(34,211,238,.05); border:1px solid rgba(34,211,238,.18); border-radius:12px; padding:16px 20px; margin-bottom:24px}
+.hl .t{font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; color:var(--cyan); text-transform:uppercase; margin-bottom:10px}
+.hl ol{margin-left:18px; display:flex; flex-direction:column; gap:7px}
+.hl li{font-size:13.5px; color:#cfd8f0; line-height:1.6}
+
+.topic{padding:20px 0; border-top:1px solid var(--line)}
+.topic:first-of-type{border-top:0; padding-top:4px}
+.topic h4{font-size:15px; font-weight:650; margin-bottom:10px; line-height:1.45}
+.topic h4 .no{font-family:var(--mono); color:var(--violet); margin-right:8px; font-size:13px}
+.topic .tldr{font-size:13.5px; color:#cfd8f0; background:rgba(120,160,255,.05);
+  border-left:2px solid var(--cyan); padding:10px 14px; border-radius:0 8px 8px 0; margin-bottom:14px}
+.blk{margin-bottom:14px}
+.blk .h{font-family:var(--mono); font-size:10px; letter-spacing:.15em; color:var(--faint);
+  text-transform:uppercase; margin-bottom:7px}
+.blk ul{list-style:none; display:flex; flex-direction:column; gap:6px}
+.blk li{font-size:13px; color:#cfd8f0; padding-left:15px; position:relative; line-height:1.6}
+.blk li::before{content:""; position:absolute; left:0; top:9px; width:4px; height:4px; border-radius:50%; background:var(--cyan)}
+.blk p{font-size:13px; color:#cfd8f0; line-height:1.65}
+.blk.judge{background:rgba(167,139,250,.06); border:1px solid rgba(167,139,250,.16); border-radius:10px; padding:14px 16px}
+.blk.judge .h{color:var(--violet)}
+.blk.judge li::before{background:var(--violet)}
+.blk.note{background:rgba(251,191,36,.06); border:1px solid rgba(251,191,36,.18); border-radius:10px; padding:12px 16px}
+.blk.note .h{color:var(--amber)}
+.blk.note p{color:#e0d3b0; font-size:12.5px}
+.src{display:flex; flex-direction:column; gap:5px}
+.src a{font-size:12.5px; color:var(--cyan); text-decoration:none; border-bottom:1px solid rgba(34,211,238,.22)}
+.src a:hover{border-bottom-color:var(--cyan)}
+.src .f{font-family:var(--mono); font-size:10.5px; color:var(--faint); margin-left:6px}
+.skipped{margin-top:20px; padding-top:16px; border-top:1px dashed var(--line)}
+.skipped .h{font-family:var(--mono); font-size:10px; letter-spacing:.15em; color:var(--faint); text-transform:uppercase; margin-bottom:8px}
+.skipped li{font-size:12px; color:var(--faint); list-style:none; line-height:1.6}
+.skipped li b{color:var(--dim); font-weight:500}
+
+.split{display:grid; grid-template-columns:1.15fr .85fr; gap:14px}
+.panel{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:20px 22px}
+.panel h3{font-size:13px; font-weight:640; margin-bottom:16px}
+.panel h3 small{font-family:var(--mono); font-size:10.5px; color:var(--faint); font-weight:400; margin-left:8px; letter-spacing:.12em}
+.feed{display:grid; grid-template-columns:1fr auto; gap:6px 12px; align-items:center; margin-bottom:11px}
+.feed .n{font-size:12.5px; color:var(--dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.feed .c{font-family:var(--mono); font-size:11.5px; color:var(--faint)}
+.feed .b{grid-column:1/-1; height:3px; border-radius:2px; background:rgba(120,160,255,.1); overflow:hidden}
+.feed .b i{display:block; height:100%; background:linear-gradient(90deg,var(--cyan),rgba(167,139,250,.75));
+  width:0; border-radius:2px; transition:width .9s cubic-bezier(.16,1,.3,1)}
+.empty{color:var(--faint); font-size:13px; padding:22px 0; text-align:center; font-family:var(--mono)}
+footer{margin-top:56px; padding-top:22px; border-top:1px solid var(--line);
+  font-family:var(--mono); font-size:11px; color:var(--faint); display:flex; gap:14px; flex-wrap:wrap; justify-content:space-between}
+
+@media (max-width:860px){
+  .split{grid-template-columns:1fr}
+  .pipe{grid-template-columns:repeat(6,minmax(132px,1fr))}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="brand"><span class="dot"></span><span class="brand-name">ZeroOne Intelligence Pipeline</span></div>
+  <h1>海量信源进来，<em>可读的判断</em>出去</h1>
+  <p class="sub">同一池原始数据，按不同关注点分别打分、聚类、成稿。这个页面是该流水线跑完一轮后的真实状态快照，所有数字直接来自本地数据库。</p>
+  <div class="meta" id="meta"></div>
+</header>
+
+<section>
+  <div class="sec-head"><span class="tag">Overview</span><h2>数据资产</h2><div class="rule"></div></div>
+  <div class="stats" id="stats"></div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="tag">Workflow</span><h2>处理流水线</h2><div class="rule"></div>
+    <span class="tag" id="pipe-profile"></span></div>
+  <div class="pipe" id="pipe"></div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="tag">Profiles</span><h2>关注点</h2><div class="rule"></div></div>
+  <div class="tabs" id="tabs"></div>
+  <div class="profile-desc" id="pdesc"></div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="tag">Output</span><h2>每日情报</h2><div class="rule"></div></div>
+  <div id="digests"></div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="tag">Clusters</span><h2>话题聚类</h2><div class="rule"></div></div>
+  <div class="cards" id="clusters"></div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="tag">Sources</span><h2>信源与采集</h2><div class="rule"></div></div>
+  <div class="split">
+    <div class="panel"><h3>信源分布 <small>TOP FEEDS</small></h3><div id="feeds"></div></div>
+    <div class="panel"><h3>采集批次 <small>INGEST RUNS</small></h3><div id="runs"></div></div>
+  </div>
+</section>
+
+<footer>
+  <span>ZeroOne · industry-insight — 平台化数据流水线的开源演示版</span>
+  <span id="gen"></span>
+</footer>
+</div>
+
+<script>
+const DATA = __DATA__;
+
+const fmt = n => (n == null ? "—" : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+const esc = s => String(s == null ? "" : s)
+  .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const el = (tag, cls, html) => { const n = document.createElement(tag);
+  if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; };
+const safeUrl = u => /^https?:\/\//i.test(u || "") ? esc(u) : null;
+
+function countUp(node, target){
+  if (!target || target < 0) { node.textContent = fmt(target); return; }
+  const dur = 900, t0 = performance.now();
+  const step = t => { const p = Math.min((t - t0) / dur, 1);
+    node.textContent = fmt(Math.round(target * (1 - Math.pow(1 - p, 3))));
+    if (p < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+
+/* ---- header + global stats ---- */
+const g = DATA.global;
+document.getElementById("meta").innerHTML =
+  [`生成于 ${DATA.generated_at}`,
+   `数据窗口 ${g.window[0] || "—"} → ${g.window[1] || "—"}`,
+   `${DATA.profiles.length} 个关注点`].map(t => `<span>${esc(t)}</span>`).join("");
+document.getElementById("gen").textContent = DATA.workspace;
+
+const statsBox = document.getElementById("stats");
+[["累计入库", g.articles, "篇去重后文章"],
+ ["信源渠道", g.feeds, "个公众号"],
+ ["正文体量", Math.round(g.chars_total / 10000), "万字已清洗"],
+ ["采集批次", g.fetch_runs, `次轮询 / 拦下 ${fmt(g.duplicates_total)} 条重复`],
+ ["产出情报", g.digests, `期 · 覆盖 ${fmt(g.topics)} 个话题`],
+].forEach(([k, v, u]) => {
+  const n = el("div", "stat");
+  n.appendChild(el("div", "k", esc(k)));
+  const val = el("div", "v mono", "0");
+  n.appendChild(val); n.appendChild(el("div", "u", esc(u)));
+  statsBox.appendChild(n); countUp(val, v);
+});
+
+/* ---- pipeline ---- */
+function renderPipe(p){
+  const f = p.funnel;
+  const nodes = [
+    ["01", "采集", f.returned, "接口累计返回条数", null],
+    ["02", "去重", f.stored, "(id, source_type) 唯一入库", f.returned],
+    ["03", "关注过滤", f.hit, "关键词粗筛 + AI 语义复判", f.stored],
+    ["04", "聚类", f.clustered, `归入 ${f.clusters} 个话题`, f.hit],
+    ["05", "成稿判定", f.publishable, "≥2 篇 + 3 天冷却", f.clusters],
+    ["06", "产出", f.topics, "带信源与观点的情报", null],
+  ];
+  const box = document.getElementById("pipe");
+  box.innerHTML = "";
+  nodes.forEach(([idx, label, num, desc, prev], i) => {
+    const n = el("div", `node n${i}`);
+    n.style.setProperty("--d", (i * 0.34) + "s");
+    if (i) n.appendChild(el("span", "track"));
+    n.appendChild(el("div", "idx", idx));
+    n.appendChild(el("div", "label", esc(label)));
+    const v = el("div", "num mono", "0");
+    n.appendChild(v);
+    n.appendChild(el("div", "desc", esc(desc)));
+    if (prev != null && prev > 0){
+      const pct = Math.round((num / prev) * 100);
+      n.appendChild(el("div", "drop" + (pct >= 60 ? " keep" : ""), `保留 ${pct}%`));
+    }
+    const bar = el("div", "bar", "<i></i>");
+    n.appendChild(bar);
+    box.appendChild(n);
+    countUp(v, num);
+    setTimeout(() => bar.firstChild.style.width =
+      (f.returned ? Math.max((num / f.returned) * 100, 2) : 0) + "%", 60 + i * 90);
+  });
+  document.getElementById("pipe-profile").textContent = p.name;
+}
+
+/* ---- daily digests ---- */
+function block(title, cls, inner){
+  return `<div class="blk ${cls || ""}"><div class="h">${esc(title)}</div>${inner}</div>`;
+}
+
+function renderTopic(t, i){
+  let h = `<div class="topic"><h4><span class="no mono">${String(i + 1).padStart(2, "0")}</span>${esc(t.title)}</h4>`;
+  if (t.tldr) h += `<div class="tldr">${esc(t.tldr)}</div>`;
+
+  if ((t.facts || []).length){
+    h += block("发生了什么", "", "<ul>" + t.facts.map(f => {
+      const u = safeUrl(f.url);
+      return `<li>${esc(f.text)}${u ? ` <a href="${u}" target="_blank" rel="noopener" style="color:var(--cyan)">↗</a>` : ""}</li>`;
+    }).join("") + "</ul>");
+  }
+  if (t.cross_source) h += block("不同信源怎么说", "", `<p>${esc(t.cross_source)}</p>`);
+  if (t.source_note) h += block("信源提示", "note", `<p>${esc(t.source_note)}</p>`);
+  if ((t.implications || []).length){
+    h += block("这意味着什么（分析判断，非事实）", "judge",
+      "<ul>" + t.implications.map(x => `<li>${esc(x)}</li>`).join("") + "</ul>");
+  }
+  if ((t.sources || []).length){
+    h += block("信息源", "", `<div class="src">` + t.sources.map(s => {
+      const u = safeUrl(s.url);
+      const label = `${esc(s.title)}<span class="f">${esc(s.feed || "")} · ${esc((s.publish_time || "").slice(0, 16))}</span>`;
+      return u ? `<div><a href="${u}" target="_blank" rel="noopener">${label}</a></div>`
+               : `<div style="font-size:12.5px;color:var(--dim)">${label}</div>`;
+    }).join("") + `</div>`);
+  }
+  return h + "</div>";
+}
+
+function renderDigests(p){
+  const box = document.getElementById("digests");
+  box.innerHTML = "";
+  if (!p.digests.length){
+    box.appendChild(el("div", "empty", "// 该关注点还没有产出，跑一轮流水线即可"));
+    return;
+  }
+  p.digests.forEach((d, i) => {
+    const n = el("div", "sum" + (i === 0 ? " open" : ""));
+    const topics = d.topics || [];
+    const st = d.stats || {};
+
+    const head = el("div", "sum-head");
+    head.innerHTML =
+      `<span class="arrow mono">▶</span><div style="flex:1;min-width:0">` +
+      `<h3>${esc(d.profile_name || p.name)} 情报 · ${esc(d.date)}</h3>` +
+      `<div class="m"><span>${topics.length} 个话题</span><span>·</span>` +
+      `<span>引用 ${fmt(st.feeds_used || 0)} 个渠道</span><span>·</span>` +
+      `<span>今日新增 ${fmt(st.new_today || 0)} 条</span></div></div>`;
+
+    let body =
+      `<div class="usage">` +
+      [["今日采集", st.fetched_today, "条", ""],
+       ["其中新增", st.new_today, "条", "alt"],
+       ["扫描判定", st.scanned, "篇", ""],
+       ["命中关注", st.hits, "篇", "alt"],
+       ["引用渠道", st.feeds_used, `/ ${fmt(st.feeds_total || 0)} 个`, ""],
+       ["引用文章", st.articles_cited, "篇", "alt"],
+      ].map(([k, v, u, cls]) =>
+        `<div class="chip ${cls}">${esc(k)} <b>${fmt(v || 0)}</b>${esc(u)}</div>`).join("") +
+      `</div>`;
+
+    if ((d.highlights || []).length){
+      body += `<div class="hl"><div class="t">今天值得看的 ${d.highlights.length} 件事</div><ol>` +
+        d.highlights.map(x => `<li>${esc(x)}</li>`).join("") + `</ol></div>`;
+    }
+
+    body += topics.length
+      ? topics.map(renderTopic).join("")
+      : `<div class="empty">// 今天没有值得展开的跨源话题</div>`;
+
+    if ((d.skipped || []).length){
+      body += `<div class="skipped"><div class="h">冷却期内跳过</div><ul>` +
+        d.skipped.map(s => `<li><b>${esc(s.title || s.topic_key)}</b> — ${esc(s.reason)}</li>`).join("") +
+        `</ul></div>`;
+    }
+
+    n.appendChild(head);
+    n.appendChild(el("div", "sum-body", body));
+    head.addEventListener("click", () => n.classList.toggle("open"));
+    box.appendChild(n);
+  });
+}
+
+/* ---- clusters ---- */
+function renderClusters(p){
+  const box = document.getElementById("clusters");
+  box.innerHTML = "";
+  if (!p.clusters.length){ box.appendChild(el("div", "empty", "// 尚无聚类")); return; }
+  p.clusters.forEach(c => {
+    const n = el("div", "card");
+    n.appendChild(el("h3", null, esc(c.title || c.topic_key)));
+    n.appendChild(el("div", "row",
+      `<b>${c.article_count} 篇</b><span>·</span><span>${c.feeds.length} 个信源</span><span>·</span><span>${esc(c.span)}</span>`));
+    const ul = el("ul");
+    c.articles.forEach(a => ul.appendChild(el("li", null, `${esc(a.title)}<br><span>${esc(a.feed)}</span>`)));
+    n.appendChild(ul);
+    box.appendChild(n);
+  });
+}
+
+/* ---- sources ---- */
+function renderSources(){
+  const box = document.getElementById("feeds");
+  const max = DATA.feeds.length ? DATA.feeds[0].count : 1;
+  DATA.feeds.slice(0, 12).forEach((f, i) => {
+    const n = el("div", "feed");
+    n.appendChild(el("div", "n", esc(f.name || "—")));
+    n.appendChild(el("div", "c mono", f.count));
+    const b = el("div", "b", "<i></i>");
+    n.appendChild(b); box.appendChild(n);
+    setTimeout(() => b.firstChild.style.width = (f.count / max * 100) + "%", 80 + i * 55);
+  });
+
+  const rbox = document.getElementById("runs");
+  if (!DATA.runs.length){ rbox.appendChild(el("div", "empty", "// 暂无采集记录")); return; }
+  const rmax = Math.max(...DATA.runs.map(r => r.returned), 1);
+  DATA.runs.slice(0, 12).forEach((r, i) => {
+    const n = el("div", "feed");
+    n.appendChild(el("div", "n", esc(r.started_at)));
+    n.appendChild(el("div", "c mono", `+${r.inserted} / ${r.returned}`));
+    const b = el("div", "b", "<i></i>");
+    n.appendChild(b); rbox.appendChild(n);
+    setTimeout(() => b.firstChild.style.width = (r.inserted / rmax * 100) + "%", 80 + i * 55);
+  });
+}
+
+/* ---- profile switching ---- */
+function select(idx){
+  const p = DATA.profiles[idx];
+  document.querySelectorAll(".tab").forEach((t, i) => t.classList.toggle("on", i === idx));
+  document.getElementById("pdesc").innerHTML =
+    `<b>${esc(p.name)}</b> — ${esc(p.description || "（未填写描述）")}`;
+  renderPipe(p); renderDigests(p); renderClusters(p);
+}
+
+const tabs = document.getElementById("tabs");
+if (DATA.profiles.length){
+  DATA.profiles.forEach((p, i) => {
+    const t = el("div", "tab", `${esc(p.name)} <span style="opacity:.6">${p.funnel.hit}</span>`);
+    t.addEventListener("click", () => select(i));
+    tabs.appendChild(t);
+  });
+  select(0);
+} else {
+  tabs.appendChild(el("div", "empty", "// 还没有关注点，在 profiles.jsonl 里加一行"));
+}
+renderSources();
+</script>
+</body>
+</html>
