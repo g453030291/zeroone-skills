@@ -1,0 +1,2526 @@
+{
+  "code": 200,
+  "msg": "success",
+  "data": [
+    {
+      "id": "xhs-0192",
+      "source_type": "xhs",
+      "feed_name": "车主的日常",
+      "title": "第一次用黑芝麻智能的自动泊车，全程实录",
+      "url": "https://www.xiaohongshu.com/explore/506ad0d433c2",
+      "description": "",
+      "publish_time": "2026-07-25 10:55:00",
+      "clean_content": "多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。"
+    },
+    {
+      "id": "wx-0027",
+      "source_type": "wx",
+      "feed_name": "车东西",
+      "title": "滴滴自动驾驶部门传出人事调整消息",
+      "url": "https://mp.weixin.qq.com/s/20d75f27a7ff",
+      "description": "",
+      "publish_time": "2026-07-26 11:00:00",
+      "clean_content": "有消息称滴滴自动驾驶部门近期出现人事调整，具体业务方向尚未明确，公司暂未对外回应。"
+    },
+    {
+      "id": "wx-0026",
+      "source_type": "wx",
+      "feed_name": "汽车评中评",
+      "title": "广汽埃安发布固态电池量产时间表",
+      "url": "https://mp.weixin.qq.com/s/6c094eecc258",
+      "description": "",
+      "publish_time": "2026-07-26 15:00:00",
+      "clean_content": "广汽埃安公布固态电池量产计划，预计2027年小批量装车，续航与安全性均有明显提升，被视为下一代电池技术的重要节点。"
+    },
+    {
+      "id": "wx-0008",
+      "source_type": "wx",
+      "feed_name": "汽车之心",
+      "title": "地平线发布征程7代芯片，算力翻倍剑指城市NOA",
+      "url": "https://mp.weixin.qq.com/s/735a16b05429",
+      "description": "",
+      "publish_time": "2026-07-29 09:30:00",
+      "clean_content": "地平线今日发布新一代智能驾驶计算芯片「征程7」，单颗算力达到560TOPS，较上一代提升超过一倍。地平线方面表示，征程7将首发搭载于多家车企的2027款车型，重点支持城市领航辅助驾驶（NOA）功能落地。地平线创始人余凯在发布会上表示，算力提升的同时功耗控制在可接受范围内，并强调国产智驾芯片供应链自主可控的重要性。"
+    },
+    {
+      "id": "wx-0070",
+      "source_type": "wx",
+      "feed_name": "汽车之心",
+      "title": "特斯拉官方回应近期传闻，称消息不实",
+      "url": "https://mp.weixin.qq.com/s/c70a3908ff01",
+      "description": "",
+      "publish_time": "2026-07-27 09:47:00",
+      "clean_content": "特斯拉相关最新进展显示，分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "wx-0014",
+      "source_type": "wx",
+      "feed_name": "AI科技评论",
+      "title": "英伟达H20降价背后：中美AI芯片市场的新博弈",
+      "url": "https://mp.weixin.qq.com/s/e4f448677bd2",
+      "description": "",
+      "publish_time": "2026-07-30 11:15:00",
+      "clean_content": "英伟达下调H20报价的消息今日传出，市场解读不一。部分分析师认为这是应对国产芯片崛起的防御性举措，也有观点认为是为了配合更大规模的芯片出货计划。对国内AI公司和智能驾驶厂商来说，训练成本下降将直接影响新一轮模型迭代的预算分配。"
+    },
+    {
+      "id": "wx-0181",
+      "source_type": "wx",
+      "feed_name": "九章智驾",
+      "title": "地平线城市NOA功能开始向更多城市推送",
+      "url": "https://mp.weixin.qq.com/s/5afeb6e165d8",
+      "description": "",
+      "publish_time": "2026-07-30 23:50:00",
+      "clean_content": "地平线相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "xhs-0126",
+      "source_type": "xhs",
+      "feed_name": "AI打工人",
+      "title": "提了零跑的新车，说说这几天的智驾体验",
+      "url": "https://www.xiaohongshu.com/explore/ce4339d66e42",
+      "description": "",
+      "publish_time": "2026-07-25 22:41:00",
+      "clean_content": "截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。"
+    },
+    {
+      "id": "xhs-0171",
+      "source_type": "xhs",
+      "feed_name": "新能源日记",
+      "title": "蔚来车主群里都在聊的一个功能",
+      "url": "https://www.xiaohongshu.com/explore/a0ae325921c0",
+      "description": "",
+      "publish_time": "2026-07-28 12:19:00",
+      "clean_content": "据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。"
+    },
+    {
+      "id": "wx-0029",
+      "source_type": "wx",
+      "feed_name": "极客公园",
+      "title": "小鹏动力电池自研工厂投产",
+      "url": "https://mp.weixin.qq.com/s/ef36a364d010",
+      "description": "",
+      "publish_time": "2026-07-25 09:00:00",
+      "clean_content": "小鹏汽车位于华东的自研电池工厂正式投产，首批电芯将用于旗下高端车型，公司表示此举有助于提升供应链自主可控能力。"
+    },
+    {
+      "id": "wx-0211",
+      "source_type": "wx",
+      "feed_name": "品玩",
+      "title": "零跑智能座舱新版本OTA更新，新增多项功能",
+      "url": "https://mp.weixin.qq.com/s/feb404789ac8",
+      "description": "零跑相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确",
+      "publish_time": "2026-07-30 20:11:00",
+      "clean_content": "零跑相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。"
+    },
+    {
+      "id": "wx-0114",
+      "source_type": "wx",
+      "feed_name": "汽车评中评",
+      "title": "OpenAI被曝正在测试下一代自动驾驶方案",
+      "url": "https://mp.weixin.qq.com/s/ab730bec2df5",
+      "description": "OpenAI相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更",
+      "publish_time": "2026-07-25 10:40:00",
+      "clean_content": "OpenAI相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "xhs-0235",
+      "source_type": "xhs",
+      "feed_name": "新能源日记",
+      "title": "OpenAI最近的OTA更新了啥，简单说说",
+      "url": "https://www.xiaohongshu.com/explore/1f449672c237",
+      "description": "",
+      "publish_time": "2026-07-30 23:59:00",
+      "clean_content": "截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。供应链相关人士表示，产能爬坡预计将持续到下个季度。"
+    },
+    {
+      "id": "nytimes-0183",
+      "source_type": "nytimes",
+      "feed_name": "The New York Times",
+      "title": "高通 Pushes Deeper Into Autonomous Driving Race",
+      "url": "https://www.nytimes.com/2026/07/29/business/646c65251e9b.html",
+      "description": "",
+      "publish_time": "2026-07-28 16:45:00",
+      "clean_content": "Industry observers say the move reflects broader trends in the sector. The company declined to comment further when reached for this report. Analysts will be watching closely for confirmation in coming weeks."
+    },
+    {
+      "id": "xhs-0155",
+      "source_type": "xhs",
+      "feed_name": "智能座舱体验官",
+      "title": "第一次用智界的自动泊车，全程实录",
+      "url": "https://www.xiaohongshu.com/explore/cb4015228798",
+      "description": "第一次用智界的自动泊车，全程实录",
+      "publish_time": "2026-07-26 12:52:00",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0198",
+      "source_type": "wx",
+      "feed_name": "汽车之心",
+      "title": "Momenta官方回应近期传闻，称消息不实",
+      "url": "https://mp.weixin.qq.com/s/7503ab9340d3",
+      "description": "",
+      "publish_time": "2026-07-25 17:15:00",
+      "clean_content": "Momenta相关最新进展显示，分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "wx-0120",
+      "source_type": "wx",
+      "feed_name": "车东西",
+      "title": "智界城市NOA功能开始向更多城市推送",
+      "url": "https://mp.weixin.qq.com/s/121e92e6c2fc",
+      "description": "",
+      "publish_time": "2026-07-25 19:28:00",
+      "clean_content": "智界相关最新进展显示，分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。"
+    },
+    {
+      "id": "wx-0095",
+      "source_type": "wx",
+      "feed_name": "雷锋网",
+      "title": "极氪宣布与产业链上游达成新一轮合作",
+      "url": "https://mp.weixin.qq.com/s/f0b4d3cc34a2",
+      "description": "",
+      "publish_time": "2026-07-26 20:26:00",
+      "clean_content": "极氪相关最新进展显示，公司方面暂未对外披露更多细节，仅表示相关进展符合预期。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "wx-0144",
+      "source_type": "wx",
+      "feed_name": "九章智驾",
+      "title": "OpenAI发布最新季度交付数据，同比增长61%",
+      "url": "https://mp.weixin.qq.com/s/a65f89307be0",
+      "description": "",
+      "publish_time": "2026-07-25 15:49:00",
+      "clean_content": "OpenAI相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。供应链相关人士表示，产能爬坡预计将持续到下个季度。"
+    },
+    {
+      "id": "xhs-0247",
+      "source_type": "xhs",
+      "feed_name": "科技种草机",
+      "title": "高通这个功能真的绝了，分享一下使用感受",
+      "url": "https://www.xiaohongshu.com/explore/f39fba519344",
+      "description": "",
+      "publish_time": "2026-07-30 17:39:00",
+      "clean_content": "这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。"
+    },
+    {
+      "id": "xhs-0213",
+      "source_type": "xhs",
+      "feed_name": "AI玩家小林",
+      "title": "对比了OpenAI和另一家的智能座舱，谁更好用",
+      "url": "https://www.xiaohongshu.com/explore/517b1a65b8f3",
+      "description": "",
+      "publish_time": "2026-07-28 10:15:00",
+      "clean_content": "多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。"
+    },
+    {
+      "id": "wx-0176",
+      "source_type": "wx",
+      "feed_name": "AI科技评论",
+      "title": "理想最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/16b3d6024da4",
+      "description": "理想相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的",
+      "publish_time": "2026-07-29 13:21:00",
+      "clean_content": "理想相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "aihot-0162",
+      "source_type": "aihot",
+      "feed_name": "机器之心速递",
+      "title": "分析：英伟达这波动作对行业意味着什么",
+      "url": "https://ai-hot.example.com/post/ae0db2e90e35",
+      "description": "",
+      "publish_time": "2026-07-25 19:46:00",
+      "clean_content": "供应链相关人士表示，产能爬坡预计将持续到下个季度。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "xhs-0094",
+      "source_type": "xhs",
+      "feed_name": "科技种草机",
+      "title": "对比了极氪和另一家的智能座舱，谁更好用",
+      "url": "https://www.xiaohongshu.com/explore/53117220b0f6",
+      "description": "对比了极氪和另一家的智能座舱，谁更好用",
+      "publish_time": "2026-07-27 23:05:00",
+      "clean_content": ""
+    },
+    {
+      "id": "xhs-0099",
+      "source_type": "xhs",
+      "feed_name": "出行日常",
+      "title": "小米汽车这个功能真的绝了，分享一下使用感受",
+      "url": "https://www.xiaohongshu.com/explore/3c07c18b8cf0",
+      "description": "小米汽车这个功能真的绝了，分享一下使用感受",
+      "publish_time": "2026-07-28 18:20:00",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0044",
+      "source_type": "wx",
+      "feed_name": "智能进化论",
+      "title": "小鹏智能座舱新版本OTA更新，新增多项功能",
+      "url": "https://mp.weixin.qq.com/s/5c0616099ce6",
+      "description": "",
+      "publish_time": "2026-07-29 17:10:00",
+      "clean_content": "小鹏相关最新进展显示，公司方面暂未对外披露更多细节，仅表示相关进展符合预期。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "wx-0131",
+      "source_type": "wx",
+      "feed_name": "晚点LatePost",
+      "title": "行业观察：极氪的智能化战略走到哪一步了",
+      "url": "https://mp.weixin.qq.com/s/cefc90559d83",
+      "description": "",
+      "publish_time": "2026-07-26 21:30:00",
+      "clean_content": "极氪相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "wx-0032",
+      "source_type": "wx",
+      "feed_name": "车东西",
+      "title": "重磅！某新势力车企据传即将官宣与顶级AI实验室达成战略合作",
+      "url": "https://mp.weixin.qq.com/s/dup0000repost001?chksm=abc123",
+      "description": "",
+      "publish_time": "2026-07-26 08:00:00",
+      "clean_content": "多个消息源显示，某新势力车企正与一家国际知名AI实验室商谈战略合作，具体合作方向可能涉及大模型底座与自动驾驶算法。双方尚未正式官宣，但相关传闻已在业内流传数日。"
+    },
+    {
+      "id": "wx-0055",
+      "source_type": "wx",
+      "feed_name": "汽车之心",
+      "title": "文远知行宣布新一轮融资，将用于自动驾驶研发",
+      "url": "https://mp.weixin.qq.com/s/ef757f614351",
+      "description": "",
+      "publish_time": "2026-07-30 13:56:00",
+      "clean_content": "文远知行相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。供应链相关人士表示，产能爬坡预计将持续到下个季度。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "wx-0190",
+      "source_type": "wx",
+      "feed_name": "电动星球News",
+      "title": "问界宣布新一轮融资，将用于自动驾驶研发",
+      "url": "https://mp.weixin.qq.com/s/a25a991f5263",
+      "description": "",
+      "publish_time": "2026-07-27 13:28:00",
+      "clean_content": "问界相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "wx-0159",
+      "source_type": "wx",
+      "feed_name": "AI科技评论",
+      "title": "高通宣布新一轮融资，将用于自动驾驶研发",
+      "url": "https://mp.weixin.qq.com/s/32253f66c661",
+      "description": "",
+      "publish_time": "2026-07-28 09:31:00",
+      "clean_content": "高通相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。供应链相关人士表示，产能爬坡预计将持续到下个季度。"
+    },
+    {
+      "id": "xhs-0104",
+      "source_type": "xhs",
+      "feed_name": "数码阿伟",
+      "title": "黑芝麻智能最近的OTA更新了啥，简单说说",
+      "url": "https://www.xiaohongshu.com/explore/4dbd3957338e",
+      "description": "黑芝麻智能最近的OTA更新了啥，简单说说",
+      "publish_time": "2026-07-29 13:06:00",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0180",
+      "source_type": "wx",
+      "feed_name": "九章智驾",
+      "title": "字节跳动被曝正在测试下一代自动驾驶方案",
+      "url": "https://mp.weixin.qq.com/s/8b9d96808f3e",
+      "description": "",
+      "publish_time": "2026-07-25 20:28:00",
+      "clean_content": "字节跳动相关最新进展显示，供应链相关人士表示，产能爬坡预计将持续到下个季度。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "nytimes-0088",
+      "source_type": "nytimes",
+      "feed_name": "The New York Times",
+      "title": "滴滴自动驾驶 Pushes Deeper Into Autonomous Driving Race",
+      "url": "https://www.nytimes.com/2026/07/29/business/c8cd22a446d6.html",
+      "description": "",
+      "publish_time": "2026-07-27 20:26:00",
+      "clean_content": "Industry observers say the move reflects broader trends in the sector. The company declined to comment further when reached for this report. Analysts will be watching closely for confirmation in coming weeks."
+    },
+    {
+      "id": "aihot-0141",
+      "source_type": "aihot",
+      "feed_name": "AI Daily",
+      "title": "一张图看懂小米汽车最新产品发布会",
+      "url": "https://ai-hot.example.com/post/b9394c1dedbe",
+      "description": "",
+      "publish_time": "2026-07-28 06:57:00",
+      "clean_content": "这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。供应链相关人士表示，产能爬坡预计将持续到下个季度。"
+    },
+    {
+      "id": "wx-0084",
+      "source_type": "wx",
+      "feed_name": "第一电动",
+      "title": "英伟达最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/cf800dd94bdd",
+      "description": "英伟达相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间",
+      "publish_time": "2026-07-25 18:43:00",
+      "clean_content": "英伟达相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。"
+    },
+    {
+      "id": "xhs-0085",
+      "source_type": "xhs",
+      "feed_name": "AI打工人",
+      "title": "第一次用问界的自动泊车，全程实录",
+      "url": "https://www.xiaohongshu.com/explore/e2c88e358baa",
+      "description": "第一次用问界的自动泊车，全程实录",
+      "publish_time": "2026-07-30 23:53:00",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0079",
+      "source_type": "wx",
+      "feed_name": "AI科技评论",
+      "title": "极氪发布最新季度交付数据，同比增长50%",
+      "url": "https://mp.weixin.qq.com/s/272edcc4751e",
+      "description": "极氪相关最新进展显示，值得注意的是，这一变化可能会对上下游供应商的报价策略产生连",
+      "publish_time": "2026-07-30 14:22:00",
+      "clean_content": "极氪相关最新进展显示，值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。供应链相关人士表示，产能爬坡预计将持续到下个季度。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "xhs-0021",
+      "source_type": "xhs",
+      "feed_name": "懂车不懂车",
+      "title": "智界新车内饰曝光，这个中控屏也太大了",
+      "url": "https://www.xiaohongshu.com/explore/2fdf55f2f35f",
+      "description": "智界新车谍照流出",
+      "publish_time": "2026-07-27 21:00:00",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0067",
+      "source_type": "wx",
+      "feed_name": "AI科技评论",
+      "title": "百度Apollo最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/20bc62ac5ed9",
+      "description": "百度Apollo相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积",
+      "publish_time": "2026-07-30 16:59:00",
+      "clean_content": "百度Apollo相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。供应链相关人士表示，产能爬坡预计将持续到下个季度。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "nytimes-0065",
+      "source_type": "nytimes",
+      "feed_name": "The New York Times",
+      "title": "商汤绝影 Faces New Scrutiny Over Driver-Assistance Claims",
+      "url": "https://www.nytimes.com/2026/07/29/business/e264bff2653d.html",
+      "description": "",
+      "publish_time": "2026-07-26 23:03:00",
+      "clean_content": "Industry observers say the move reflects broader trends in the sector. The company declined to comment further when reached for this report. Analysts will be watching closely for confirmation in coming weeks."
+    },
+    {
+      "id": "wx-0033",
+      "source_type": "wx",
+      "feed_name": "极客公园",
+      "title": "重磅！某新势力车企据传即将官宣与顶级AI实验室达成战略合作",
+      "url": "https://mp.weixin.qq.com/s/dup0000repost001?from=timeline&scene=2",
+      "description": "",
+      "publish_time": "2026-07-26 08:00:00",
+      "clean_content": "多个消息源显示，某新势力车企正与一家国际知名AI实验室商谈战略合作，具体合作方向可能涉及大模型底座与自动驾驶算法。双方尚未正式官宣，但相关传闻已在业内流传数日。"
+    },
+    {
+      "id": "wx-0200",
+      "source_type": "wx",
+      "feed_name": "智能进化论",
+      "title": "Momenta最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/68691256851d",
+      "description": "",
+      "publish_time": "2026-07-29 09:49:00",
+      "clean_content": "Momenta相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。供应链相关人士表示，产能爬坡预计将持续到下个季度。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "wx-0149",
+      "source_type": "wx",
+      "feed_name": "品玩",
+      "title": "理想高管在行业论坛谈智能化技术路线",
+      "url": "https://mp.weixin.qq.com/s/27ba28671a7a",
+      "description": "理想相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官",
+      "publish_time": "2026-07-26 21:01:00",
+      "clean_content": "理想相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。供应链相关人士表示，产能爬坡预计将持续到下个季度。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。"
+    },
+    {
+      "id": "wx-0016",
+      "source_type": "wx",
+      "feed_name": "车东西",
+      "title": "小鹏发布下一代城市NOA路测视频，无接管完成8公里连续通勤",
+      "url": "https://mp.weixin.qq.com/s/98751e21b14e",
+      "description": "",
+      "publish_time": "2026-07-29 14:20:00",
+      "clean_content": "小鹏汽车公布了最新一代城市NOA的路测视频，全程8公里无接管完成早高峰通勤路段，包含多个复杂路口与加塞场景。小鹏方面表示新版本已经在小范围城市开放测试。"
+    },
+    {
+      "id": "wx-0222",
+      "source_type": "wx",
+      "feed_name": "汽车评中评",
+      "title": "滴滴自动驾驶高管在行业论坛谈智能化技术路线",
+      "url": "https://mp.weixin.qq.com/s/7604f2958082",
+      "description": "",
+      "publish_time": "2026-07-25 23:06:00",
+      "clean_content": "滴滴自动驾驶相关最新进展显示，供应链相关人士表示，产能爬坡预计将持续到下个季度。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "wx-0036",
+      "source_type": "wx",
+      "feed_name": "XX智驾学院",
+      "title": "限时优惠：自动驾驶算法工程师训练营，扫码进群立减2000",
+      "url": "https://mp.weixin.qq.com/s/bb134354fa3c",
+      "description": "",
+      "publish_time": "2026-07-29 07:00:00",
+      "clean_content": "报名即送内部资料，扫码进群了解详情，前100名限时优惠。"
+    },
+    {
+      "id": "wx-0102",
+      "source_type": "wx",
+      "feed_name": "晚点LatePost",
+      "title": "百度Apollo宣布新一轮融资，将用于自动驾驶研发",
+      "url": "https://mp.weixin.qq.com/s/55004dcbadf6",
+      "description": "百度Apollo相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，",
+      "publish_time": "2026-07-25 09:49:00",
+      "clean_content": "百度Apollo相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。供应链相关人士表示，产能爬坡预计将持续到下个季度。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "wx-0147",
+      "source_type": "wx",
+      "feed_name": "汽车评中评",
+      "title": "智界官方回应近期传闻，称消息不实",
+      "url": "https://mp.weixin.qq.com/s/5e30a157a823",
+      "description": "",
+      "publish_time": "2026-07-28 21:51:00",
+      "clean_content": "智界相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "xhs-0111",
+      "source_type": "xhs",
+      "feed_name": "科技种草机",
+      "title": "小鹏这个功能真的绝了，分享一下使用感受",
+      "url": "https://www.xiaohongshu.com/explore/5e4c567a0f4e",
+      "description": "",
+      "publish_time": "2026-07-28 17:30:00",
+      "clean_content": "这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "wx-0128",
+      "source_type": "wx",
+      "feed_name": "新智元",
+      "title": "英伟达被曝正在测试下一代自动驾驶方案",
+      "url": "https://mp.weixin.qq.com/s/b123108224fa",
+      "description": "",
+      "publish_time": "2026-07-29 09:49:00",
+      "clean_content": "英伟达相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "nytimes-0237",
+      "source_type": "nytimes",
+      "feed_name": "The New York Times",
+      "title": "地平线 Pushes Deeper Into Autonomous Driving Race",
+      "url": "https://www.nytimes.com/2026/07/29/business/e969821fe5d0.html",
+      "description": "",
+      "publish_time": "2026-07-28 15:02:00",
+      "clean_content": "Industry observers say the move reflects broader trends in the sector. The company declined to comment further when reached for this report. Analysts will be watching closely for confirmation in coming weeks."
+    },
+    {
+      "id": "xhs-0011",
+      "source_type": "xhs",
+      "feed_name": "AI玩家小林",
+      "title": "地平线新芯片发布会围观笔记",
+      "url": "https://www.xiaohongshu.com/explore/834d2f7d02eb",
+      "description": "",
+      "publish_time": "2026-07-29 09:30:00",
+      "clean_content": "今天蹲了地平线征程7的发布会直播，560TOPS这个数字确实挺猛的，而且强调了成本控制，感觉明年很多新车都会用上城市NOA了。"
+    },
+    {
+      "id": "xhs-0080",
+      "source_type": "xhs",
+      "feed_name": "车主的日常",
+      "title": "对比了黑芝麻智能和另一家的智能座舱，谁更好用",
+      "url": "https://www.xiaohongshu.com/explore/ee9fcbbe09e4",
+      "description": "",
+      "publish_time": "2026-07-29 11:37:00",
+      "clean_content": "这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "aihot-0178",
+      "source_type": "aihot",
+      "feed_name": "硅基情报局",
+      "title": "分析：地平线这波动作对行业意味着什么",
+      "url": "https://ai-hot.example.com/post/3cc53a3dd126",
+      "description": "",
+      "publish_time": "2026-07-27 14:12:00",
+      "clean_content": "公司方面暂未对外披露更多细节，仅表示相关进展符合预期。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "xhs-0039",
+      "source_type": "xhs",
+      "feed_name": "羊毛日记",
+      "title": "智能车主福利群，加群领福利",
+      "url": "https://www.xiaohongshu.com/explore/2221e4960133",
+      "description": "加群领福利",
+      "publish_time": "2026-07-27 06:00:00",
+      "clean_content": ""
+    },
+    {
+      "id": "nytimes-0022",
+      "source_type": "nytimes",
+      "feed_name": "The New York Times",
+      "title": "Chinese EV Makers Race to Ship Level 3 Autonomy Features",
+      "url": "https://www.nytimes.com/2026/07/29/business/05fddcc105bf.html",
+      "description": "",
+      "publish_time": "2026-07-29 08:00:00",
+      "clean_content": "Several Chinese automakers are pushing to bring Level 3 autonomous driving features to market ahead of regulatory approval, according to industry analysts. The push reflects intensifying competition in the world's largest EV market, with companies betting that advanced driver-assistance systems will become a key purchase driver."
+    },
+    {
+      "id": "aihot-0228",
+      "source_type": "aihot",
+      "feed_name": "AI Daily",
+      "title": "一张图看懂小米汽车最新产品发布会",
+      "url": "https://ai-hot.example.com/post/b9394c1dedbe",
+      "description": "",
+      "publish_time": "2026-07-25 16:51:00",
+      "clean_content": "据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。"
+    },
+    {
+      "id": "wx-0125",
+      "source_type": "wx",
+      "feed_name": "新智元",
+      "title": "行业观察：零跑的智能化战略走到哪一步了",
+      "url": "https://mp.weixin.qq.com/s/b9ea1fb2d800",
+      "description": "",
+      "publish_time": "2026-07-26 06:48:00",
+      "clean_content": "零跑相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。供应链相关人士表示，产能爬坡预计将持续到下个季度。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。"
+    },
+    {
+      "id": "xhs-0245",
+      "source_type": "xhs",
+      "feed_name": "AI玩家小林",
+      "title": "问界车主群里都在聊的一个功能",
+      "url": "https://www.xiaohongshu.com/explore/a7ac9b2c8491",
+      "description": "问界车主群里都在聊的一个功能",
+      "publish_time": "2026-07-26 13:00:00",
+      "clean_content": ""
+    },
+    {
+      "id": "nytimes-0081",
+      "source_type": "nytimes",
+      "feed_name": "The New York Times",
+      "title": "零跑 Pushes Deeper Into Autonomous Driving Race",
+      "url": "https://www.nytimes.com/2026/07/29/business/d08eabd74de2.html",
+      "description": "",
+      "publish_time": "2026-07-28 09:38:00",
+      "clean_content": "Industry observers say the move reflects broader trends in the sector. The company declined to comment further when reached for this report. Analysts will be watching closely for confirmation in coming weeks."
+    },
+    {
+      "id": "aihot-0156",
+      "source_type": "aihot",
+      "feed_name": "AI Daily",
+      "title": "华为发布新模型/新硬件，行业反应不一",
+      "url": "https://ai-hot.example.com/post/4dc62d2be067",
+      "description": "",
+      "publish_time": "2026-07-25 11:07:00",
+      "clean_content": "分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "nytimes-0052",
+      "source_type": "nytimes",
+      "feed_name": "The New York Times",
+      "title": "百度Apollo Faces New Scrutiny Over Driver-Assistance Claims",
+      "url": "https://www.nytimes.com/2026/07/29/business/22b3892e92f4.html",
+      "description": "",
+      "publish_time": "2026-07-27 09:43:00",
+      "clean_content": "Industry observers say the move reflects broader trends in the sector. The company declined to comment further when reached for this report. Analysts will be watching closely for confirmation in coming weeks."
+    },
+    {
+      "id": "xhs-0145",
+      "source_type": "xhs",
+      "feed_name": "懂车不懂车",
+      "title": "滴滴自动驾驶这个功能真的绝了，分享一下使用感受",
+      "url": "https://www.xiaohongshu.com/explore/ef55dfd8c05d",
+      "description": "",
+      "publish_time": "2026-07-30 07:19:00",
+      "clean_content": "这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。"
+    },
+    {
+      "id": "nytimes-0073",
+      "source_type": "nytimes",
+      "feed_name": "The New York Times",
+      "title": "问界 Faces New Scrutiny Over Driver-Assistance Claims",
+      "url": "https://www.nytimes.com/2026/07/29/business/e9c1fdbaa45c.html",
+      "description": "",
+      "publish_time": "2026-07-30 20:35:00",
+      "clean_content": "Industry observers say the move reflects broader trends in the sector. The company declined to comment further when reached for this report. Analysts will be watching closely for confirmation in coming weeks."
+    },
+    {
+      "id": "wx-0199",
+      "source_type": "wx",
+      "feed_name": "36氪",
+      "title": "问界官方回应近期传闻，称消息不实",
+      "url": "https://mp.weixin.qq.com/s/53b73ceb3b48",
+      "description": "问界相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的",
+      "publish_time": "2026-07-30 22:35:00",
+      "clean_content": "问界相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。"
+    },
+    {
+      "id": "xhs-0066",
+      "source_type": "xhs",
+      "feed_name": "车圈老司机",
+      "title": "第一次用蔚来的自动泊车，全程实录",
+      "url": "https://www.xiaohongshu.com/explore/cb78c7069346",
+      "description": "",
+      "publish_time": "2026-07-25 11:04:00",
+      "clean_content": "分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。"
+    },
+    {
+      "id": "wx-0243",
+      "source_type": "wx",
+      "feed_name": "品玩",
+      "title": "小米汽车被曝正在测试下一代自动驾驶方案",
+      "url": "https://mp.weixin.qq.com/s/2df51f506238",
+      "description": "小米汽车相关最新进展显示，供应链相关人士表示，产能爬坡预计将持续到下个季度。分析",
+      "publish_time": "2026-07-28 14:45:00",
+      "clean_content": "小米汽车相关最新进展显示，供应链相关人士表示，产能爬坡预计将持续到下个季度。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "xhs-0006",
+      "source_type": "xhs",
+      "feed_name": "懂车不懂车",
+      "title": "小米澎程发布会实拍，内饰细节曝光",
+      "url": "https://www.xiaohongshu.com/explore/6ff0ac17fa9b",
+      "description": "第一视角实拍小米澎程发布会",
+      "publish_time": "2026-07-28 16:04:19",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0196",
+      "source_type": "wx",
+      "feed_name": "九章智驾",
+      "title": "行业观察：蔚来的智能化战略走到哪一步了",
+      "url": "https://mp.weixin.qq.com/s/d5026dba4935",
+      "description": "蔚来相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确",
+      "publish_time": "2026-07-27 06:16:00",
+      "clean_content": "蔚来相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。"
+    },
+    {
+      "id": "wx-0218",
+      "source_type": "wx",
+      "feed_name": "车东西",
+      "title": "小马智行宣布与产业链上游达成新一轮合作",
+      "url": "https://mp.weixin.qq.com/s/56f7880a25c4",
+      "description": "小马智行相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需",
+      "publish_time": "2026-07-29 10:10:00",
+      "clean_content": "小马智行相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "wx-0112",
+      "source_type": "wx",
+      "feed_name": "钛媒体",
+      "title": "地平线官方回应近期传闻，称消息不实",
+      "url": "https://mp.weixin.qq.com/s/df6000c64109",
+      "description": "",
+      "publish_time": "2026-07-27 12:20:00",
+      "clean_content": "地平线相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "wx-0239",
+      "source_type": "wx",
+      "feed_name": "AI科技评论",
+      "title": "理想智能座舱新版本OTA更新，新增多项功能",
+      "url": "https://mp.weixin.qq.com/s/8e5e596810e1",
+      "description": "理想相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了",
+      "publish_time": "2026-07-26 09:43:00",
+      "clean_content": "理想相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "wx-0174",
+      "source_type": "wx",
+      "feed_name": "第一电动",
+      "title": "小鹏宣布新一轮融资，将用于自动驾驶研发",
+      "url": "https://mp.weixin.qq.com/s/347f7fb35be4",
+      "description": "小鹏相关最新进展显示，值得注意的是，这一变化可能会对上下游供应商的报价策略产生连",
+      "publish_time": "2026-07-25 11:51:00",
+      "clean_content": "小鹏相关最新进展显示，值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "wx-0130",
+      "source_type": "wx",
+      "feed_name": "九章智驾",
+      "title": "行业观察：小米汽车的智能化战略走到哪一步了",
+      "url": "https://mp.weixin.qq.com/s/42865051a995",
+      "description": "",
+      "publish_time": "2026-07-27 06:35:00",
+      "clean_content": "小米汽车相关最新进展显示，公司方面暂未对外披露更多细节，仅表示相关进展符合预期。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。供应链相关人士表示，产能爬坡预计将持续到下个季度。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。"
+    },
+    {
+      "id": "wx-0041",
+      "source_type": "wx",
+      "feed_name": "车市快讯",
+      "title": "震惊！这个消息让全网沸腾",
+      "url": "https://mp.weixin.qq.com/s/4d4d2af8d242",
+      "description": "",
+      "publish_time": "2026-07-26 06:00:00",
+      "clean_content": "标题党内容，正文信息量极低，仅为博取点击。"
+    },
+    {
+      "id": "xhs-0152",
+      "source_type": "xhs",
+      "feed_name": "车主的日常",
+      "title": "Anthropic车主群里都在聊的一个功能",
+      "url": "https://www.xiaohongshu.com/explore/42d1f12243c0",
+      "description": "",
+      "publish_time": "2026-07-29 21:39:00",
+      "clean_content": "分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。"
+    },
+    {
+      "id": "xhs-0219",
+      "source_type": "xhs",
+      "feed_name": "AI打工人",
+      "title": "对比了Anthropic和另一家的智能座舱，谁更好用",
+      "url": "https://www.xiaohongshu.com/explore/4b3dc3029b90",
+      "description": "",
+      "publish_time": "2026-07-28 07:41:00",
+      "clean_content": "据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。"
+    },
+    {
+      "id": "nytimes-0051",
+      "source_type": "nytimes",
+      "feed_name": "The New York Times",
+      "title": "Inside 文远知行's Latest Bet on AI-Powered Vehicles",
+      "url": "https://www.nytimes.com/2026/07/29/business/bbdf88601cf4.html",
+      "description": "",
+      "publish_time": "2026-07-28 23:55:00",
+      "clean_content": "Industry observers say the move reflects broader trends in the sector. The company declined to comment further when reached for this report. Analysts will be watching closely for confirmation in coming weeks."
+    },
+    {
+      "id": "xhs-0220",
+      "source_type": "xhs",
+      "feed_name": "新能源日记",
+      "title": "第一次用零跑的自动泊车，全程实录",
+      "url": "https://www.xiaohongshu.com/explore/7c5018421a15",
+      "description": "",
+      "publish_time": "2026-07-27 15:30:00",
+      "clean_content": "据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "wx-0100",
+      "source_type": "wx",
+      "feed_name": "第一电动",
+      "title": "华为最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/fc093b138ecc",
+      "description": "华为相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏",
+      "publish_time": "2026-07-27 17:14:00",
+      "clean_content": "华为相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。供应链相关人士表示，产能爬坡预计将持续到下个季度。"
+    },
+    {
+      "id": "wx-0167",
+      "source_type": "wx",
+      "feed_name": "汽车之心",
+      "title": "英伟达宣布新一轮融资，将用于自动驾驶研发",
+      "url": "https://mp.weixin.qq.com/s/412734c24d40",
+      "description": "英伟达相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具体",
+      "publish_time": "2026-07-26 16:22:00",
+      "clean_content": "英伟达相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。供应链相关人士表示，产能爬坡预计将持续到下个季度。"
+    },
+    {
+      "id": "wx-0091",
+      "source_type": "wx",
+      "feed_name": "晚点LatePost",
+      "title": "行业观察：极氪的智能化战略走到哪一步了",
+      "url": "https://mp.weixin.qq.com/s/cefc90559d83",
+      "description": "极氪相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的",
+      "publish_time": "2026-07-30 22:27:00",
+      "clean_content": "极氪相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。供应链相关人士表示，产能爬坡预计将持续到下个季度。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。"
+    },
+    {
+      "id": "wx-0151",
+      "source_type": "wx",
+      "feed_name": "九章智驾",
+      "title": "行业观察：蔚来的智能化战略走到哪一步了",
+      "url": "https://mp.weixin.qq.com/s/d5026dba4935",
+      "description": "",
+      "publish_time": "2026-07-30 20:23:00",
+      "clean_content": "蔚来相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "wx-0215",
+      "source_type": "wx",
+      "feed_name": "新智元",
+      "title": "OpenAI官方回应近期传闻，称消息不实",
+      "url": "https://mp.weixin.qq.com/s/856de5739639",
+      "description": "",
+      "publish_time": "2026-07-26 20:43:00",
+      "clean_content": "OpenAI相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。供应链相关人士表示，产能爬坡预计将持续到下个季度。"
+    },
+    {
+      "id": "xhs-0092",
+      "source_type": "xhs",
+      "feed_name": "出行日常",
+      "title": "小马智行这个功能真的绝了，分享一下使用感受",
+      "url": "https://www.xiaohongshu.com/explore/2650e357590b",
+      "description": "",
+      "publish_time": "2026-07-29 13:53:00",
+      "clean_content": "截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "wx-0004",
+      "source_type": "wx",
+      "feed_name": "电动星球News",
+      "title": "雷军：澎程不做纯电，是为了让更多人现在就能开上小米汽车",
+      "url": "https://mp.weixin.qq.com/s/a8b245906236",
+      "description": "",
+      "publish_time": "2026-07-28 16:04:19",
+      "clean_content": "小米汽车澎程系列发布会上，雷军表示希望通过增程方案降低用户的补能焦虑门槛，让更多人现在就能开上小米汽车。发布会公布了澎程的预售价格区间，并透露首批交付将在今年四季度开始，产能爬坡计划同步公布。"
+    },
+    {
+      "id": "nytimes-0217",
+      "source_type": "nytimes",
+      "feed_name": "The New York Times",
+      "title": "Inside 文远知行's Latest Bet on AI-Powered Vehicles",
+      "url": "https://www.nytimes.com/2026/07/29/business/bbdf88601cf4.html",
+      "description": "",
+      "publish_time": "2026-07-30 08:16:00",
+      "clean_content": "Industry observers say the move reflects broader trends in the sector. The company declined to comment further when reached for this report. Analysts will be watching closely for confirmation in coming weeks."
+    },
+    {
+      "id": "nytimes-0116",
+      "source_type": "nytimes",
+      "feed_name": "The New York Times",
+      "title": "Inside 零跑's Latest Bet on AI-Powered Vehicles",
+      "url": "https://www.nytimes.com/2026/07/29/business/c15909e9ecee.html",
+      "description": "",
+      "publish_time": "2026-07-29 09:52:00",
+      "clean_content": "Industry observers say the move reflects broader trends in the sector. The company declined to comment further when reached for this report. Analysts will be watching closely for confirmation in coming weeks."
+    },
+    {
+      "id": "wx-0117",
+      "source_type": "wx",
+      "feed_name": "36氪",
+      "title": "Momenta宣布新一轮融资，将用于自动驾驶研发",
+      "url": "https://mp.weixin.qq.com/s/126222f8d923",
+      "description": "Momenta相关最新进展显示，分析师认为，这一举措有助于公司在激烈竞争中保持技",
+      "publish_time": "2026-07-28 15:05:00",
+      "clean_content": "Momenta相关最新进展显示，分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。"
+    },
+    {
+      "id": "xhs-0133",
+      "source_type": "xhs",
+      "feed_name": "科技种草机",
+      "title": "第一次用特斯拉的自动泊车，全程实录",
+      "url": "https://www.xiaohongshu.com/explore/5b5a63860c8f",
+      "description": "",
+      "publish_time": "2026-07-30 23:30:00",
+      "clean_content": "截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。"
+    },
+    {
+      "id": "xhs-0042",
+      "source_type": "xhs",
+      "feed_name": "拼团小助手",
+      "title": "智能车配件拼团秒杀，手慢无",
+      "url": "https://www.xiaohongshu.com/explore/92a40d0d697e",
+      "description": "拼团秒杀",
+      "publish_time": "2026-07-25 05:30:00",
+      "clean_content": ""
+    },
+    {
+      "id": "xhs-0123",
+      "source_type": "xhs",
+      "feed_name": "AI玩家小林",
+      "title": "提了零跑的新车，说说这几天的智驾体验",
+      "url": "https://www.xiaohongshu.com/explore/ce4339d66e42",
+      "description": "提了零跑的新车，说说这几天的智驾体验",
+      "publish_time": "2026-07-28 15:38:00",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0086",
+      "source_type": "wx",
+      "feed_name": "极客公园",
+      "title": "特斯拉最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/dde5c4a23c87",
+      "description": "特斯拉相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以",
+      "publish_time": "2026-07-29 11:42:00",
+      "clean_content": "特斯拉相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。供应链相关人士表示，产能爬坡预计将持续到下个季度。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。"
+    },
+    {
+      "id": "wx-0189",
+      "source_type": "wx",
+      "feed_name": "汽车评中评",
+      "title": "极氪宣布与产业链上游达成新一轮合作",
+      "url": "https://mp.weixin.qq.com/s/f0b4d3cc34a2",
+      "description": "",
+      "publish_time": "2026-07-28 10:38:00",
+      "clean_content": "极氪相关最新进展显示，公司方面暂未对外披露更多细节，仅表示相关进展符合预期。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。供应链相关人士表示，产能爬坡预计将持续到下个季度。"
+    },
+    {
+      "id": "wx-0076",
+      "source_type": "wx",
+      "feed_name": "AI科技评论",
+      "title": "百度Apollo城市NOA功能开始向更多城市推送",
+      "url": "https://mp.weixin.qq.com/s/5db2e37835d7",
+      "description": "百度Apollo相关最新进展显示，值得注意的是，这一变化可能会对上下游供应商的报",
+      "publish_time": "2026-07-27 06:11:00",
+      "clean_content": "百度Apollo相关最新进展显示，值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。供应链相关人士表示，产能爬坡预计将持续到下个季度。"
+    },
+    {
+      "id": "wx-0161",
+      "source_type": "wx",
+      "feed_name": "第一电动",
+      "title": "滴滴自动驾驶最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/2e42d9c13a40",
+      "description": "滴滴自动驾驶相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业",
+      "publish_time": "2026-07-26 23:46:00",
+      "clean_content": "滴滴自动驾驶相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。供应链相关人士表示，产能爬坡预计将持续到下个季度。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "wx-0034",
+      "source_type": "wx",
+      "feed_name": "AI科技评论",
+      "title": "深度：智能驾驶芯片格局生变，2026下半年谁能领跑",
+      "url": "https://mp.weixin.qq.com/s/dup0000repost002",
+      "description": "",
+      "publish_time": "2026-07-25 13:00:00",
+      "clean_content": "本文梳理了2026年下半年智能驾驶芯片行业格局的最新变化，从算力、成本、生态三个维度对比了几家主要厂商的产品路线。"
+    },
+    {
+      "id": "wx-0209",
+      "source_type": "wx",
+      "feed_name": "智车科技",
+      "title": "高通高管在行业论坛谈智能化技术路线",
+      "url": "https://mp.weixin.qq.com/s/fc289a8be8bc",
+      "description": "高通相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官",
+      "publish_time": "2026-07-26 18:20:00",
+      "clean_content": "高通相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "wx-0216",
+      "source_type": "wx",
+      "feed_name": "电动星球News",
+      "title": "小米汽车宣布与产业链上游达成新一轮合作",
+      "url": "https://mp.weixin.qq.com/s/62affb9d2a42",
+      "description": "",
+      "publish_time": "2026-07-25 13:22:00",
+      "clean_content": "小米汽车相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。供应链相关人士表示，产能爬坡预计将持续到下个季度。"
+    },
+    {
+      "id": "wx-0188",
+      "source_type": "wx",
+      "feed_name": "36氪",
+      "title": "OpenAI最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/cbadf51f7d00",
+      "description": "OpenAI相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能",
+      "publish_time": "2026-07-29 16:49:00",
+      "clean_content": "OpenAI相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。供应链相关人士表示，产能爬坡预计将持续到下个季度。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。"
+    },
+    {
+      "id": "wx-0087",
+      "source_type": "wx",
+      "feed_name": "第一电动",
+      "title": "文远知行城市NOA功能开始向更多城市推送",
+      "url": "https://mp.weixin.qq.com/s/193419574f48",
+      "description": "",
+      "publish_time": "2026-07-28 07:15:00",
+      "clean_content": "文远知行相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "xhs-0210",
+      "source_type": "xhs",
+      "feed_name": "智能座舱体验官",
+      "title": "提了极氪的新车，说说这几天的智驾体验",
+      "url": "https://www.xiaohongshu.com/explore/122f96634a06",
+      "description": "",
+      "publish_time": "2026-07-25 23:07:00",
+      "clean_content": "有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "aihot-0231",
+      "source_type": "aihot",
+      "feed_name": "AI热点雷达",
+      "title": "一张图看懂OpenAI最新产品发布会",
+      "url": "https://ai-hot.example.com/post/2091ddc2adc4",
+      "description": "",
+      "publish_time": "2026-07-28 21:10:00",
+      "clean_content": "行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。"
+    },
+    {
+      "id": "wx-0040",
+      "source_type": "wx",
+      "feed_name": "AI训练营招生",
+      "title": "大模型训练营限时报名，名额有限速抢",
+      "url": "https://mp.weixin.qq.com/s/31dc4e224da4",
+      "description": "",
+      "publish_time": "2026-07-29 06:30:00",
+      "clean_content": "限时报名优惠，扫码进群咨询课程详情，学完包分配。"
+    },
+    {
+      "id": "wx-0031",
+      "source_type": "wx",
+      "feed_name": "36氪",
+      "title": "重磅！某新势力车企据传即将官宣与顶级AI实验室达成战略合作",
+      "url": "https://mp.weixin.qq.com/s/dup0000repost001",
+      "description": "",
+      "publish_time": "2026-07-26 08:00:00",
+      "clean_content": "多个消息源显示，某新势力车企正与一家国际知名AI实验室商谈战略合作，具体合作方向可能涉及大模型底座与自动驾驶算法。双方尚未正式官宣，但相关传闻已在业内流传数日。"
+    },
+    {
+      "id": "xhs-0204",
+      "source_type": "xhs",
+      "feed_name": "智能座舱体验官",
+      "title": "对比了零跑和另一家的智能座舱，谁更好用",
+      "url": "https://www.xiaohongshu.com/explore/00cf281dc072",
+      "description": "",
+      "publish_time": "2026-07-25 16:11:00",
+      "clean_content": "截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "xhs-0093",
+      "source_type": "xhs",
+      "feed_name": "出行日常",
+      "title": "文远知行最近的OTA更新了啥，简单说说",
+      "url": "https://www.xiaohongshu.com/explore/5060d76481c2",
+      "description": "文远知行最近的OTA更新了啥，简单说说",
+      "publish_time": "2026-07-28 20:04:00",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0069",
+      "source_type": "wx",
+      "feed_name": "车东西",
+      "title": "文远知行宣布与产业链上游达成新一轮合作",
+      "url": "https://mp.weixin.qq.com/s/a3f03638d110",
+      "description": "",
+      "publish_time": "2026-07-28 20:53:00",
+      "clean_content": "文远知行相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。供应链相关人士表示，产能爬坡预计将持续到下个季度。"
+    },
+    {
+      "id": "wx-0227",
+      "source_type": "wx",
+      "feed_name": "36氪",
+      "title": "特斯拉最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/dde5c4a23c87",
+      "description": "",
+      "publish_time": "2026-07-26 16:35:00",
+      "clean_content": "特斯拉相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。"
+    },
+    {
+      "id": "xhs-0142",
+      "source_type": "xhs",
+      "feed_name": "车主的日常",
+      "title": "特斯拉这个功能真的绝了，分享一下使用感受",
+      "url": "https://www.xiaohongshu.com/explore/9dc064590356",
+      "description": "特斯拉这个功能真的绝了，分享一下使用感受",
+      "publish_time": "2026-07-27 17:37:00",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0203",
+      "source_type": "wx",
+      "feed_name": "雷锋网",
+      "title": "特斯拉官方回应近期传闻，称消息不实",
+      "url": "https://mp.weixin.qq.com/s/c70a3908ff01",
+      "description": "特斯拉相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具体",
+      "publish_time": "2026-07-26 07:55:00",
+      "clean_content": "特斯拉相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "wx-0132",
+      "source_type": "wx",
+      "feed_name": "汽车评中评",
+      "title": "小马智行最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/474871dea8d8",
+      "description": "小马智行相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时",
+      "publish_time": "2026-07-25 22:17:00",
+      "clean_content": "小马智行相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "nytimes-0023",
+      "source_type": "nytimes",
+      "feed_name": "The New York Times",
+      "title": "Battery Makers Face Pressure as EV Price War Deepens",
+      "url": "https://www.nytimes.com/2026/07/29/business/9ee5cc64d57f.html",
+      "description": "",
+      "publish_time": "2026-07-27 07:30:00",
+      "clean_content": "Battery suppliers to major electric vehicle makers are facing renewed pricing pressure as automakers slash sticker prices to defend market share, executives said this week. The dynamic is squeezing margins across the supply chain."
+    },
+    {
+      "id": "xhs-0160",
+      "source_type": "xhs",
+      "feed_name": "智能座舱体验官",
+      "title": "提了高通的新车，说说这几天的智驾体验",
+      "url": "https://www.xiaohongshu.com/explore/52318262de35",
+      "description": "提了高通的新车，说说这几天的智驾体验",
+      "publish_time": "2026-07-27 10:04:00",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0043",
+      "source_type": "wx",
+      "feed_name": "车东西",
+      "title": "地平线发布最新季度交付数据，同比增长54%",
+      "url": "https://mp.weixin.qq.com/s/caca899ef107",
+      "description": "",
+      "publish_time": "2026-07-30 17:36:00",
+      "clean_content": "地平线相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "wx-0017",
+      "source_type": "wx",
+      "feed_name": "智能进化论",
+      "title": "理想汽车公布下一代智能座舱芯片选型",
+      "url": "https://mp.weixin.qq.com/s/4d0269d93169",
+      "description": "",
+      "publish_time": "2026-07-29 10:00:00",
+      "clean_content": "理想汽车在最新一次投资者交流中透露，下一代车型将采用性能更强的座舱芯片，重点提升车载大模型响应速度与多模态交互体验。"
+    },
+    {
+      "id": "xhs-0214",
+      "source_type": "xhs",
+      "feed_name": "懂车不懂车",
+      "title": "第一次用比亚迪的自动泊车，全程实录",
+      "url": "https://www.xiaohongshu.com/explore/736c98a17466",
+      "description": "",
+      "publish_time": "2026-07-27 08:04:00",
+      "clean_content": "有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "wx-0003",
+      "source_type": "wx",
+      "feed_name": "九章智驾",
+      "title": "独家：小米澎程增程系统技术细节曝光",
+      "url": "https://mp.weixin.qq.com/s/db2c334686cd",
+      "description": "",
+      "publish_time": "2026-07-28 16:04:19",
+      "clean_content": "随着澎程系列发布会落幕，更多技术细节流出。据供应链人士透露，澎程搭载的增程器由小米与合作伙伴联合开发，热效率达到行业领先水平。此次发布会上，雷军还谈到小米汽车在智能驾驶芯片选型上的最新进展，计划年内推送城市NOA功能。"
+    },
+    {
+      "id": "xhs-0050",
+      "source_type": "xhs",
+      "feed_name": "数码阿伟",
+      "title": "第一次用百度Apollo的自动泊车，全程实录",
+      "url": "https://www.xiaohongshu.com/explore/56f40f3cab64",
+      "description": "第一次用百度Apollo的自动泊车，全程实录",
+      "publish_time": "2026-07-29 18:38:00",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0184",
+      "source_type": "wx",
+      "feed_name": "电动星球News",
+      "title": "字节跳动发布最新季度交付数据，同比增长23%",
+      "url": "https://mp.weixin.qq.com/s/5ad97587a480",
+      "description": "字节跳动相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细",
+      "publish_time": "2026-07-27 18:26:00",
+      "clean_content": "字节跳动相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "wx-0068",
+      "source_type": "wx",
+      "feed_name": "第一电动",
+      "title": "百度Apollo智能座舱新版本OTA更新，新增多项功能",
+      "url": "https://mp.weixin.qq.com/s/a8dde25a874c",
+      "description": "",
+      "publish_time": "2026-07-29 09:04:00",
+      "clean_content": "百度Apollo相关最新进展显示，分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。"
+    },
+    {
+      "id": "xhs-0146",
+      "source_type": "xhs",
+      "feed_name": "AI打工人",
+      "title": "对比了蔚来和另一家的智能座舱，谁更好用",
+      "url": "https://www.xiaohongshu.com/explore/452ff6d0fa0b",
+      "description": "",
+      "publish_time": "2026-07-29 16:47:00",
+      "clean_content": "这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "aihot-0054",
+      "source_type": "aihot",
+      "feed_name": "量子位快讯",
+      "title": "分析：零跑这波动作对行业意味着什么",
+      "url": "https://ai-hot.example.com/post/84c6ad1c8c90",
+      "description": "",
+      "publish_time": "2026-07-25 17:48:00",
+      "clean_content": "公司方面暂未对外披露更多细节，仅表示相关进展符合预期。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。"
+    },
+    {
+      "id": "xhs-0124",
+      "source_type": "xhs",
+      "feed_name": "科技种草机",
+      "title": "商汤绝影车主群里都在聊的一个功能",
+      "url": "https://www.xiaohongshu.com/explore/8e8b5eb4d8ea",
+      "description": "商汤绝影车主群里都在聊的一个功能",
+      "publish_time": "2026-07-27 15:44:00",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0205",
+      "source_type": "wx",
+      "feed_name": "智车科技",
+      "title": "Momenta官方回应近期传闻，称消息不实",
+      "url": "https://mp.weixin.qq.com/s/7503ab9340d3",
+      "description": "",
+      "publish_time": "2026-07-30 11:34:00",
+      "clean_content": "Momenta相关最新进展显示，值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。"
+    },
+    {
+      "id": "xhs-0072",
+      "source_type": "xhs",
+      "feed_name": "车圈老司机",
+      "title": "提了零跑的新车，说说这几天的智驾体验",
+      "url": "https://www.xiaohongshu.com/explore/ce4339d66e42",
+      "description": "提了零跑的新车，说说这几天的智驾体验",
+      "publish_time": "2026-07-25 10:40:00",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0169",
+      "source_type": "wx",
+      "feed_name": "九章智驾",
+      "title": "地平线高管在行业论坛谈智能化技术路线",
+      "url": "https://mp.weixin.qq.com/s/ff70dcb7434a",
+      "description": "",
+      "publish_time": "2026-07-30 08:17:00",
+      "clean_content": "地平线相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "wx-0207",
+      "source_type": "wx",
+      "feed_name": "钛媒体",
+      "title": "地平线被曝正在测试下一代自动驾驶方案",
+      "url": "https://mp.weixin.qq.com/s/03b67283fcde",
+      "description": "",
+      "publish_time": "2026-07-28 11:01:00",
+      "clean_content": "地平线相关最新进展显示，公司方面暂未对外披露更多细节，仅表示相关进展符合预期。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "xhs-0157",
+      "source_type": "xhs",
+      "feed_name": "AI玩家小林",
+      "title": "提了比亚迪的新车，说说这几天的智驾体验",
+      "url": "https://www.xiaohongshu.com/explore/0a343066bb6f",
+      "description": "",
+      "publish_time": "2026-07-30 16:01:00",
+      "clean_content": "行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。"
+    },
+    {
+      "id": "xhs-0202",
+      "source_type": "xhs",
+      "feed_name": "车圈老司机",
+      "title": "对比了高通和另一家的智能座舱，谁更好用",
+      "url": "https://www.xiaohongshu.com/explore/d0af24c49086",
+      "description": "对比了高通和另一家的智能座舱，谁更好用",
+      "publish_time": "2026-07-27 12:56:00",
+      "clean_content": ""
+    },
+    {
+      "id": "aihot-0212",
+      "source_type": "aihot",
+      "feed_name": "AI热点雷达",
+      "title": "高通技术负责人访谈：谈谈接下来的规划",
+      "url": "https://ai-hot.example.com/post/63a9f4c2b30b",
+      "description": "",
+      "publish_time": "2026-07-29 11:45:00",
+      "clean_content": "供应链相关人士表示，产能爬坡预计将持续到下个季度。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "wx-0193",
+      "source_type": "wx",
+      "feed_name": "新智元",
+      "title": "字节跳动高管在行业论坛谈智能化技术路线",
+      "url": "https://mp.weixin.qq.com/s/14594789b4c7",
+      "description": "",
+      "publish_time": "2026-07-30 11:17:00",
+      "clean_content": "字节跳动相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。"
+    },
+    {
+      "id": "aihot-0122",
+      "source_type": "aihot",
+      "feed_name": "AI Daily",
+      "title": "小鹏技术负责人访谈：谈谈接下来的规划",
+      "url": "https://ai-hot.example.com/post/0c62edf58330",
+      "description": "",
+      "publish_time": "2026-07-29 23:14:00",
+      "clean_content": "行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。"
+    },
+    {
+      "id": "xhs-0048",
+      "source_type": "xhs",
+      "feed_name": "出行日常",
+      "title": "黑芝麻智能这个功能真的绝了，分享一下使用感受",
+      "url": "https://www.xiaohongshu.com/explore/ee8fa140600a",
+      "description": "黑芝麻智能这个功能真的绝了，分享一下使用感受",
+      "publish_time": "2026-07-25 13:47:00",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0234",
+      "source_type": "wx",
+      "feed_name": "品玩",
+      "title": "问界官方回应近期传闻，称消息不实",
+      "url": "https://mp.weixin.qq.com/s/53b73ceb3b48",
+      "description": "问界相关最新进展显示，供应链相关人士表示，产能爬坡预计将持续到下个季度。这也是今",
+      "publish_time": "2026-07-25 13:19:00",
+      "clean_content": "问界相关最新进展显示，供应链相关人士表示，产能爬坡预计将持续到下个季度。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "xhs-0182",
+      "source_type": "xhs",
+      "feed_name": "出行日常",
+      "title": "第一次用蔚来的自动泊车，全程实录",
+      "url": "https://www.xiaohongshu.com/explore/cb78c7069346",
+      "description": "",
+      "publish_time": "2026-07-29 22:09:00",
+      "clean_content": "行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。"
+    },
+    {
+      "id": "wx-0018",
+      "source_type": "wx",
+      "feed_name": "汽车之心",
+      "title": "蔚来自动驾驶团队最新论文入选国际顶会",
+      "url": "https://mp.weixin.qq.com/s/f5923d9718af",
+      "description": "",
+      "publish_time": "2026-07-28 20:00:00",
+      "clean_content": "蔚来自动驾驶团队一篇关于城市场景端到端规划算法的论文被国际顶级会议接收，论文提出了一种新的多模态融合方案，团队表示相关技术已在部分车型上小范围验证。"
+    },
+    {
+      "id": "wx-0244",
+      "source_type": "wx",
+      "feed_name": "第一电动",
+      "title": "Anthropic被曝正在测试下一代自动驾驶方案",
+      "url": "https://mp.weixin.qq.com/s/f51f3a5cb880",
+      "description": "Anthropic相关最新进展显示，分析师认为，这一举措有助于公司在激烈竞争中保",
+      "publish_time": "2026-07-27 08:25:00",
+      "clean_content": "Anthropic相关最新进展显示，分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "xhs-0107",
+      "source_type": "xhs",
+      "feed_name": "科技种草机",
+      "title": "第一次用字节跳动的自动泊车，全程实录",
+      "url": "https://www.xiaohongshu.com/explore/bd60d79a0a74",
+      "description": "",
+      "publish_time": "2026-07-26 14:20:00",
+      "clean_content": "截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "wx-0163",
+      "source_type": "wx",
+      "feed_name": "第一电动",
+      "title": "英伟达被曝正在测试下一代自动驾驶方案",
+      "url": "https://mp.weixin.qq.com/s/b123108224fa",
+      "description": "英伟达相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节",
+      "publish_time": "2026-07-30 08:27:00",
+      "clean_content": "英伟达相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "wx-0135",
+      "source_type": "wx",
+      "feed_name": "雷锋网",
+      "title": "Momenta最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/68691256851d",
+      "description": "Momenta相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待",
+      "publish_time": "2026-07-28 16:55:00",
+      "clean_content": "Momenta相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "wx-0201",
+      "source_type": "wx",
+      "feed_name": "汽车评中评",
+      "title": "华为发布最新季度交付数据，同比增长30%",
+      "url": "https://mp.weixin.qq.com/s/5b2092eef6eb",
+      "description": "华为相关最新进展显示，供应链相关人士表示，产能爬坡预计将持续到下个季度。分析师认",
+      "publish_time": "2026-07-28 08:45:00",
+      "clean_content": "华为相关最新进展显示，供应链相关人士表示，产能爬坡预计将持续到下个季度。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。"
+    },
+    {
+      "id": "wx-0248",
+      "source_type": "wx",
+      "feed_name": "新智元",
+      "title": "小米汽车宣布与产业链上游达成新一轮合作",
+      "url": "https://mp.weixin.qq.com/s/62affb9d2a42",
+      "description": "小米汽车相关最新进展显示，供应链相关人士表示，产能爬坡预计将持续到下个季度。值得",
+      "publish_time": "2026-07-29 08:33:00",
+      "clean_content": "小米汽车相关最新进展显示，供应链相关人士表示，产能爬坡预计将持续到下个季度。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。"
+    },
+    {
+      "id": "xhs-0177",
+      "source_type": "xhs",
+      "feed_name": "车主的日常",
+      "title": "小鹏最近的OTA更新了啥，简单说说",
+      "url": "https://www.xiaohongshu.com/explore/9a7df84e134b",
+      "description": "小鹏最近的OTA更新了啥，简单说说",
+      "publish_time": "2026-07-28 22:12:00",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0127",
+      "source_type": "wx",
+      "feed_name": "电动星球News",
+      "title": "零跑宣布新一轮融资，将用于自动驾驶研发",
+      "url": "https://mp.weixin.qq.com/s/d44545c452a3",
+      "description": "",
+      "publish_time": "2026-07-30 09:54:00",
+      "clean_content": "零跑相关最新进展显示，公司方面暂未对外披露更多细节，仅表示相关进展符合预期。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。供应链相关人士表示，产能爬坡预计将持续到下个季度。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "wx-0150",
+      "source_type": "wx",
+      "feed_name": "第一电动",
+      "title": "小马智行宣布新一轮融资，将用于自动驾驶研发",
+      "url": "https://mp.weixin.qq.com/s/49c39c89d5f3",
+      "description": "小马智行相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细",
+      "publish_time": "2026-07-25 09:08:00",
+      "clean_content": "小马智行相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "wx-0110",
+      "source_type": "wx",
+      "feed_name": "36氪",
+      "title": "智界智能座舱新版本OTA更新，新增多项功能",
+      "url": "https://mp.weixin.qq.com/s/eb30add80a2d",
+      "description": "智界相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确",
+      "publish_time": "2026-07-29 21:28:00",
+      "clean_content": "智界相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。供应链相关人士表示，产能爬坡预计将持续到下个季度。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。"
+    },
+    {
+      "id": "wx-0045",
+      "source_type": "wx",
+      "feed_name": "车东西",
+      "title": "智界城市NOA功能开始向更多城市推送",
+      "url": "https://mp.weixin.qq.com/s/121e92e6c2fc",
+      "description": "",
+      "publish_time": "2026-07-28 14:59:00",
+      "clean_content": "智界相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "wx-0143",
+      "source_type": "wx",
+      "feed_name": "车东西",
+      "title": "行业观察：英伟达的智能化战略走到哪一步了",
+      "url": "https://mp.weixin.qq.com/s/db9575ce4a2e",
+      "description": "",
+      "publish_time": "2026-07-26 17:36:00",
+      "clean_content": "英伟达相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。"
+    },
+    {
+      "id": "wx-0252",
+      "source_type": "wx",
+      "feed_name": "汽车之心",
+      "title": "零跑智能座舱新版本OTA更新，新增多项功能",
+      "url": "https://mp.weixin.qq.com/s/feb404789ac8",
+      "description": "",
+      "publish_time": "2026-07-25 08:34:00",
+      "clean_content": "零跑相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "wx-0195",
+      "source_type": "wx",
+      "feed_name": "36氪",
+      "title": "黑芝麻智能高管在行业论坛谈智能化技术路线",
+      "url": "https://mp.weixin.qq.com/s/d84b229c1c1a",
+      "description": "黑芝麻智能相关最新进展显示，供应链相关人士表示，产能爬坡预计将持续到下个季度。公",
+      "publish_time": "2026-07-28 16:50:00",
+      "clean_content": "黑芝麻智能相关最新进展显示，供应链相关人士表示，产能爬坡预计将持续到下个季度。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。"
+    },
+    {
+      "id": "wx-0208",
+      "source_type": "wx",
+      "feed_name": "品玩",
+      "title": "滴滴自动驾驶发布最新季度交付数据，同比增长16%",
+      "url": "https://mp.weixin.qq.com/s/c4ff5e07f876",
+      "description": "",
+      "publish_time": "2026-07-27 07:38:00",
+      "clean_content": "滴滴自动驾驶相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。供应链相关人士表示，产能爬坡预计将持续到下个季度。"
+    },
+    {
+      "id": "wx-0106",
+      "source_type": "wx",
+      "feed_name": "汽车之心",
+      "title": "华为最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/fc093b138ecc",
+      "description": "华为相关最新进展显示，公司方面暂未对外披露更多细节，仅表示相关进展符合预期。值得",
+      "publish_time": "2026-07-27 19:11:00",
+      "clean_content": "华为相关最新进展显示，公司方面暂未对外披露更多细节，仅表示相关进展符合预期。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。供应链相关人士表示，产能爬坡预计将持续到下个季度。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。"
+    },
+    {
+      "id": "wx-0057",
+      "source_type": "wx",
+      "feed_name": "钛媒体",
+      "title": "文远知行智能座舱新版本OTA更新，新增多项功能",
+      "url": "https://mp.weixin.qq.com/s/4e382fea742d",
+      "description": "",
+      "publish_time": "2026-07-28 22:28:00",
+      "clean_content": "文远知行相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。供应链相关人士表示，产能爬坡预计将持续到下个季度。"
+    },
+    {
+      "id": "wx-0134",
+      "source_type": "wx",
+      "feed_name": "雷锋网",
+      "title": "行业观察：小马智行的智能化战略走到哪一步了",
+      "url": "https://mp.weixin.qq.com/s/f477ffc989b2",
+      "description": "小马智行相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提",
+      "publish_time": "2026-07-29 19:02:00",
+      "clean_content": "小马智行相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。"
+    },
+    {
+      "id": "xhs-0015",
+      "source_type": "xhs",
+      "feed_name": "科技种草机",
+      "title": "英伟达芯片降价了，对我们有啥影响",
+      "url": "https://www.xiaohongshu.com/explore/001194939a39",
+      "description": "",
+      "publish_time": "2026-07-30 11:15:00",
+      "clean_content": "刷到英伟达H20降价的新闻，感觉对做AI训练的公司是好事，算力成本能省一点是一点。"
+    },
+    {
+      "id": "xhs-0078",
+      "source_type": "xhs",
+      "feed_name": "车圈老司机",
+      "title": "黑芝麻智能车主群里都在聊的一个功能",
+      "url": "https://www.xiaohongshu.com/explore/8020beb35c54",
+      "description": "黑芝麻智能车主群里都在聊的一个功能",
+      "publish_time": "2026-07-25 20:22:00",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0061",
+      "source_type": "wx",
+      "feed_name": "晚点LatePost",
+      "title": "华为智能座舱新版本OTA更新，新增多项功能",
+      "url": "https://mp.weixin.qq.com/s/fb1dc507f55d",
+      "description": "",
+      "publish_time": "2026-07-30 14:29:00",
+      "clean_content": "华为相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "xhs-0083",
+      "source_type": "xhs",
+      "feed_name": "新能源日记",
+      "title": "对比了Anthropic和另一家的智能座舱，谁更好用",
+      "url": "https://www.xiaohongshu.com/explore/4b3dc3029b90",
+      "description": "",
+      "publish_time": "2026-07-26 15:32:00",
+      "clean_content": "供应链相关人士表示，产能爬坡预计将持续到下个季度。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。"
+    },
+    {
+      "id": "wx-0179",
+      "source_type": "wx",
+      "feed_name": "36氪",
+      "title": "小米汽车宣布与产业链上游达成新一轮合作",
+      "url": "https://mp.weixin.qq.com/s/62affb9d2a42",
+      "description": "",
+      "publish_time": "2026-07-26 20:04:00",
+      "clean_content": "小米汽车相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。供应链相关人士表示，产能爬坡预计将持续到下个季度。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "wx-0164",
+      "source_type": "wx",
+      "feed_name": "智车科技",
+      "title": "Anthropic宣布与产业链上游达成新一轮合作",
+      "url": "https://mp.weixin.qq.com/s/cb3a640fc3bd",
+      "description": "Anthropic相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最",
+      "publish_time": "2026-07-29 09:26:00",
+      "clean_content": "Anthropic相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "wx-0082",
+      "source_type": "wx",
+      "feed_name": "第一电动",
+      "title": "Anthropic最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/0e47fc4511f4",
+      "description": "",
+      "publish_time": "2026-07-27 23:43:00",
+      "clean_content": "Anthropic相关最新进展显示，公司方面暂未对外披露更多细节，仅表示相关进展符合预期。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。"
+    },
+    {
+      "id": "wx-0148",
+      "source_type": "wx",
+      "feed_name": "晚点LatePost",
+      "title": "行业观察：华为的智能化战略走到哪一步了",
+      "url": "https://mp.weixin.qq.com/s/8abed57c9dfd",
+      "description": "",
+      "publish_time": "2026-07-27 18:00:00",
+      "clean_content": "华为相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。供应链相关人士表示，产能爬坡预计将持续到下个季度。"
+    },
+    {
+      "id": "nytimes-0172",
+      "source_type": "nytimes",
+      "feed_name": "The New York Times",
+      "title": "Inside 小米汽车's Latest Bet on AI-Powered Vehicles",
+      "url": "https://www.nytimes.com/2026/07/29/business/a4f464ad02bb.html",
+      "description": "",
+      "publish_time": "2026-07-27 15:20:00",
+      "clean_content": "Industry observers say the move reflects broader trends in the sector. The company declined to comment further when reached for this report. Analysts will be watching closely for confirmation in coming weeks."
+    },
+    {
+      "id": "wx-0075",
+      "source_type": "wx",
+      "feed_name": "汽车评中评",
+      "title": "地平线最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/85eaa3e1d5c8",
+      "description": "地平线相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节",
+      "publish_time": "2026-07-28 07:57:00",
+      "clean_content": "地平线相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。供应链相关人士表示，产能爬坡预计将持续到下个季度。"
+    },
+    {
+      "id": "wx-0129",
+      "source_type": "wx",
+      "feed_name": "汽车之心",
+      "title": "文远知行官方回应近期传闻，称消息不实",
+      "url": "https://mp.weixin.qq.com/s/fbdd29e663ce",
+      "description": "文远知行相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具",
+      "publish_time": "2026-07-28 07:13:00",
+      "clean_content": "文远知行相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。供应链相关人士表示，产能爬坡预计将持续到下个季度。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "wx-0009",
+      "source_type": "wx",
+      "feed_name": "极客公园",
+      "title": "国产智驾芯片新王者？地平线征程7深度解读",
+      "url": "https://mp.weixin.qq.com/s/593d968ede5a",
+      "description": "",
+      "publish_time": "2026-07-29 09:30:00",
+      "clean_content": "地平线征程7芯片发布引发行业关注。相比前代产品，新芯片在算力密度、内存带宽方面均有大幅提升，成本控制也做得不错，预计将进一步压低城市NOA功能的上车门槛。多家车企已确认将在下一代车型中采用征程7平台。"
+    },
+    {
+      "id": "wx-0013",
+      "source_type": "wx",
+      "feed_name": "36氪",
+      "title": "英伟达下调H20报价，国内智驾算力成本迎来拐点",
+      "url": "https://mp.weixin.qq.com/s/c1a81e336021",
+      "description": "",
+      "publish_time": "2026-07-30 11:15:00",
+      "clean_content": "据供应链渠道消息，英伟达近期下调了面向中国市场销售的H20系列芯片报价，降幅约15%。业内人士分析，这一调整与国产芯片竞争加剧、以及英伟达希望维持在中国智能驾驶与数据中心市场份额有关。对于依赖H20做云端训练的智驾公司而言，算力成本有望进一步下降。"
+    },
+    {
+      "id": "wx-0056",
+      "source_type": "wx",
+      "feed_name": "36氪",
+      "title": "行业观察：小鹏的智能化战略走到哪一步了",
+      "url": "https://mp.weixin.qq.com/s/6adb3c354fad",
+      "description": "",
+      "publish_time": "2026-07-29 21:35:00",
+      "clean_content": "小鹏相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "wx-0225",
+      "source_type": "wx",
+      "feed_name": "品玩",
+      "title": "黑芝麻智能智能座舱新版本OTA更新，新增多项功能",
+      "url": "https://mp.weixin.qq.com/s/8f21e3d22f34",
+      "description": "黑芝麻智能相关最新进展显示，供应链相关人士表示，产能爬坡预计将持续到下个季度。据",
+      "publish_time": "2026-07-28 21:18:00",
+      "clean_content": "黑芝麻智能相关最新进展显示，供应链相关人士表示，产能爬坡预计将持续到下个季度。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "wx-0060",
+      "source_type": "wx",
+      "feed_name": "极客公园",
+      "title": "英伟达城市NOA功能开始向更多城市推送",
+      "url": "https://mp.weixin.qq.com/s/5f0cf0183f9d",
+      "description": "",
+      "publish_time": "2026-07-25 09:03:00",
+      "clean_content": "英伟达相关最新进展显示，供应链相关人士表示，产能爬坡预计将持续到下个季度。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。"
+    },
+    {
+      "id": "wx-0113",
+      "source_type": "wx",
+      "feed_name": "电动星球News",
+      "title": "小马智行智能座舱新版本OTA更新，新增多项功能",
+      "url": "https://mp.weixin.qq.com/s/3241e57c6d54",
+      "description": "",
+      "publish_time": "2026-07-26 17:11:00",
+      "clean_content": "小马智行相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。"
+    },
+    {
+      "id": "xhs-0103",
+      "source_type": "xhs",
+      "feed_name": "智能座舱体验官",
+      "title": "第一次用特斯拉的自动泊车，全程实录",
+      "url": "https://www.xiaohongshu.com/explore/5b5a63860c8f",
+      "description": "第一次用特斯拉的自动泊车，全程实录",
+      "publish_time": "2026-07-30 15:36:00",
+      "clean_content": ""
+    },
+    {
+      "id": "aihot-0012",
+      "source_type": "aihot",
+      "feed_name": "AI热点雷达",
+      "title": "地平线征程7芯片算力560TOPS，剑指城市NOA规模化",
+      "url": "https://ai-hot.example.com/post/c0abe653e2e5",
+      "description": "",
+      "publish_time": "2026-07-29 09:30:00",
+      "clean_content": "地平线正式发布新一代智能驾驶芯片征程7，单颗算力560TOPS，重点面向城市NOA场景规模化落地。多家车企已确认前装合作。"
+    },
+    {
+      "id": "wx-0063",
+      "source_type": "wx",
+      "feed_name": "极客公园",
+      "title": "Momenta最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/68691256851d",
+      "description": "",
+      "publish_time": "2026-07-28 18:16:00",
+      "clean_content": "Momenta相关最新进展显示，分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "wx-0030",
+      "source_type": "wx",
+      "feed_name": "晚点LatePost",
+      "title": "智能座舱大模型上车成本半年内下降三成",
+      "url": "https://mp.weixin.qq.com/s/14468ef6e6fb",
+      "description": "",
+      "publish_time": "2026-07-24 10:00:00",
+      "clean_content": "据晚点了解，随着开源大模型推理效率提升与端侧芯片成本下降，车企部署智能座舱大模型的综合成本在过去半年下降约三成，更多中低端车型开始搭载相关功能。"
+    },
+    {
+      "id": "wx-0206",
+      "source_type": "wx",
+      "feed_name": "36氪",
+      "title": "理想高管在行业论坛谈智能化技术路线",
+      "url": "https://mp.weixin.qq.com/s/27ba28671a7a",
+      "description": "理想相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏",
+      "publish_time": "2026-07-29 17:28:00",
+      "clean_content": "理想相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。"
+    },
+    {
+      "id": "wx-0154",
+      "source_type": "wx",
+      "feed_name": "晚点LatePost",
+      "title": "行业观察：智界的智能化战略走到哪一步了",
+      "url": "https://mp.weixin.qq.com/s/87d8d065145e",
+      "description": "智界相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官",
+      "publish_time": "2026-07-27 13:08:00",
+      "clean_content": "智界相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "wx-0232",
+      "source_type": "wx",
+      "feed_name": "雷锋网",
+      "title": "Anthropic宣布与产业链上游达成新一轮合作",
+      "url": "https://mp.weixin.qq.com/s/cb3a640fc3bd",
+      "description": "",
+      "publish_time": "2026-07-27 16:26:00",
+      "clean_content": "Anthropic相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。"
+    },
+    {
+      "id": "wx-0191",
+      "source_type": "wx",
+      "feed_name": "品玩",
+      "title": "Anthropic智能座舱新版本OTA更新，新增多项功能",
+      "url": "https://mp.weixin.qq.com/s/64a94cbf0805",
+      "description": "",
+      "publish_time": "2026-07-26 20:29:00",
+      "clean_content": "Anthropic相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。"
+    },
+    {
+      "id": "wx-0153",
+      "source_type": "wx",
+      "feed_name": "智能进化论",
+      "title": "零跑高管在行业论坛谈智能化技术路线",
+      "url": "https://mp.weixin.qq.com/s/31285c8f2b10",
+      "description": "",
+      "publish_time": "2026-07-28 17:03:00",
+      "clean_content": "零跑相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。供应链相关人士表示，产能爬坡预计将持续到下个季度。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。"
+    },
+    {
+      "id": "xhs-0020",
+      "source_type": "xhs",
+      "feed_name": "新能源日记",
+      "title": "试驾问界最新智驾版本三天心得",
+      "url": "https://www.xiaohongshu.com/explore/897db1369772",
+      "description": "",
+      "publish_time": "2026-07-28 09:00:00",
+      "clean_content": "开了三天问界的最新智驾版本，整体感觉比上一版丝滑不少，特别是环岛场景的处理，偶尔还是会有点犹豫，但整体进步明显。"
+    },
+    {
+      "id": "wx-0249",
+      "source_type": "wx",
+      "feed_name": "智车科技",
+      "title": "OpenAI城市NOA功能开始向更多城市推送",
+      "url": "https://mp.weixin.qq.com/s/3acbd200ce19",
+      "description": "OpenAI相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能",
+      "publish_time": "2026-07-28 12:36:00",
+      "clean_content": "OpenAI相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "aihot-0053",
+      "source_type": "aihot",
+      "feed_name": "硅基情报局",
+      "title": "零跑发布新模型/新硬件，行业反应不一",
+      "url": "https://ai-hot.example.com/post/a1b87c79dc3c",
+      "description": "",
+      "publish_time": "2026-07-26 06:46:00",
+      "clean_content": "值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。"
+    },
+    {
+      "id": "wx-0062",
+      "source_type": "wx",
+      "feed_name": "品玩",
+      "title": "小鹏官方回应近期传闻，称消息不实",
+      "url": "https://mp.weixin.qq.com/s/6596b85f6087",
+      "description": "小鹏相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的",
+      "publish_time": "2026-07-29 13:10:00",
+      "clean_content": "小鹏相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。"
+    },
+    {
+      "id": "wx-0038",
+      "source_type": "wx",
+      "feed_name": "汽车优惠情报",
+      "title": "618延续！新能源车主专属优惠券限时领取",
+      "url": "https://mp.weixin.qq.com/s/d6ee7019b978",
+      "description": "",
+      "publish_time": "2026-07-28 08:10:00",
+      "clean_content": "扫码进群领取专属优惠券，仅限前500名，先到先得。"
+    },
+    {
+      "id": "wx-0158",
+      "source_type": "wx",
+      "feed_name": "汽车评中评",
+      "title": "蔚来最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/9ed66e6491c9",
+      "description": "",
+      "publish_time": "2026-07-29 17:32:00",
+      "clean_content": "蔚来相关最新进展显示，公司方面暂未对外披露更多细节，仅表示相关进展符合预期。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。"
+    },
+    {
+      "id": "aihot-0236",
+      "source_type": "aihot",
+      "feed_name": "硅基情报局",
+      "title": "Anthropic技术负责人访谈：谈谈接下来的规划",
+      "url": "https://ai-hot.example.com/post/f1f12b93cf01",
+      "description": "",
+      "publish_time": "2026-07-29 18:57:00",
+      "clean_content": "行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "wx-0226",
+      "source_type": "wx",
+      "feed_name": "钛媒体",
+      "title": "理想宣布与产业链上游达成新一轮合作",
+      "url": "https://mp.weixin.qq.com/s/5f8a732f76fd",
+      "description": "",
+      "publish_time": "2026-07-27 23:12:00",
+      "clean_content": "理想相关最新进展显示，供应链相关人士表示，产能爬坡预计将持续到下个季度。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。"
+    },
+    {
+      "id": "wx-0246",
+      "source_type": "wx",
+      "feed_name": "品玩",
+      "title": "极氪被曝正在测试下一代自动驾驶方案",
+      "url": "https://mp.weixin.qq.com/s/1cecc3034192",
+      "description": "",
+      "publish_time": "2026-07-25 13:03:00",
+      "clean_content": "极氪相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。供应链相关人士表示，产能爬坡预计将持续到下个季度。"
+    },
+    {
+      "id": "wx-0035",
+      "source_type": "wx",
+      "feed_name": "九章智驾",
+      "title": "深度：智能驾驶芯片格局生变，2026下半年谁能领跑",
+      "url": "https://mp.weixin.qq.com/s/dup0000repost002",
+      "description": "",
+      "publish_time": "2026-07-25 13:00:00",
+      "clean_content": "本文梳理了2026年下半年智能驾驶芯片行业格局的最新变化，从算力、成本、生态三个维度对比了几家主要厂商的产品路线。"
+    },
+    {
+      "id": "xhs-0186",
+      "source_type": "xhs",
+      "feed_name": "科技种草机",
+      "title": "特斯拉最近的OTA更新了啥，简单说说",
+      "url": "https://www.xiaohongshu.com/explore/ce9335a6c85b",
+      "description": "",
+      "publish_time": "2026-07-25 10:58:00",
+      "clean_content": "分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。供应链相关人士表示，产能爬坡预计将持续到下个季度。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。"
+    },
+    {
+      "id": "wx-0049",
+      "source_type": "wx",
+      "feed_name": "钛媒体",
+      "title": "零跑宣布新一轮融资，将用于自动驾驶研发",
+      "url": "https://mp.weixin.qq.com/s/d44545c452a3",
+      "description": "零跑相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了",
+      "publish_time": "2026-07-30 09:09:00",
+      "clean_content": "零跑相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。"
+    },
+    {
+      "id": "wx-0071",
+      "source_type": "wx",
+      "feed_name": "九章智驾",
+      "title": "零跑宣布新一轮融资，将用于自动驾驶研发",
+      "url": "https://mp.weixin.qq.com/s/d44545c452a3",
+      "description": "零跑相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了",
+      "publish_time": "2026-07-26 07:05:00",
+      "clean_content": "零跑相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "wx-0002",
+      "source_type": "wx",
+      "feed_name": "车东西",
+      "title": "小米澎程系列发布：雷军亲自解读为何放弃纯电路线",
+      "url": "https://mp.weixin.qq.com/s/e1db405f6156",
+      "description": "小米汽车新系列聚焦增程",
+      "publish_time": "2026-07-28 16:04:19",
+      "clean_content": "在今天的小米汽车澎程系列发布会上，雷军详细解释了产品路线选择。他提到，团队内部曾就纯电与增程方案有过激烈讨论，最终基于用户长途出行痛点和补能焦虑，选择优先推出增程版本。澎程系列将搭载小米自研的增程系统，综合续航突破1300公里。"
+    },
+    {
+      "id": "aihot-0089",
+      "source_type": "aihot",
+      "feed_name": "AI Daily",
+      "title": "一张图看懂商汤绝影最新产品发布会",
+      "url": "https://ai-hot.example.com/post/4a9716751dc9",
+      "description": "",
+      "publish_time": "2026-07-26 06:57:00",
+      "clean_content": "值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "nytimes-0118",
+      "source_type": "nytimes",
+      "feed_name": "The New York Times",
+      "title": "理想 Faces New Scrutiny Over Driver-Assistance Claims",
+      "url": "https://www.nytimes.com/2026/07/29/business/29fd6ddc9d92.html",
+      "description": "",
+      "publish_time": "2026-07-27 19:38:00",
+      "clean_content": "Industry observers say the move reflects broader trends in the sector. The company declined to comment further when reached for this report. Analysts will be watching closely for confirmation in coming weeks."
+    },
+    {
+      "id": "aihot-0064",
+      "source_type": "aihot",
+      "feed_name": "硅基情报局",
+      "title": "一张图看懂高通最新产品发布会",
+      "url": "https://ai-hot.example.com/post/d578fd5c28f0",
+      "description": "",
+      "publish_time": "2026-07-27 15:13:00",
+      "clean_content": "有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。"
+    },
+    {
+      "id": "wx-0059",
+      "source_type": "wx",
+      "feed_name": "AI科技评论",
+      "title": "文远知行被曝正在测试下一代自动驾驶方案",
+      "url": "https://mp.weixin.qq.com/s/8b403160b197",
+      "description": "文远知行相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提",
+      "publish_time": "2026-07-26 13:50:00",
+      "clean_content": "文远知行相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。供应链相关人士表示，产能爬坡预计将持续到下个季度。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "wx-0233",
+      "source_type": "wx",
+      "feed_name": "极客公园",
+      "title": "OpenAI最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/cbadf51f7d00",
+      "description": "",
+      "publish_time": "2026-07-26 21:33:00",
+      "clean_content": "OpenAI相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "wx-0137",
+      "source_type": "wx",
+      "feed_name": "第一电动",
+      "title": "零跑宣布新一轮融资，将用于自动驾驶研发",
+      "url": "https://mp.weixin.qq.com/s/d44545c452a3",
+      "description": "零跑相关最新进展显示，公司方面暂未对外披露更多细节，仅表示相关进展符合预期。供应",
+      "publish_time": "2026-07-26 21:55:00",
+      "clean_content": "零跑相关最新进展显示，公司方面暂未对外披露更多细节，仅表示相关进展符合预期。供应链相关人士表示，产能爬坡预计将持续到下个季度。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "wx-0109",
+      "source_type": "wx",
+      "feed_name": "电动星球News",
+      "title": "行业观察：华为的智能化战略走到哪一步了",
+      "url": "https://mp.weixin.qq.com/s/8abed57c9dfd",
+      "description": "华为相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏",
+      "publish_time": "2026-07-30 14:35:00",
+      "clean_content": "华为相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。供应链相关人士表示，产能爬坡预计将持续到下个季度。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。"
+    },
+    {
+      "id": "wx-0140",
+      "source_type": "wx",
+      "feed_name": "电动星球News",
+      "title": "商汤绝影宣布与产业链上游达成新一轮合作",
+      "url": "https://mp.weixin.qq.com/s/afafc3bc22e1",
+      "description": "商汤绝影相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需",
+      "publish_time": "2026-07-29 13:31:00",
+      "clean_content": "商汤绝影相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "xhs-0185",
+      "source_type": "xhs",
+      "feed_name": "AI打工人",
+      "title": "提了百度Apollo的新车，说说这几天的智驾体验",
+      "url": "https://www.xiaohongshu.com/explore/534e79fb50f6",
+      "description": "",
+      "publish_time": "2026-07-26 09:35:00",
+      "clean_content": "供应链相关人士表示，产能爬坡预计将持续到下个季度。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。"
+    },
+    {
+      "id": "wx-0173",
+      "source_type": "wx",
+      "feed_name": "钛媒体",
+      "title": "Momenta宣布与产业链上游达成新一轮合作",
+      "url": "https://mp.weixin.qq.com/s/d3bb0ab6d2c7",
+      "description": "Momenta相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要",
+      "publish_time": "2026-07-26 07:27:00",
+      "clean_content": "Momenta相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。供应链相关人士表示，产能爬坡预计将持续到下个季度。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。"
+    },
+    {
+      "id": "wx-0119",
+      "source_type": "wx",
+      "feed_name": "AI科技评论",
+      "title": "滴滴自动驾驶官方回应近期传闻，称消息不实",
+      "url": "https://mp.weixin.qq.com/s/d6d70a28b58e",
+      "description": "滴滴自动驾驶相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更",
+      "publish_time": "2026-07-26 09:48:00",
+      "clean_content": "滴滴自动驾驶相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "xhs-0077",
+      "source_type": "xhs",
+      "feed_name": "数码阿伟",
+      "title": "华为最近的OTA更新了啥，简单说说",
+      "url": "https://www.xiaohongshu.com/explore/074a4ee476b4",
+      "description": "",
+      "publish_time": "2026-07-26 11:50:00",
+      "clean_content": "这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "wx-0019",
+      "source_type": "wx",
+      "feed_name": "九章智驾",
+      "title": "比亚迪智能驾驶团队扩招，多个核心岗位年薪上浮",
+      "url": "https://mp.weixin.qq.com/s/d1026351fe6a",
+      "description": "",
+      "publish_time": "2026-07-27 18:00:00",
+      "clean_content": "有猎头透露，比亚迪智能驾驶团队近期启动新一轮扩招，核心算法岗位薪资较去年有明显上浮，主要面向城市NOA与舱驾一体方向。"
+    },
+    {
+      "id": "wx-0194",
+      "source_type": "wx",
+      "feed_name": "汽车评中评",
+      "title": "文远知行最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/f62da4257a60",
+      "description": "",
+      "publish_time": "2026-07-29 18:32:00",
+      "clean_content": "文远知行相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。供应链相关人士表示，产能爬坡预计将持续到下个季度。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。"
+    },
+    {
+      "id": "wx-0010",
+      "source_type": "wx",
+      "feed_name": "晚点LatePost",
+      "title": "独家：地平线征程7背后的供应链博弈",
+      "url": "https://mp.weixin.qq.com/s/ce2bd3935e57",
+      "description": "",
+      "publish_time": "2026-07-29 09:30:00",
+      "clean_content": "在地平线正式发布征程7芯片之前，晚点了解到该公司与至少三家主流车企已完成前期联合调试。业内人士透露，征程7的量产节奏将直接影响2027年国产智能驾驶车型的城市NOA渗透率。文章还梳理了国产芯片在算力成本上相较海外方案的优势。"
+    },
+    {
+      "id": "wx-0058",
+      "source_type": "wx",
+      "feed_name": "36氪",
+      "title": "极氪高管在行业论坛谈智能化技术路线",
+      "url": "https://mp.weixin.qq.com/s/ac4ce44c237e",
+      "description": "",
+      "publish_time": "2026-07-27 07:55:00",
+      "clean_content": "极氪相关最新进展显示，有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。供应链相关人士表示，产能爬坡预计将持续到下个季度。"
+    },
+    {
+      "id": "wx-0238",
+      "source_type": "wx",
+      "feed_name": "36氪",
+      "title": "OpenAI高管在行业论坛谈智能化技术路线",
+      "url": "https://mp.weixin.qq.com/s/347459756ea6",
+      "description": "OpenAI相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更",
+      "publish_time": "2026-07-27 23:44:00",
+      "clean_content": "OpenAI相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "xhs-0028",
+      "source_type": "xhs",
+      "feed_name": "AI玩家小林",
+      "title": "家里长辈都在问AI汽车安不安全",
+      "url": "https://www.xiaohongshu.com/explore/179540872c43",
+      "description": "",
+      "publish_time": "2026-07-25 19:00:00",
+      "clean_content": "过年回家亲戚一直问自动驾驶到底安不安全，感觉这个话题现在真的很出圈了，普通人也开始关心这些技术细节。"
+    },
+    {
+      "id": "wx-0136",
+      "source_type": "wx",
+      "feed_name": "晚点LatePost",
+      "title": "高通官方回应近期传闻，称消息不实",
+      "url": "https://mp.weixin.qq.com/s/3df9d0572499",
+      "description": "高通相关最新进展显示，分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势",
+      "publish_time": "2026-07-27 10:04:00",
+      "clean_content": "高通相关最新进展显示，分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "xhs-0101",
+      "source_type": "xhs",
+      "feed_name": "车圈老司机",
+      "title": "提了字节跳动的新车，说说这几天的智驾体验",
+      "url": "https://www.xiaohongshu.com/explore/6ec3145c6f04",
+      "description": "",
+      "publish_time": "2026-07-26 10:15:00",
+      "clean_content": "据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。"
+    },
+    {
+      "id": "wx-0138",
+      "source_type": "wx",
+      "feed_name": "36氪",
+      "title": "滴滴自动驾驶智能座舱新版本OTA更新，新增多项功能",
+      "url": "https://mp.weixin.qq.com/s/e8c6a387728b",
+      "description": "滴滴自动驾驶相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但",
+      "publish_time": "2026-07-25 09:28:00",
+      "clean_content": "滴滴自动驾驶相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。"
+    },
+    {
+      "id": "xhs-0046",
+      "source_type": "xhs",
+      "feed_name": "新能源日记",
+      "title": "小马智行最近的OTA更新了啥，简单说说",
+      "url": "https://www.xiaohongshu.com/explore/37710ac1ca65",
+      "description": "小马智行最近的OTA更新了啥，简单说说",
+      "publish_time": "2026-07-27 07:14:00",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0001",
+      "source_type": "wx",
+      "feed_name": "汽车评中评",
+      "title": "雷军明确表示小米澎程不做纯电车！可不止物理原因",
+      "url": "https://mp.weixin.qq.com/s/1bf721d4c244",
+      "description": "",
+      "publish_time": "2026-07-28 16:04:19",
+      "clean_content": "小米汽车今日推出全新子系列「澎程」，定位增程与插混市场。雷军在发布会上表示，澎程系列不会推出纯电版本，核心原因是当前补能网络在下沉市场仍不完善，增程方案能更好覆盖长途场景。发布会现场公布了澎程首款车型的动力参数与预售价格，首批交付计划在今年四季度启动。业内人士认为，这一决策也与小米汽车产能爬坡节奏有关。"
+    },
+    {
+      "id": "xhs-0090",
+      "source_type": "xhs",
+      "feed_name": "数码阿伟",
+      "title": "理想这个功能真的绝了，分享一下使用感受",
+      "url": "https://www.xiaohongshu.com/explore/654d01cc12c5",
+      "description": "理想这个功能真的绝了，分享一下使用感受",
+      "publish_time": "2026-07-25 22:29:00",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0221",
+      "source_type": "wx",
+      "feed_name": "雷锋网",
+      "title": "百度Apollo被曝正在测试下一代自动驾驶方案",
+      "url": "https://mp.weixin.qq.com/s/6fb5ae258ce0",
+      "description": "",
+      "publish_time": "2026-07-26 21:29:00",
+      "clean_content": "百度Apollo相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "wx-0168",
+      "source_type": "wx",
+      "feed_name": "雷锋网",
+      "title": "小米汽车城市NOA功能开始向更多城市推送",
+      "url": "https://mp.weixin.qq.com/s/d5dbc74ea02c",
+      "description": "",
+      "publish_time": "2026-07-25 19:29:00",
+      "clean_content": "小米汽车相关最新进展显示，公司方面暂未对外披露更多细节，仅表示相关进展符合预期。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "wx-0241",
+      "source_type": "wx",
+      "feed_name": "36氪",
+      "title": "蔚来宣布新一轮融资，将用于自动驾驶研发",
+      "url": "https://mp.weixin.qq.com/s/ea9d2ab0fa6b",
+      "description": "蔚来相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具体上",
+      "publish_time": "2026-07-30 18:50:00",
+      "clean_content": "蔚来相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。"
+    },
+    {
+      "id": "wx-0139",
+      "source_type": "wx",
+      "feed_name": "汽车之心",
+      "title": "特斯拉发布最新季度交付数据，同比增长28%",
+      "url": "https://mp.weixin.qq.com/s/b20dc44c29ae",
+      "description": "",
+      "publish_time": "2026-07-30 10:15:00",
+      "clean_content": "特斯拉相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。供应链相关人士表示，产能爬坡预计将持续到下个季度。"
+    },
+    {
+      "id": "wx-0224",
+      "source_type": "wx",
+      "feed_name": "电动星球News",
+      "title": "极氪高管在行业论坛谈智能化技术路线",
+      "url": "https://mp.weixin.qq.com/s/ac4ce44c237e",
+      "description": "",
+      "publish_time": "2026-07-29 15:31:00",
+      "clean_content": "极氪相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "wx-0170",
+      "source_type": "wx",
+      "feed_name": "新智元",
+      "title": "英伟达宣布新一轮融资，将用于自动驾驶研发",
+      "url": "https://mp.weixin.qq.com/s/412734c24d40",
+      "description": "",
+      "publish_time": "2026-07-29 21:33:00",
+      "clean_content": "英伟达相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "nytimes-0175",
+      "source_type": "nytimes",
+      "feed_name": "The New York Times",
+      "title": "高通 Faces New Scrutiny Over Driver-Assistance Claims",
+      "url": "https://www.nytimes.com/2026/07/29/business/33f3c4cccea5.html",
+      "description": "",
+      "publish_time": "2026-07-30 17:05:00",
+      "clean_content": "Industry observers say the move reflects broader trends in the sector. The company declined to comment further when reached for this report. Analysts will be watching closely for confirmation in coming weeks."
+    },
+    {
+      "id": "aihot-0024",
+      "source_type": "aihot",
+      "feed_name": "AI Daily",
+      "title": "Waymo宣布新一轮融资，估值突破新高",
+      "url": "https://ai-hot.example.com/post/a90aecbbea7a",
+      "description": "",
+      "publish_time": "2026-07-28 06:00:00",
+      "clean_content": "自动驾驶公司Waymo宣布完成新一轮融资，投后估值创历史新高，资金将主要用于扩大在美国多个城市的无人驾驶出租车运营规模。"
+    },
+    {
+      "id": "wx-0230",
+      "source_type": "wx",
+      "feed_name": "新智元",
+      "title": "文远知行宣布新一轮融资，将用于自动驾驶研发",
+      "url": "https://mp.weixin.qq.com/s/ef757f614351",
+      "description": "文远知行相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具",
+      "publish_time": "2026-07-29 15:50:00",
+      "clean_content": "文远知行相关最新进展显示，据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。供应链相关人士表示，产能爬坡预计将持续到下个季度。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。"
+    },
+    {
+      "id": "xhs-0097",
+      "source_type": "xhs",
+      "feed_name": "车主的日常",
+      "title": "英伟达最近的OTA更新了啥，简单说说",
+      "url": "https://www.xiaohongshu.com/explore/7c15c06bc2d5",
+      "description": "",
+      "publish_time": "2026-07-30 14:27:00",
+      "clean_content": "多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。"
+    },
+    {
+      "id": "wx-0223",
+      "source_type": "wx",
+      "feed_name": "晚点LatePost",
+      "title": "高通被曝正在测试下一代自动驾驶方案",
+      "url": "https://mp.weixin.qq.com/s/57bb2d1e4bd8",
+      "description": "",
+      "publish_time": "2026-07-30 18:55:00",
+      "clean_content": "高通相关最新进展显示，分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。"
+    },
+    {
+      "id": "aihot-0115",
+      "source_type": "aihot",
+      "feed_name": "AI热点雷达",
+      "title": "Momenta发布新模型/新硬件，行业反应不一",
+      "url": "https://ai-hot.example.com/post/acdf2197b69f",
+      "description": "",
+      "publish_time": "2026-07-30 16:11:00",
+      "clean_content": "这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。"
+    },
+    {
+      "id": "wx-0098",
+      "source_type": "wx",
+      "feed_name": "第一电动",
+      "title": "黑芝麻智能最新财报电话会：智能驾驶研发投入持续加码",
+      "url": "https://mp.weixin.qq.com/s/70cc9e4beed9",
+      "description": "黑芝麻智能相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多",
+      "publish_time": "2026-07-29 06:05:00",
+      "clean_content": "黑芝麻智能相关最新进展显示，截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。"
+    },
+    {
+      "id": "wx-0250",
+      "source_type": "wx",
+      "feed_name": "第一电动",
+      "title": "问界官方回应近期传闻，称消息不实",
+      "url": "https://mp.weixin.qq.com/s/53b73ceb3b48",
+      "description": "",
+      "publish_time": "2026-07-27 22:28:00",
+      "clean_content": "问界相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。"
+    },
+    {
+      "id": "wx-0096",
+      "source_type": "wx",
+      "feed_name": "雷锋网",
+      "title": "英伟达宣布新一轮融资，将用于自动驾驶研发",
+      "url": "https://mp.weixin.qq.com/s/412734c24d40",
+      "description": "",
+      "publish_time": "2026-07-25 17:19:00",
+      "clean_content": "英伟达相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "aihot-0108",
+      "source_type": "aihot",
+      "feed_name": "硅基情报局",
+      "title": "一张图看懂小鹏最新产品发布会",
+      "url": "https://ai-hot.example.com/post/d47fd1670d27",
+      "description": "",
+      "publish_time": "2026-07-25 16:01:00",
+      "clean_content": "截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "xhs-0166",
+      "source_type": "xhs",
+      "feed_name": "车主的日常",
+      "title": "对比了地平线和另一家的智能座舱，谁更好用",
+      "url": "https://www.xiaohongshu.com/explore/b18647c9d652",
+      "description": "对比了地平线和另一家的智能座舱，谁更好用",
+      "publish_time": "2026-07-27 14:36:00",
+      "clean_content": ""
+    },
+    {
+      "id": "wx-0187",
+      "source_type": "wx",
+      "feed_name": "雷锋网",
+      "title": "字节跳动宣布与产业链上游达成新一轮合作",
+      "url": "https://mp.weixin.qq.com/s/c85f13101770",
+      "description": "",
+      "publish_time": "2026-07-30 16:52:00",
+      "clean_content": "字节跳动相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。"
+    },
+    {
+      "id": "wx-0165",
+      "source_type": "wx",
+      "feed_name": "钛媒体",
+      "title": "百度Apollo发布最新季度交付数据，同比增长26%",
+      "url": "https://mp.weixin.qq.com/s/ccea56aa210f",
+      "description": "",
+      "publish_time": "2026-07-28 21:14:00",
+      "clean_content": "百度Apollo相关最新进展显示，这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。供应链相关人士表示，产能爬坡预计将持续到下个季度。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。"
+    },
+    {
+      "id": "wx-0242",
+      "source_type": "wx",
+      "feed_name": "九章智驾",
+      "title": "Anthropic发布最新季度交付数据，同比增长8%",
+      "url": "https://mp.weixin.qq.com/s/203621643afa",
+      "description": "",
+      "publish_time": "2026-07-29 23:33:00",
+      "clean_content": "Anthropic相关最新进展显示，行业观察人士提醒，类似消息此前也曾出现过，最终结果仍需以官方公告为准。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。供应链相关人士表示，产能爬坡预计将持续到下个季度。分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。"
+    },
+    {
+      "id": "nytimes-0007",
+      "source_type": "nytimes",
+      "feed_name": "The New York Times",
+      "title": "Xiaomi Bets on Extended-Range EVs, Skipping Pure Electric for New Line",
+      "url": "https://www.nytimes.com/2026/07/29/business/8c4465d17d54.html",
+      "description": "",
+      "publish_time": "2026-07-28 16:04:19",
+      "clean_content": "Xiaomi unveiled a new sub-brand of vehicles called Chengcheng on Monday, opting for extended-range hybrid technology instead of pure battery-electric powertrains. Chief Executive Lei Jun said the decision reflects gaps in charging infrastructure in lower-tier Chinese cities, where long-distance travel remains a concern for EV buyers. Analysts say the move also eases pressure on Xiaomi's battery supply chain as it ramps production."
+    },
+    {
+      "id": "wx-0197",
+      "source_type": "wx",
+      "feed_name": "钛媒体",
+      "title": "小米汽车城市NOA功能开始向更多城市推送",
+      "url": "https://mp.weixin.qq.com/s/d5dbc74ea02c",
+      "description": "",
+      "publish_time": "2026-07-26 20:04:00",
+      "clean_content": "小米汽车相关最新进展显示，多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。"
+    },
+    {
+      "id": "xhs-0047",
+      "source_type": "xhs",
+      "feed_name": "数码阿伟",
+      "title": "对比了华为和另一家的智能座舱，谁更好用",
+      "url": "https://www.xiaohongshu.com/explore/ce8c89b9f7e4",
+      "description": "对比了华为和另一家的智能座舱，谁更好用",
+      "publish_time": "2026-07-26 16:13:00",
+      "clean_content": ""
+    },
+    {
+      "id": "xhs-0105",
+      "source_type": "xhs",
+      "feed_name": "AI打工人",
+      "title": "提了特斯拉的新车，说说这几天的智驾体验",
+      "url": "https://www.xiaohongshu.com/explore/6b72d72ed0a1",
+      "description": "",
+      "publish_time": "2026-07-28 17:04:00",
+      "clean_content": "据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。供应链相关人士表示，产能爬坡预计将持续到下个季度。值得注意的是，这一变化可能会对上下游供应商的报价策略产生连锁影响。"
+    },
+    {
+      "id": "xhs-0074",
+      "source_type": "xhs",
+      "feed_name": "车圈老司机",
+      "title": "提了小马智行的新车，说说这几天的智驾体验",
+      "url": "https://www.xiaohongshu.com/explore/897866006d2d",
+      "description": "提了小马智行的新车，说说这几天的智驾体验",
+      "publish_time": "2026-07-29 10:34:00",
+      "clean_content": ""
+    },
+    {
+      "id": "xhs-0005",
+      "source_type": "xhs",
+      "feed_name": "车圈老司机",
+      "title": "去现场看了小米澎程，增程车主真的哭了",
+      "url": "https://www.xiaohongshu.com/explore/70caefd5bf9d",
+      "description": "",
+      "publish_time": "2026-07-28 16:04:19",
+      "clean_content": "今天去了小米澎程的发布会现场，说实话这个增程系统体验比我预期好很多，亏电油耗也控制得可以。雷军现场讲了为什么不做纯电，主要还是考虑补能网络在三四线城市不够完善。现场氛围很热闹，预售价格公布后掌声不断。"
+    },
+    {
+      "id": "xhs-0121",
+      "source_type": "xhs",
+      "feed_name": "科技种草机",
+      "title": "提了Momenta的新车，说说这几天的智驾体验",
+      "url": "https://www.xiaohongshu.com/explore/f26d22b55969",
+      "description": "提了Momenta的新车，说说这几天的智驾体验",
+      "publish_time": "2026-07-30 15:44:00",
+      "clean_content": ""
+    },
+    {
+      "id": "xhs-0251",
+      "source_type": "xhs",
+      "feed_name": "AI玩家小林",
+      "title": "第一次用高通的自动泊车，全程实录",
+      "url": "https://www.xiaohongshu.com/explore/3ec48cfab7e7",
+      "description": "",
+      "publish_time": "2026-07-26 15:46:00",
+      "clean_content": "据业内人士透露，相关团队已经在内部小范围测试新功能，具体上线时间尚未确定。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。"
+    },
+    {
+      "id": "wx-0037",
+      "source_type": "wx",
+      "feed_name": "车圈招聘汇",
+      "title": "招聘：多家智能驾驶公司急招算法工程师，内推直达",
+      "url": "https://mp.weixin.qq.com/s/5f6817e5d3ad",
+      "description": "",
+      "publish_time": "2026-07-28 07:30:00",
+      "clean_content": "点击进群获取内推码，多个岗位急招，简历请投递至邮箱，从速。"
+    },
+    {
+      "id": "wx-0229",
+      "source_type": "wx",
+      "feed_name": "汽车评中评",
+      "title": "高通宣布新一轮融资，将用于自动驾驶研发",
+      "url": "https://mp.weixin.qq.com/s/32253f66c661",
+      "description": "高通相关最新进展显示，分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势",
+      "publish_time": "2026-07-30 15:37:00",
+      "clean_content": "高通相关最新进展显示，分析师认为，这一举措有助于公司在激烈竞争中保持技术领先优势。供应链相关人士表示，产能爬坡预计将持续到下个季度。有评论指出，这类功能能否真正提升用户体验，还需要更长时间的市场检验。公司方面暂未对外披露更多细节，仅表示相关进展符合预期。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。这也是今年以来该领域第三次出现类似的技术更新，行业竞争节奏明显加快。"
+    },
+    {
+      "id": "xhs-0240",
+      "source_type": "xhs",
+      "feed_name": "车主的日常",
+      "title": "比亚迪这个功能真的绝了，分享一下使用感受",
+      "url": "https://www.xiaohongshu.com/explore/830a8a5be32f",
+      "description": "",
+      "publish_time": "2026-07-25 15:20:00",
+      "clean_content": "截至发稿，公司股价对此消息反应平淡，市场仍在等待更多细节确认。多位用户在社交媒体上分享了初步体验，反馈整体积极但也提出了一些改进建议。"
+    },
+    {
+      "id": "aihot-0025",
+      "source_type": "aihot",
+      "feed_name": "硅基情报局",
+      "title": "开源大模型新版本发布，端侧推理速度提升40%",
+      "url": "https://ai-hot.example.com/post/21c95a023b2a",
+      "description": "",
+      "publish_time": "2026-07-29 12:00:00",
+      "clean_content": "某头部开源大模型团队发布新版本，重点优化端侧推理性能，官方数据显示推理速度提升约40%，功耗降低，被认为对车载场景友好。"
+    }
+  ]
+}
