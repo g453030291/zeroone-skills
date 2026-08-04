@@ -50,24 +50,39 @@ def work_dir() -> Path:
     return data_dir() / ".work"
 
 
-def sample_articles_path() -> Path:
-    return skill_root() / "sample" / "articles.json"
+# .work/ 里的中间产物只在当天报告生成过程中有用（candidates / filter-result /
+# cluster-result / summary-result / state-<date> 等），不需要跟着 articles_days /
+# reports_days 留那么久。固定给 3 天余量（够跨天重试、时区边界），由 harvest.py 的
+# purge_expired() 按这个天数清理，不做成用户可配置项。
+WORK_RETENTION_DAYS = 3
 
 
 # --------------------------------------------------------------------------
 # 配置
 
+# API 域名统一在这里配置一处（v2：从测试期的裸 IP 切到正式域名，见 ARCHITECTURE.md
+# “为什么域名只在这里出现一次”）。真正请求用的地址都从它派生，不要在别处拼字符串。
+API_HOST = "https://api.lingyilabs.com"
+TEMP_TOKEN_URL = f"{API_HOST}/api/data/articles/temporary-token"
+SHARE_HTML_URL = f"{API_HOST}/api/data/articles/share/html"
+SEARCH_URL = f"{API_HOST}/api/data/articles/search"
+
 DEFAULT_CONFIG: dict[str, Any] = {
     "version": 1,
     "_warning": "此文件包含访问凭证，请勿提交到公开仓库",
     "api": {
-        "base_url": "http://8.130.106.19:8200/api/data/articles",
+        "base_url": f"{API_HOST}/api/data/articles",
         "token": "",
+        # v2 新增：临时 token 由 setup.py 自动申请，type 恒为 "temporary"；
+        # 用户手动通过 set-token 写入的正式 token，type 会被置为 "manual"。
+        "token_type": "",
+        "expires_at": "",
     },
     "language": "zh",
     "monitors": [],
+    # v2：不再有可插拔的 outputs 数组（email / webhook 扩展层已移除，见 ARCHITECTURE.md），
+    # 产出路径固定为 html（render.py 无条件生成，不再生成 Markdown）+ 按需触发的 HTML 分享（share.py）。
     "retention": {"articles_days": 30, "reports_days": 30},
-    "outputs": ["html", "md"],
     "report_time": "08:00",
     "min_score": 6,
 }
@@ -80,9 +95,12 @@ def load_config() -> dict[str, Any]:
         return json.loads(json.dumps(DEFAULT_CONFIG))
     with open(path, "r", encoding="utf-8") as f:
         cfg = json.load(f)
-    # 兼容旧配置缺字段的情况
+    # 兼容旧配置缺字段的情况（包括嵌套在 api 下的 token_type / expires_at，
+    # 老版本 config.json 里没有这两个字段，顶层 setdefault 覆盖不到嵌套 dict）
     for key, value in DEFAULT_CONFIG.items():
         cfg.setdefault(key, value)
+    for key, value in DEFAULT_CONFIG["api"].items():
+        cfg["api"].setdefault(key, value)
     return cfg
 
 
@@ -99,6 +117,32 @@ def get_token(cfg: dict[str, Any]) -> str:
 
 
 TOKEN_HELP_EMAIL = "gems9232@foxmail.com"
+
+
+def token_expiry_note(cfg: dict[str, Any]) -> str:
+    """v2 新增：临时 token 默认 30 天过期。距过期 ≤5 天或已过期时返回一句人话提示，
+    正常情况下返回空字符串（调用方据此决定要不要在输出里附带这句话）。
+
+    到期后的路径是明确的 SOP——邮件联系 TOKEN_HELP_EMAIL 申请延长，而不是脚本自己
+    再调一次 temporary-token 接口——那个接口是给全新用户免排队试用的，不是续期入口。
+    """
+    expires_at = (cfg.get("api", {}) or {}).get("expires_at", "")
+    if not expires_at:
+        return ""
+    try:
+        from datetime import datetime
+
+        expiry = datetime.fromisoformat(expires_at)
+        now = datetime.now(expiry.tzinfo) if expiry.tzinfo else datetime.now()
+        days_left = (expiry - now).total_seconds() / 86400
+    except (ValueError, TypeError):
+        return ""
+    day_str = expires_at[:10]
+    if days_left < 0:
+        return f"Token 已于 {day_str} 过期，如需继续使用请邮件联系 {TOKEN_HELP_EMAIL} 申请延长有效期。"
+    if days_left <= 5:
+        return f"Token 将于 {day_str} 过期（还剩约 {days_left:.1f} 天），如需继续使用可以提前邮件联系 {TOKEN_HELP_EMAIL} 申请延长。"
+    return ""
 
 
 # --------------------------------------------------------------------------

@@ -222,3 +222,10 @@ __marimo__/
 
 # IDEA
 .idea
+
+# monitor-anything runtime data: contains the API token (data/config.json) and
+# full-text scraped content (data/monitor.db) — must never be committed.
+# README.md / ARCHITECTURE.md both document this directory as gitignored;
+# it previously wasn't actually covered by any rule below.
+skills/intelligence/monitor-anything/data/*
+!skills/intelligence/monitor-anything/data/.gitkeep

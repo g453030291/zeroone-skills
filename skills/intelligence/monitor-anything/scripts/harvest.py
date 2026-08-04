@@ -3,8 +3,10 @@
 
 用法：
     python harvest.py run              # 抓取最近 24 小时增量，清洗后写入 monitor.db
-    python harvest.py run --sample     # 用 sample/articles.json 代替真实接口（用于演示/setup 首跑）
     python harvest.py status           # 查看最近若干次 runs 记录（供失败告警判断用）
+
+v2：不再有 sample 数据这条路径——token 首次使用会自动申请（见 setup.py），不再需要
+一份合成数据来垫等待时间，`run` 现在只有真实拉取这一种行为。
 
 设计取舍见 ARCHITECTURE.md：为什么用 fetched_at 而非 publish_time 做过期依据、
 为什么采集与报告解耦成两个脚本。
@@ -42,7 +44,8 @@ def fetch_articles(base_url: str, token: str, timeout: int = 30, retries: int = 
         except urllib.error.HTTPError as e:
             if e.code == 401:
                 raise FetchError(
-                    f"Token 校验失败（401）。请邮件联系 {common.TOKEN_HELP_EMAIL} 重新获取。"
+                    f"Token 校验失败（401），可能已过期。如需继续使用请邮件联系 "
+                    f"{common.TOKEN_HELP_EMAIL} 申请延长有效期。"
                 ) from e
             last_err = e
         except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as e:
@@ -50,14 +53,6 @@ def fetch_articles(base_url: str, token: str, timeout: int = 30, retries: int = 
         if attempt < retries - 1:
             time.sleep(2 ** (attempt + 1))
     raise FetchError(f"连续 {retries} 次请求失败：{last_err}")
-
-
-def load_sample_articles() -> list[dict[str, Any]]:
-    path = common.sample_articles_path()
-    if not path.exists():
-        raise FetchError(f"示例数据不存在：{path}")
-    data = common.read_json(path)
-    return data.get("data", data) if isinstance(data, dict) else data
 
 
 def clean_and_store(conn, raw_articles: list[dict[str, Any]]) -> dict[str, int]:
@@ -133,7 +128,15 @@ def clean_and_store(conn, raw_articles: list[dict[str, Any]]) -> dict[str, int]:
 
 
 def purge_expired(conn, articles_days: int, reports_days: int) -> None:
-    """§5.3 过期清理：按 fetched_at（而非 publish_time）清理，避免公众号旧文重推被误删。"""
+    """§5.3 过期清理：按 fetched_at（而非 publish_time）清理，避免公众号旧文重推被误删。
+
+    v2 补了一个此前遗漏的清理点：`data/.work/` 里的中间产物（candidates/filter-result/
+    cluster-result/summary-result/state-<date> 等 Agent 与脚本交换用的临时 JSON）此前
+    从未被清理过，会无限堆积。这些文件只在当天报告生成过程里有用，跟 `articles_days` /
+    `reports_days` 没有直接关系，所以给了一个固定的短保留期（`common.WORK_RETENTION_DAYS`，
+    默认 3 天，够跨天重试/时区边界，不做成用户可配置项——没有必要为了几十 KB 的临时文件
+    增加一个配置维度）。
+    """
     cur = conn.cursor()
     cur.execute(
         "DELETE FROM articles WHERE fetched_at < datetime('now', ?)",
@@ -152,13 +155,15 @@ def purge_expired(conn, articles_days: int, reports_days: int) -> None:
             continue
         if f.stat().st_mtime < cutoff:
             f.unlink(missing_ok=True)
-    for f in reports.glob("*.md"):
-        if f.stat().st_mtime < cutoff:
-            f.unlink(missing_ok=True)
     for f in reports.glob("*.html"):
         if f.name == "dashboard.html":
             continue
         if f.stat().st_mtime < cutoff:
+            f.unlink(missing_ok=True)
+
+    work_cutoff = time.time() - common.WORK_RETENTION_DAYS * 86400
+    for f in common.work_dir().glob("*.json"):
+        if f.stat().st_mtime < work_cutoff:
             f.unlink(missing_ok=True)
 
 
@@ -178,18 +183,15 @@ def cmd_run(args: argparse.Namespace) -> int:
 
     t0 = time.time()
     try:
-        if args.sample:
-            raw = load_sample_articles()
-        else:
-            token = common.get_token(cfg)
-            if not token:
-                print(
-                    f"未配置 API token。请先发邮件至 {common.TOKEN_HELP_EMAIL} 索取，"
-                    "或使用 --sample 用示例数据体验完整流程。",
-                    file=sys.stderr,
-                )
-                return 1
-            raw = fetch_articles(cfg["api"]["base_url"], token)
+        token = common.get_token(cfg)
+        if not token:
+            print(
+                "未配置 API token。请先跑一遍 `python3 scripts/setup.py check-token`"
+                "（会自动申请一个 30 天试用 token，不需要发邮件）。",
+                file=sys.stderr,
+            )
+            return 1
+        raw = fetch_articles(cfg["api"]["base_url"], token)
     except FetchError as e:
         record_run(conn, {"fetched": 0, "new": 0}, "error", str(e))
         print(f"采集失败：{e}", file=sys.stderr)
@@ -247,7 +249,6 @@ def main() -> int:
     sub = parser.add_subparsers(dest="cmd", required=True)
 
     p_run = sub.add_parser("run", help="抓取并清洗最近 24 小时增量")
-    p_run.add_argument("--sample", action="store_true", help="使用 sample/articles.json 而非真实接口")
     p_run.set_defaults(func=cmd_run)
 
     p_status = sub.add_parser("status", help="查看最近的采集记录")

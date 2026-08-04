@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>monitor-anything · 日报</title>
+<title>Monitor Anything · 日报</title>
 <style>
   :root{
-    --bg-a:#0A0E1A; --bg-b:#111827;
-    --card:#151B2B; --card-border:rgba(255,255,255,0.06);
+    --bg-a:#080B14; --bg-b:#101827;
+    --card:#141A29; --card-2:#0F1420; --card-border:rgba(255,255,255,.07);
     --p1:#3B82F6; --p2:#8B5CF6; --accent:#06B6D4;
     --good:#10B981; --warn:#F59E0B; --bad:#EF4444;
     --text-main:#E5E7EB; --text-sub:#9CA3AF; --text-weak:#6B7280;
@@ -17,218 +17,204 @@
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:linear-gradient(160deg,var(--bg-a),var(--bg-b)) fixed;
+    background:linear-gradient(165deg,var(--bg-a),var(--bg-b)) fixed;
     color:var(--text-main);font-family:var(--sans);line-height:1.6;
-    min-height:100vh;padding:28px 16px 64px;
+    min-height:100vh;-webkit-font-smoothing:antialiased;
+    padding:clamp(18px,3.5vw,36px) clamp(14px,4vw,24px) 64px;
   }
+  ::selection{background:rgba(6,182,212,.35);}
   a{color:var(--accent);text-decoration:none;}
-  a:hover{text-decoration:underline;}
-  .wrap{max-width:960px;margin:0 auto;}
+  a:hover{color:#A5F3FC;text-decoration:underline;}
+  details>summary{list-style:none;cursor:pointer;}
+  details>summary::-webkit-details-marker{display:none;}
+  .wrap{max-width:960px;margin:0 auto;position:relative;}
 
-  .eyebrow{
-    font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-    color:var(--text-weak);display:flex;align-items:center;gap:8px;margin-bottom:10px;
-  }
-  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;}
-  .section{margin-bottom:32px;}
-  .section-title{font-size:16px;font-weight:600;margin:0 0 14px;color:var(--text-main);}
+  @keyframes maFlowX{0%{left:-8%;opacity:0;}12%{opacity:1;}88%{opacity:1;}100%{left:104%;opacity:0;}}
+  @keyframes maFlowY{0%{top:-10%;opacity:0;}15%{opacity:1;}85%{opacity:1;}100%{top:104%;opacity:0;}}
 
-  /* header */
-  header.top{margin-bottom:20px;}
-  .top-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;}
-  .date-switch{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-sub);font-family:var(--mono);}
-  .date-switch select{
-    background:var(--card);color:var(--text-main);border:1px solid var(--card-border);
-    border-radius:6px;padding:5px 8px;font-family:var(--mono);font-size:12px;
-  }
-  .headline{font-size:30px;font-weight:700;line-height:1.35;margin:0 0 10px;letter-spacing:-.01em;}
-  .headline .grad{
-    background:linear-gradient(90deg,var(--p1),var(--p2),var(--accent));
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-  }
-  .sub-desc{color:var(--text-sub);font-size:14px;max-width:680px;margin:0 0 16px;}
-  .meta-pills{display:flex;flex-wrap:wrap;gap:8px;}
-  .pill{
-    font-family:var(--mono);font-size:11.5px;color:var(--text-sub);
-    background:rgba(255,255,255,.03);border:1px solid var(--card-border);
-    border-radius:20px;padding:5px 12px;
-  }
-  .pill.sample{color:#C4B5FD;border-color:rgba(139,92,246,.4);background:rgba(139,92,246,.08);}
-  .alert-banner{
-    background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);
-    border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:14px;color:#FCA5A5;
-  }
+  /* ---------- 悬浮分享按钮 ---------- */
+  .share-rail{position:fixed;top:50%;left:50%;transform:translate(calc(min(50vw - 62px, 494px)), -50%);z-index:40;display:flex;flex-direction:column;align-items:flex-start;gap:8px;}
+  .share-btn{display:flex;flex-direction:column;align-items:center;gap:9px;background:linear-gradient(180deg,var(--p1),var(--p2));border:1px solid rgba(255,255,255,.16);color:#fff;border-radius:14px;padding:18px 11px 20px;font-family:var(--sans);cursor:pointer;box-shadow:0 8px 26px rgba(59,130,246,.32);}
+  .share-btn:hover{filter:brightness(1.14);}
+  .share-btn .label{writing-mode:vertical-rl;font-size:13px;font-weight:600;letter-spacing:.12em;line-height:1;}
+  .share-toast{background:var(--card);border:1px solid var(--card-border);border-radius:9px;padding:7px 11px;font-size:11.5px;color:var(--text-sub);white-space:normal;max-width:188px;line-height:1.55;text-align:right;align-self:flex-end;}
+  @media (max-width:900px){.share-rail{display:none;}}
 
-  .card{
-    background:var(--card);border:1px solid var(--card-border);border-radius:14px;
-    padding:20px;
-  }
+  /* ---------- 品牌头 ---------- */
+  .brand-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;margin-bottom:clamp(16px,3vw,22px);}
+  .brand-left{display:flex;align-items:center;gap:11px;min-width:0;}
+  .brand-mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--p1),var(--p2));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 16px rgba(59,130,246,.35);}
+  .brand-mark span{width:10px;height:10px;border-radius:50%;background:#fff;}
+  .brand-name{font-family:var(--mono);font-size:13.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;line-height:1.25;}
+  .brand-tag{font-size:11.5px;color:var(--text-weak);line-height:1.35;}
+  .date-switch{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;color:var(--text-weak);}
+  .date-switch select{background:var(--card);color:var(--text-main);border:1px solid var(--card-border);border-radius:6px;padding:5px 8px;font-family:var(--mono);font-size:11.5px;}
 
-  /* OVERVIEW 资产卡片 */
-  .asset-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
-  .asset-cell{text-align:center;padding:14px 4px;border-radius:10px;background:rgba(255,255,255,.02);}
-  .asset-cell .n{
-    font-family:var(--mono);font-size:26px;font-weight:700;
-    background:linear-gradient(90deg,var(--p1),var(--p2));
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-  }
-  .asset-cell .l{font-size:11.5px;color:var(--text-weak);margin-top:5px;}
-  @media (max-width:680px){.asset-grid{grid-template-columns:repeat(2,1fr);}}
+  /* ---------- monitor 切换 ---------- */
+  .monitor-switch{margin-bottom:14px;}
+  .monitor-switch-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-weak);margin-bottom:9px;}
+  .monitor-tabs{display:flex;flex-wrap:wrap;gap:8px;}
+  .monitor-tab{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.02);border:1px solid var(--card-border);color:var(--text-sub);border-radius:11px;padding:10px 15px;font-size:13.5px;font-family:var(--sans);cursor:pointer;text-align:left;}
+  .monitor-tab .dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.18);flex-shrink:0;}
+  .monitor-tab .name{font-weight:600;}
+  .monitor-tab .kind{font-family:var(--mono);font-size:11px;color:var(--text-weak);white-space:nowrap;}
+  .monitor-tab.active{background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.45);color:#DBEAFE;}
+  .monitor-tab.active .dot{background:#3B82F6;}
 
-  /* WORKFLOW 流动漏斗 —— 每个节点自带一段渐变短轨道 + 一个流动光点，光点用
-     animation-delay 逐节点错开（--d 变量），视觉上读作一条连续从左流到右的动效，
-     而不是一条整体的静态线上叠一个跑动的点。 */
-  .workflow-track{position:relative;display:flex;gap:0;}
-  .wf-node{flex:1;min-width:0;padding:0 8px;position:relative;}
-  /* 等宽节点时，相邻两个「①②③」数字中心的间距正好是一个节点的宽度——所以轨道和
-     光点都要从 -50%（上一个节点的中心）跑到 +50%（当前节点的中心），而不是只到
-     当前节点的左边界，否则节点越宽，线和数字对不齐的问题就越明显。垂直位置对齐
-     到 .idx 那一行的文字中线。 */
-  .wf-node + .wf-node::before{
-    content:"";position:absolute;left:-50%;top:6px;width:6px;height:6px;margin:-3px 0 0 -3px;
-    border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);
-    animation:wf-node-flow 2.6s linear infinite;animation-delay:var(--d,0s);
-  }
-  .wf-node .wf-track{
-    position:absolute;left:-50%;top:6px;width:100%;height:1px;margin-top:-.5px;
-    background:linear-gradient(90deg,rgba(255,255,255,.05),var(--accent) 50%,rgba(255,255,255,.05));
-    opacity:.55;
-  }
-  @keyframes wf-node-flow{
-    0%{left:-50%;opacity:0;}
-    12%{opacity:1;}
-    88%{opacity:1;}
-    100%{left:50%;opacity:0;}
-  }
-  .wf-node .idx{font-family:var(--mono);font-size:10.5px;color:var(--text-weak);text-align:center;margin-bottom:2px;line-height:1.2;}
-  .wf-node .name{font-size:12.5px;color:var(--text-sub);text-align:center;margin-bottom:6px;}
-  .wf-node .val{font-family:var(--mono);font-size:22px;font-weight:700;text-align:center;color:var(--text-main);}
-  .wf-node .desc{font-size:10.5px;color:var(--text-weak);text-align:center;min-height:26px;margin:4px 0 8px;}
-  .wf-bar-track{background:rgba(255,255,255,.05);border-radius:4px;height:5px;overflow:hidden;}
-  .wf-bar-fill{height:100%;width:0;border-radius:4px;transition:width 1s ease;}
-  .wf-bar-fill.good{background:var(--good);}
-  .wf-bar-fill.warn{background:var(--warn);}
-  .wf-bar-fill.bad{background:var(--bad);}
-  .wf-pct{font-family:var(--mono);font-size:10px;text-align:center;margin-top:4px;color:var(--text-weak);}
-  @media (max-width:760px){
-    .workflow-track{overflow-x:auto;padding-bottom:4px;}
-    .wf-node{flex:0 0 132px;}
-  }
+  /* ---------- 告警 ---------- */
+  .alert-banner{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);border-radius:10px;padding:12px 16px;margin-bottom:14px;font-size:13.5px;color:#FCA5A5;}
 
-  /* PROFILES */
-  .profile-pill{
-    display:inline-block;background:rgba(59,130,246,.12);color:#93C5FD;border:1px solid rgba(59,130,246,.3);
-    border-radius:6px;padding:3px 10px;font-size:12.5px;margin-bottom:10px;
-  }
-  .profile-desc{color:var(--text-sub);font-size:13.5px;}
+  /* ---------- FOCUS 头部 ---------- */
+  .focus-header{background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:clamp(18px,3.2vw,26px);margin-bottom:14px;}
+  .focus-kind-row{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:13px;}
+  .focus-kind{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;border-radius:999px;padding:4px 12px;}
+  .focus-kind .dot{width:6px;height:6px;border-radius:50%;}
+  .focus-kind-note{font-size:11.5px;color:var(--text-weak);}
+  .focus-title{font-size:clamp(21px,4.2vw,32px);font-weight:700;line-height:1.32;margin:0 0 12px;letter-spacing:-.015em;}
+  .focus-title .claim{background:linear-gradient(90deg,var(--p1),var(--p2),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .focus-overview{color:var(--text-sub);font-size:clamp(13.5px,1.6vw,15px);max-width:680px;margin:0 0 16px;}
+  .focus-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px;}
+  .focus-tag{font-size:12px;color:#93C5FD;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.28);border-radius:999px;padding:4px 11px;}
+  .focus-setup{display:flex;gap:10px;border-top:1px dashed var(--card-border);padding-top:14px;}
+  .focus-setup .quote{font-size:13px;flex-shrink:0;}
+  .focus-setup .text{font-size:12.5px;color:var(--text-weak);line-height:1.6;}
 
-  /* OUTPUT 概览 + 看点 */
-  .overview-text{color:var(--text-sub);font-size:14px;margin-bottom:10px;}
-  .highlight-box{
-    background:rgba(6,182,212,.06);border-left:3px solid var(--accent);border-radius:6px;
-    padding:12px 14px;margin:12px 0;
-  }
-  .highlight-box .htitle{font-size:12.5px;color:var(--accent);margin-bottom:6px;font-weight:600;}
-  .highlight-box ol{margin:0;padding-left:18px;font-size:13px;color:var(--text-main);}
-  .highlight-box li{margin-bottom:4px;}
+  /* ---------- WORKFLOW ---------- */
+  .workflow{background:var(--card-2);border:1px solid var(--card-border);border-radius:16px;padding:clamp(16px,2.8vw,24px);margin-bottom:22px;overflow:hidden;}
+  .workflow-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:16px;}
+  .workflow-eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-weak);}
+  .workflow-title{font-size:13.5px;font-weight:600;}
+  .workflow-note{font-size:11.5px;color:var(--text-weak);font-family:var(--mono);margin-left:auto;}
 
-  /* ③ 筛选实例 */
-  .example{padding:10px 12px;border-radius:8px;background:rgba(255,255,255,.02);margin-bottom:8px;font-size:13px;}
-  .example.keep{border-left:3px solid var(--good);}
-  .example.exclude{border-left:3px solid #6B7280;}
-  .example .mark{font-family:var(--mono);margin-right:6px;}
-  .example.keep .mark{color:var(--good);}
-  .example.exclude .mark{color:#6B7280;}
-  .example .reason{color:var(--text-weak);}
+  .source-fanin{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(50%,132px),1fr));gap:9px;margin-bottom:6px;}
+  .source-card{background:rgba(255,255,255,.025);border:1px solid var(--card-border);border-radius:10px;padding:10px 12px;position:relative;overflow:hidden;}
+  .source-top{display:flex;align-items:baseline;justify-content:space-between;gap:6px;}
+  .source-label{font-size:12px;color:var(--text-sub);}
+  .source-count{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--text-main);}
+  .source-track{margin-top:8px;height:2px;border-radius:2px;background:rgba(255,255,255,.06);position:relative;overflow:hidden;}
+  .source-fill{position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,182,212,.15),var(--accent));border-radius:2px;}
+  .source-dot{position:absolute;top:-1px;width:16px;height:4px;border-radius:2px;background:#A5F3FC;box-shadow:0 0 8px #22D3EE;animation:maFlowX linear infinite;}
 
-  /* 聚类气泡 */
-  .bubble-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
-  .bubble{
-    background:rgba(255,255,255,.02);border:1px solid var(--card-border);border-radius:12px;
-    padding:14px;font-size:13px;
-  }
-  .bubble.cross{border-color:rgba(6,182,212,.5);box-shadow:0 0 18px rgba(6,182,212,.12);}
-  .bubble-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px;}
-  .bubble .headline2{font-weight:600;color:var(--text-main);}
-  .copy-btn{
-    flex-shrink:0;font-family:var(--mono);font-size:11px;color:var(--text-sub);
-    background:rgba(255,255,255,.03);border:1px solid var(--card-border);border-radius:6px;
-    padding:3px 9px;cursor:pointer;white-space:nowrap;
-  }
-  .copy-btn:hover{border-color:var(--card-border);background:rgba(255,255,255,.07);color:var(--text-main);}
-  .copy-btn.copied{color:var(--good);border-color:rgba(16,185,129,.4);}
-  .head-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
-  .bubble .meta{color:var(--text-weak);font-size:12px;margin-bottom:8px;}
-  .bubble .meta .tag{
-    display:inline-block;background:rgba(6,182,212,.15);color:var(--accent);
-    border-radius:4px;padding:1px 6px;margin-right:6px;font-size:11px;
-  }
-  details.reasoning{margin-top:8px;}
-  details.reasoning summary{cursor:pointer;color:var(--text-weak);font-size:12px;list-style:none;user-select:none;}
-  details.reasoning summary::-webkit-details-marker{display:none;}
-  details.reasoning summary::before{content:"▸ ";}
-  details.reasoning[open] summary::before{content:"▾ ";}
-  details.reasoning .body{margin-top:6px;color:var(--text-sub);font-size:12.5px;line-height:1.6;}
-  .src-list{margin-top:8px;font-size:12px;color:var(--text-weak);}
-  .src-list a{display:block;color:var(--text-sub);margin:2px 0;}
+  .fan-channel{position:relative;height:26px;margin-bottom:4px;}
+  .fan-line{position:absolute;left:0;right:0;top:12px;height:1px;background:linear-gradient(90deg,transparent,rgba(6,182,212,.35),transparent);}
+  .fan-drop{position:absolute;width:1px;height:26px;background:linear-gradient(180deg,rgba(6,182,212,.28),rgba(6,182,212,.02));overflow:hidden;}
+  .fan-dot{position:absolute;left:-1px;width:3px;height:3px;border-radius:50%;background:#67E8F9;box-shadow:0 0 6px #22D3EE;animation:maFlowY linear infinite;}
 
-  /* 精选卡片 */
-  .monitor-section{margin-bottom:28px;}
-  .monitor-section h3{font-size:16px;margin:0 0 4px;}
-  .selected-card{
-    border:1px solid var(--card-border);border-radius:12px;padding:16px;margin-bottom:14px;
-    background:rgba(255,255,255,.015);
-  }
-  .selected-card .head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
-  .selected-card .headline2{font-size:15px;font-weight:600;}
-  .score-badge{
-    font-family:var(--mono);font-size:12px;flex-shrink:0;padding:2px 8px;border-radius:12px;
-    background:rgba(139,92,246,.15);color:#C4B5FD;white-space:nowrap;
-  }
-  .selected-card .summary{color:var(--text-sub);font-size:13.5px;margin:8px 0;}
-  .selected-card .why{font-size:13px;color:var(--text-main);background:rgba(6,182,212,.06);
-    border-left:3px solid var(--accent);padding:6px 10px;border-radius:4px;margin-bottom:8px;}
-  .selected-card .links{font-size:12.5px;}
-  .selected-card .links a{margin-right:10px;color:var(--text-sub);}
+  .pipeline{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,118px),1fr));gap:2px;}
+  .pipeline-node{padding:14px 11px 16px;position:relative;min-width:0;}
+  .pipeline-idx{font-family:var(--mono);font-size:10.5px;color:var(--text-weak);letter-spacing:.12em;margin-bottom:8px;}
+  .pipeline-label-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .pipeline-label{font-size:13px;font-weight:600;white-space:nowrap;}
+  .pipeline-flow-track{flex:1;min-width:14px;height:1px;background:rgba(255,255,255,.09);position:relative;overflow:hidden;}
+  .pipeline-flow-dot{position:absolute;top:-1.5px;width:4px;height:4px;border-radius:50%;background:#67E8F9;box-shadow:0 0 7px #22D3EE;animation:maFlowX linear infinite;}
+  .pipeline-value{font-family:var(--mono);font-size:clamp(24px,3.4vw,32px);font-weight:700;line-height:1;}
+  .pipeline-note{font-size:11px;color:var(--text-weak);margin-top:8px;min-height:30px;}
+  .pipeline-retain{font-family:var(--mono);font-size:11px;margin-bottom:7px;}
+  .pipeline-bar-track{height:3px;border-radius:2px;background:rgba(255,255,255,.06);overflow:hidden;}
+  .pipeline-bar-fill{height:100%;width:0;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--p2));transition:width 1s ease;}
 
-  /* 线索区（编号清单） */
-  .lead-row{display:flex;gap:10px;padding:9px 0;border-bottom:1px dashed var(--card-border);font-size:13px;}
+  /* ---------- 今日结论（决策型，预留） ---------- */
+  .advice-section{margin-bottom:32px;}
+  .section-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin-bottom:14px;}
+  .section-title{font-size:clamp(16px,2.4vw,19px);font-weight:600;margin:0;}
+  .section-sub{font-size:12.5px;color:var(--text-weak);}
+  .advice-list{display:flex;flex-direction:column;gap:12px;}
+  .advice-card{background:var(--card);border:1px solid var(--card-border);border-left:3px solid var(--accent);border-radius:14px;padding:clamp(16px,2.6vw,22px);}
+  .advice-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px;}
+  .advice-action{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;border-radius:5px;padding:3px 8px;}
+  .advice-meta{font-size:11.5px;color:var(--text-weak);font-family:var(--mono);}
+  .advice-title{font-size:clamp(15px,2vw,17.5px);font-weight:600;line-height:1.45;margin-bottom:9px;}
+  .advice-rationale{color:var(--text-sub);font-size:13.5px;margin:0 0 13px;}
+  .advice-signals-wrap{border-top:1px dashed var(--card-border);padding-top:12px;}
+  .advice-signals-label{font-size:10.5px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-weak);margin-bottom:7px;}
+  .advice-signal{display:flex;gap:7px;font-size:12.5px;color:var(--text-sub);margin-bottom:5px;}
+
+  .dynamics-divider{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+  .dynamics-divider .line{flex:1;height:1px;background:var(--card-border);}
+  .dynamics-divider .label{font-size:11.5px;color:var(--text-weak);font-family:var(--mono);letter-spacing:.1em;white-space:nowrap;}
+
+  /* ---------- 今日头条 / 更多动态 ---------- */
+  .story-section{margin-bottom:30px;}
+  .story-card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:clamp(16px,2.6vw,22px);margin-bottom:12px;}
+  .story-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:9px;}
+  .story-headline{font-size:clamp(15px,2vw,17.5px);font-weight:600;line-height:1.42;}
+  .story-head-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+  .story-score{font-family:var(--mono);font-size:11.5px;padding:3px 9px;border-radius:999px;background:rgba(139,92,246,.15);color:#C4B5FD;white-space:nowrap;}
+  .story-summary{color:var(--text-sub);font-size:13.5px;margin:0 0 10px;}
+  .story-why{font-size:13px;color:var(--text-main);background:rgba(6,182,212,.06);border-left:3px solid var(--accent);padding:8px 11px;border-radius:0 6px 6px 0;margin-bottom:12px;}
+  .story-why .tag{color:var(--accent);font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;}
+  .story-sources{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+  .story-sources a{font-size:12px;color:var(--text-sub);background:rgba(255,255,255,.03);border:1px solid var(--card-border);border-radius:6px;padding:3px 9px;}
+  .story-meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;}
+  .story-meta{color:var(--text-weak);font-size:11.5px;font-family:var(--mono);white-space:nowrap;flex-shrink:0;}
+  .story-reasoning{flex:1;min-width:140px;}
+  .story-reasoning summary{color:var(--text-weak);font-size:12px;}
+  .story-reasoning .body{margin-top:7px;color:var(--text-sub);font-size:12.5px;line-height:1.6;}
+
+  .notable-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,258px),1fr));gap:10px;}
+  .notable-card{background:rgba(255,255,255,.02);border:1px solid var(--card-border);border-radius:11px;padding:13px 15px;}
+  .notable-top{display:flex;align-items:flex-start;justify-content:space-between;gap:7px;margin-bottom:5px;}
+  .notable-headline{font-size:13.5px;font-weight:600;line-height:1.42;}
+  .notable-score{font-family:var(--mono);font-size:10.5px;flex-shrink:0;color:var(--text-weak);}
+  .notable-meta{font-size:11.5px;color:var(--text-weak);margin-bottom:7px;}
+  .notable-card details summary{color:var(--accent);font-size:11.5px;}
+  .notable-card details .body{margin-top:7px;font-size:12.5px;color:var(--text-sub);}
+  .notable-card details .why{font-size:12px;color:var(--text-main);background:rgba(6,182,212,.06);border-left:2px solid var(--accent);padding:6px 9px;border-radius:0 4px 4px 0;margin:7px 0;}
+  .notable-more-toggle{margin-top:12px;cursor:pointer;color:var(--text-sub);font-size:12.5px;text-align:center;border:1px solid var(--card-border);border-radius:10px;padding:9px;}
+  .notable-more-body{margin-top:10px;}
+
+  /* ---------- 运行详情 ---------- */
+  .rundetails{margin-bottom:24px;}
+  .rundetails-summary{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;border:1px solid var(--card-border);border-radius:12px;padding:13px 16px;}
+  .rundetails-summary .t{font-size:14px;font-weight:600;}
+  .rundetails-summary .s{font-size:12px;color:var(--text-weak);}
+  .rundetails-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px;margin-top:12px;}
+  .rundetails-block{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:16px;grid-column:1/-1;}
+  .rundetails-label{font-size:12px;color:var(--text-weak);margin-bottom:8px;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;}
+  .rundetails-desc{color:var(--text-sub);font-size:13px;}
+
+  .filter-example{padding:8px 11px;border-radius:8px;background:rgba(255,255,255,.02);font-size:12.5px;border-left:3px solid #6B7280;margin-bottom:6px;}
+  .filter-example.keep{border-left-color:var(--good);}
+  .filter-example .mark{font-family:var(--mono);margin-right:6px;}
+  .filter-example.keep .mark{color:var(--good);}
+  .filter-example:not(.keep) .mark{color:#6B7280;}
+  .filter-example .reason{color:var(--text-weak);}
+
+  .leads-summary{font-size:12px;color:var(--text-weak);font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;}
+  .leads-body{margin-top:10px;max-height:420px;overflow-y:auto;}
+  .lead-row{display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--card-border);font-size:12.5px;}
   .lead-row:last-child{border-bottom:none;}
-  .lead-idx{font-family:var(--mono);color:var(--text-weak);flex-shrink:0;width:20px;}
-  .lead-body .t{color:var(--text-main);}
-  .lead-body .t a{color:var(--text-main);}
-  .lead-body .r{color:var(--text-weak);font-size:12px;margin-top:2px;}
-  .lc{color:var(--warn);font-size:11px;margin-left:6px;}
-
-  /* SOURCES 双栏 */
-  .sources-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-  @media (max-width:680px){.sources-grid{grid-template-columns:1fr;}}
-  .src-row{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:13px;}
-  .src-icon{width:22px;text-align:center;}
-  .src-name{width:96px;flex-shrink:0;color:var(--text-sub);}
-  .src-track{flex:1;background:rgba(255,255,255,.04);border-radius:5px;height:16px;overflow:hidden;}
-  .src-fill{height:100%;border-radius:5px;background:var(--accent);width:0;transition:width 1s ease;}
-  .src-count{width:44px;text-align:right;font-family:var(--mono);color:var(--text-sub);}
-  .run-row{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:12.5px;border-bottom:1px dashed var(--card-border);}
-  .run-row:last-child{border-bottom:none;}
-  .run-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-  .run-dot.ok{background:var(--good);}
-  .run-dot.error{background:var(--bad);}
-  .run-time{font-family:var(--mono);color:var(--text-sub);flex:1;}
-  .run-delta{font-family:var(--mono);color:var(--text-weak);}
-
-  /* 时间轴 & footer */
-  .timeline-wrap svg text{fill:var(--text-weak);font-size:10px;font-family:var(--mono);}
-  footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;
-    color:var(--text-weak);font-size:12px;margin-top:24px;font-family:var(--mono);}
-  footer a{color:var(--text-weak);}
+  .lead-idx{font-family:var(--mono);color:var(--text-weak);flex-shrink:0;width:26px;}
+  .lead-title a{color:var(--text-main);}
+  .lead-meta{color:var(--text-weak);font-size:11px;margin-top:2px;}
+  .lead-lc{color:var(--warn);}
 
   .empty-note{color:var(--text-weak);font-size:13px;padding:8px 0;}
 
+  /* ---------- 复制按钮 ---------- */
+  .copy-btn{flex-shrink:0;font-family:var(--mono);font-size:11px;color:var(--text-sub);background:rgba(255,255,255,.03);border:1px solid var(--card-border);border-radius:6px;padding:3px 9px;cursor:pointer;white-space:nowrap;}
+  .copy-btn:hover{background:rgba(255,255,255,.07);color:var(--text-main);}
+  .copy-btn.copied{color:var(--good);border-color:rgba(16,185,129,.4);}
+
+  footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;color:var(--text-weak);font-size:11.5px;font-family:var(--mono);border-top:1px solid var(--card-border);padding-top:16px;margin-top:8px;}
+  footer a{color:var(--text-weak);}
+
   @media (prefers-reduced-motion:reduce){
-    .wf-node + .wf-node::before{animation:none;opacity:.6;left:0;}
+    .source-dot,.fan-dot,.pipeline-flow-dot{animation:none !important;opacity:.6;}
   }
 </style>
+<!-- 百度统计（v2 新增）：这是这份 HTML 里唯一一处需要联网的外部脚本，专门用来统计 dashboard
+     被打开/转发后的访问情况，属于对「零 CDN、可离线」这条设计原则的刻意例外——分享出去的
+     报告本来就是要被别人在联网环境下打开查看的，加载失败也不影响页面其余内容渲染。 -->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?57f94ee79e3fcaf31d673986ffb45fac";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
 </head>
 <body>
 <div class="wrap" id="app"></div>
@@ -236,15 +222,35 @@
 <script>
 const REPORT_DATA = /*__REPORT_DATA_JSON__*/{};
 
+const STAGE_DEFS=[
+  ['①','采集','fetched',null,'接口拉取近24小时增量'],
+  ['②','清洗','after_dedup','fetched','按id/URL去重+规范化'],
+  ['③','筛选','after_llm_filter','after_dedup','关键词预过滤 + AI 语义复筛'],
+  ['④','聚类','clusters','after_llm_filter','归并跨源同事件报道'],
+  ['⑤','摘要','selected','clusters','打分+生成为什么相关'],
+  ['⑥','生成报告','selected','selected','渲染 HTML'],
+];
+
+const OUTPUT_KIND_STYLE = {
+  digest:   { color:'#67E8F9', tint:'rgba(6,182,212,.1)',  border:'rgba(6,182,212,.32)' },
+  decision: { color:'#C4B5FD', tint:'rgba(139,92,246,.12)', border:'rgba(139,92,246,.4)' },
+};
+
+// state：当前查看的日期 + 当前选中的 monitor（切换日期时尽量保留同一个 monitor id）；
+// state.mon 是当前渲染用到的完整 monitor 对象，分享按钮要用它拼分享文案。
+// state.shareUrl（v2 新增）：这一天的报告如果已经被上传过（scripts/share.py），
+// 这里会有一个真正能在浏览器打开的公开链接；没有的话就是空字符串，此时分享按钮
+// 只复制文案，不复制 location.href —— 本地文件的 file:// 路径对别人没有意义。
+const state = { date: REPORT_DATA.current_date, monitorId: null, mon: null, shareUrl: '' };
+
 function esc(s){
   if(s===undefined||s===null) return '';
   return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 function srcMeta(t){ return (REPORT_DATA.source_labels && REPORT_DATA.source_labels[t]) || {name:t,icon:'📡'}; }
 
-// 双通道复制：优先用 Clipboard API，在 file:// 直接双击打开的场景下这个 API 可能因为
-// 不安全上下文被拒绝，这时退回到 execCommand('copy') 这个老办法，它在本地文件场景下
-// 兼容性反而更好。
+// 双通道复制：优先用 Clipboard API，file:// 直接双击打开的场景下这个 API 可能因为
+// 不安全上下文被拒绝，这时退回到 execCommand('copy')。
 function copyText(btn){
   const text=btn.dataset.copy;
   const original=btn.textContent;
@@ -258,19 +264,96 @@ function copyText(btn){
 }
 function fallbackCopy(text,done,fail){
   const ta=document.createElement('textarea');
-  ta.value=text;
-  ta.style.position='fixed';
-  ta.style.opacity='0';
-  document.body.appendChild(ta);
-  ta.focus();
-  ta.select();
-  try{
-    document.execCommand('copy');
-    done();
-  }catch(e){
-    fail();
-  }
+  ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try{ document.execCommand('copy'); done(); }catch(e){ fail(); }
   document.body.removeChild(ta);
+}
+function copyButton(text){
+  return `<button type="button" class="copy-btn" data-copy="${esc(text)}" onclick="copyText(this)">复制</button>`;
+}
+function clusterCopyText(monitorName, date, c){
+  const lines=[`${c.headline}（相关度 ${c.score}/10）`];
+  if(c.summary){ lines.push('',c.summary); }
+  if(c.why_relevant){ lines.push('',`为什么相关：${c.why_relevant}`); }
+  if(c.articles && c.articles.length){
+    lines.push('','原文：');
+    c.articles.forEach(a=>{
+      const meta=srcMeta(a.source_type);
+      lines.push(`- ${a.title}（${a.feed_name||meta.name}）${a.url}`);
+    });
+  }
+  lines.push('',`来自 monitor-anything 日报 · ${monitorName} · ${date}`);
+  return lines.join('\n');
+}
+
+// 分享文案：「我正在关注：<monitor 名称>\n今日发现 N 个重要变化」。N 用跨源交叉验证的
+// 「今日头条」条数（decision 型 monitor 目前恒无 advice，用 advice 条数兜底，实际不会触发）。
+function insightCount(mon){
+  if(!mon) return 0;
+  if(mon.output_kind === 'decision') return (mon.advice||[]).length;
+  return (mon.clusters||[]).filter(c=>c.cross_source).length;
+}
+function shareText(mon){
+  const name = mon ? mon.name : 'Monitor Anything';
+  const count = insightCount(mon);
+  return `我正在关注：\n${name}\n今日发现 ${count} 个重要变化`;
+}
+
+// v3：这个按钮不会自己发网络请求去上传当前页面——dashboard.html 是会被转发出去的
+// 静态文件，把能通过鉴权的 token 写进它的 JS 里，等于把 token 一起发给收到文件的
+// 任何人。真正的上传由 scripts/share.py 完成，v3 起改成每天渲染完就自动触发一次
+// （不用等用户开口要分享），拿到的公开链接会被写回 reports/<date>.json 的 share_url
+// 并重新渲染进这份 HTML——所以正常情况下打开这份 HTML 时 state.shareUrl 已经有值，
+// 下面 if(publicUrl) 才是最常见的路径；没有值的分支现在代表"今天自动上传失败了"这个
+// 边界情况，不是"功能还没触发"（详见 ARCHITECTURE.md §20）。
+function shareUrl(){
+  const mon = state.mon;
+  const text = shareText(mon);
+  const publicUrl = state.shareUrl || '';
+  const rail = document.getElementById('shareRail');
+
+  if(navigator.share && publicUrl){
+    navigator.share({ title: mon ? mon.name : 'Monitor Anything', text, url: publicUrl }).catch(()=>{});
+    return;
+  }
+
+  const done = (label, toastText)=>{
+    const btn = rail.querySelector('.share-btn .label');
+    if(btn) btn.textContent = label;
+    let toast = rail.querySelector('.share-toast');
+    if(!toast){
+      toast = document.createElement('div');
+      toast.className = 'share-toast';
+      rail.appendChild(toast);
+    }
+    toast.textContent = toastText;
+    setTimeout(()=>{
+      if(btn) btn.textContent = '分享今日洞察';
+      if(toast) toast.remove();
+    }, 2400);
+  };
+
+  if(publicUrl){
+    const payload = `${text}\n\n${publicUrl}`;
+    const finish = ()=>done('已复制链接', '链接已复制，发给谁都能看');
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(payload).then(finish).catch(finish);
+    } else {
+      finish();
+    }
+  } else {
+    // 没有公开链接：v3 起这只会在当天的自动上传失败时出现（网络问题/token 过期等），
+    // 不是常规路径。本地文件的 file:// 路径对别人没有意义，先复制文案兜底，并提示这是
+    // 一次失败后的重试，不是在申请一个还没做的功能。文案要短——toast 贴着屏幕右边缘，
+    // 即使现在允许换行、有 max-width 兜底，太长的句子读起来也吃力。
+    const finish = ()=>done('已复制文案', '今天的链接生成失败了，跟 Claude 说"重新生成分享链接"再试一次');
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(finish).catch(finish);
+    } else {
+      finish();
+    }
+  }
 }
 
 function animateNumber(el,target){
@@ -284,26 +367,53 @@ function animateNumber(el,target){
   requestAnimationFrame(step);
 }
 
-function buildHeader(date){
-  const dates=REPORT_DATA.dates;
-  const opts=dates.map(d=>`<option value="${d}" ${d===date?'selected':''}>${d}</option>`).join('');
-  const report=REPORT_DATA.reports[date]||{};
-  const monitorCount=(report.monitors||[]).length;
-  const pills=[`生成于 ${esc(report.generated_at||'')}`, `${monitorCount} 个关注点`];
-  if(REPORT_DATA.is_sample) pills.push('示例数据');
-  return `
-    <header class="top">
-      <div class="top-bar">
-        <div class="eyebrow"><span class="dot"></span>MONITOR-ANYTHING · INTELLIGENCE PIPELINE</div>
-        <div class="date-switch">
-          <span>查看日期</span>
-          <select id="dateSelect">${opts}</select>
-        </div>
+// ---------------------------------------------------------------------
+// 各区块构建函数
+
+function buildShareRail(){
+  return `<div class="share-rail" id="shareRail">
+    <button type="button" class="share-btn" onclick="shareUrl()" title="一键分享给多人">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle>
+        <line x1="8.6" y1="10.5" x2="15.4" y2="6.5"></line><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line>
+      </svg>
+      <span class="label">分享今日洞察</span>
+    </button>
+  </div>`;
+}
+
+function buildBrand(date){
+  const dates = REPORT_DATA.dates || [date];
+  const opts = dates.map(d=>`<option value="${d}" ${d===date?'selected':''}>${d}</option>`).join('');
+  return `<div class="brand-row">
+    <div class="brand-left">
+      <div class="brand-mark"><span></span></div>
+      <div>
+        <div class="brand-name">Monitor Anything</div>
+        <div class="brand-tag">Understand what matters, not just what happens.</div>
       </div>
-      <h1 class="headline">海量信源涌进来，<span class="grad">一份看得懂的判断</span>送出去</h1>
-      <p class="sub-desc">同一池原始数据，按你的关注方向依次筛选、聚类、成稿。这个页面是流水线跑完一轮后的真实状态快照，所有数字直接来自本地数据库。</p>
-      <div class="meta-pills">${pills.map(p=>`<span class="pill ${p==='示例数据'?'sample':''}">${p}</span>`).join('')}</div>
-    </header>`;
+    </div>
+    <div class="date-switch">
+      <span>查看日期</span>
+      <select id="dateSelect">${opts}</select>
+    </div>
+  </div>`;
+}
+
+function buildMonitorSwitch(monitors, activeId){
+  const count = monitors.length;
+  const tabs = monitors.map(m=>{
+    const on = m.id === activeId;
+    return `<button type="button" class="monitor-tab ${on?'active':''}" data-monitor-id="${esc(m.id)}">
+      <span class="dot"></span>
+      <span class="name">${esc(m.name)}</span>
+      <span class="kind">${esc(m.output_label||'')}</span>
+    </button>`;
+  }).join('');
+  return `<div class="monitor-switch">
+    <div class="monitor-switch-label">你的关注点 · ${count} 个${count>1?' · 可切换':''}</div>
+    <div class="monitor-tabs">${tabs}</div>
+  </div>`;
 }
 
 function buildAlerts(report){
@@ -311,289 +421,288 @@ function buildAlerts(report){
   return report.alerts.map(a=>`<div class="alert-banner">⚠️ ${esc(a)}</div>`).join('');
 }
 
-function buildAssetOverview(){
-  const a=REPORT_DATA.assets||{};
-  const runs=REPORT_DATA.ingest_runs||[];
-  const items=[
-    ['累计入库',a.total_stored||0,'篇（去重后）'],
-    ['信源渠道',a.channels||0,'个账号'],
-    ['正文体量',a.content_wan||0,'万字已清洗'],
-    ['采集批次',runs.length||0,'次轮询'],
-  ];
-  return `<div class="section">
-    <div class="eyebrow"><span class="dot"></span>OVERVIEW · 数据资产</div>
-    <div class="card"><div class="asset-grid">${
-      items.map((it,i)=>`<div class="asset-cell"><div class="n" data-target="${it[1]}" id="asset-${i}">0</div><div class="l">${it[0]}<br>${it[2]}</div></div>`).join('')
-    }</div></div>
-  </div>`;
+function buildFocusHeader(mon){
+  const kind = OUTPUT_KIND_STYLE[mon.output_kind] || OUTPUT_KIND_STYLE.digest;
+  const top = (mon.clusters||[]).filter(c=>c.cross_source);
+  const isAdvice = mon.output_kind === 'decision';
+  const claim = isAdvice
+    ? `今天有 ${(mon.advice||[]).length} 条建议需要你决定`
+    : `今天有 ${top.length} 件事值得你关注`;
+  const tags = (mon.focus_tags||[]).map(t=>`<span class="focus-tag">${esc(t)}</span>`).join('');
+  return `<header class="focus-header">
+    <div class="focus-kind-row">
+      <span class="focus-kind" style="color:${kind.color};background:${kind.tint};border:1px solid ${kind.border};">
+        <span class="dot" style="background:${kind.color};"></span>${esc(mon.output_label||'')}
+      </span>
+      <span class="focus-kind-note">在你创建这个关注点时就已定下</span>
+    </div>
+    <h1 class="focus-title">${esc(mon.name)}<br><span class="claim">${esc(claim)}</span></h1>
+    <p class="focus-overview">${esc(mon.overview||'')}</p>
+    ${tags ? `<div class="focus-tags">${tags}</div>` : ''}
+    <div class="focus-setup">
+      <span class="quote" style="color:${kind.color};">"</span>
+      <div class="text">${esc(mon.setup_note||'')}</div>
+    </div>
+  </header>`;
 }
 
-const STAGE_DEFS=[
-  ['①','采集','fetched',null,'接口拉取近24小时增量'],
-  ['②','清洗','after_dedup','fetched','按id/URL去重+规范化'],
-  ['③','筛选','after_llm_filter','after_dedup','关键词预过滤 + AI 语义复筛'],
-  ['④','聚类','clusters','after_llm_filter','归并跨源同事件报道'],
-  ['⑤','摘要','selected','clusters','打分+生成为什么相关'],
-  ['⑥','生成报告','selected','selected','渲染 HTML / Markdown'],
-];
-
-function pctClass(pct){
-  if(pct>=60) return 'good';
-  if(pct>=25) return 'warn';
-  return 'bad';
-}
-
-function buildWorkflow(stats){
-  const nodes=STAGE_DEFS.map(([num,name,key,prevKey,desc],i)=>{
-    const val=stats[key]||0;
-    const prevVal=prevKey?(stats[prevKey]||0):null;
-    const pct=prevVal?Math.round(val/Math.max(1,prevVal)*100):100;
-    const cls=pctClass(prevVal?pct:100);
-    const pctLabel=prevVal!==null?`保留 ${pct}%`:'入口';
-    const track=i>0?'<span class="wf-track"></span>':'';
-    return `<div class="wf-node" style="--d:${(i*0.34).toFixed(2)}s">
-      ${track}
-      <div class="idx">${num}</div>
-      <div class="name">${name}</div>
-      <div class="val" data-target="${val}">0</div>
-      <div class="desc">${desc}</div>
-      <div class="wf-bar-track"><div class="wf-bar-fill ${cls}" data-pct="${prevVal!==null?pct:100}"></div></div>
-      <div class="wf-pct">${pctLabel}</div>
-    </div>`;
-  }).join('');
-  return `<div class="section">
-    <div class="eyebrow"><span class="dot"></span>WORKFLOW · 处理流水线</div>
-    <div class="card"><div class="workflow-track">${nodes}</div></div>
-  </div>`;
-}
-
-function buildProfiles(monitors){
-  if(!monitors.length) return '';
-  const body=monitors.map(m=>`<div style="margin-bottom:12px;">
-    <span class="profile-pill">${esc(m.name)}</span>
-    <div class="profile-desc">${esc(m.description||'')}</div>
-  </div>`).join('');
-  return `<div class="section">
-    <div class="eyebrow"><span class="dot"></span>PROFILES · 关注点</div>
-    <div class="card">${body}</div>
-  </div>`;
-}
-
-function buildFilterExamples(report){
-  const all=[];
-  (report.monitors||[]).forEach(m=>(m.filter_examples||[]).forEach(e=>all.push(e)));
-  if(!all.length) return '';
-  const rows=all.slice(0,4).map(e=>{
-    const keep=e.action==='keep';
-    return `<div class="example ${keep?'keep':'exclude'}">
-      <span class="mark">${keep?'✓ 保留':'✗ 排除'}</span>「${esc(e.title)}」
-      <span class="reason">— ${esc(e.reason)}</span>
-    </div>`;
-  }).join('');
-  return `<div class="section"><div class="eyebrow"><span class="dot"></span>FILTER · AI 筛选实例</div><div class="card">${rows}</div></div>`;
-}
-
-function articleLine(a){
-  const meta=srcMeta(a.source_type);
-  return `<a href="${esc(a.url)}" target="_blank" rel="noopener">${meta.icon} ${esc(a.title)} <span style="color:var(--text-weak)">· ${esc(a.feed_name||meta.name)}</span></a>`;
-}
-
-// 组装成适合直接贴进微信/飞书/钉钉聊天框的纯文本——不带 Markdown 符号。
-function clusterCopyText(monitorName, date, c){
-  const lines=[];
-  lines.push(`${c.headline}（相关度 ${c.score}/10）`);
-  if(c.summary){ lines.push(''); lines.push(c.summary); }
-  if(c.why_relevant){ lines.push(''); lines.push(`为什么相关：${c.why_relevant}`); }
-  if(c.articles && c.articles.length){
-    lines.push('');
-    lines.push('原文：');
-    c.articles.forEach(a=>{
-      const meta=srcMeta(a.source_type);
-      lines.push(`- ${a.title}（${a.feed_name||meta.name}）${a.url}`);
-    });
-  }
-  lines.push('');
-  lines.push(`来自 monitor-anything 日报 · ${monitorName} · ${date}`);
-  return lines.join('\n');
-}
-
-function copyButton(text){
-  return `<button type="button" class="copy-btn" data-copy="${esc(text)}" onclick="copyText(this)">复制</button>`;
-}
-
-function buildClusterBubbles(monitors, date){
-  const cards=[];
-  monitors.forEach(m=>(m.clusters||[]).forEach(c=>{
-    const n=(c.articles||[]).length;
-    const srcCount=new Set((c.articles||[]).map(a=>a.source_type)).size;
-    cards.push(`<div class="bubble ${c.cross_source?'cross':''}">
-      <div class="bubble-head">
-        <div class="headline2">${esc(c.headline)}</div>
-        ${copyButton(clusterCopyText(m.name, date, c))}
+function buildWorkflow(mon, globalStats){
+  const sourcesObj = globalStats.sources || {};
+  const entries = Object.entries(sourcesObj);
+  const srcMax = Math.max(1, ...entries.map(e=>e[1]));
+  const sourceCards = entries.map(([type,count],i)=>{
+    const meta = srcMeta(type);
+    const pct = Math.max(8, Math.round(count/srcMax*100));
+    const dur=(1.9+i*0.3).toFixed(2), delay=(i*0.45).toFixed(2);
+    return `<div class="source-card">
+      <div class="source-top"><span class="source-label">${meta.icon} ${esc(meta.name)}</span><span class="source-count">${count}</span></div>
+      <div class="source-track"><div class="source-fill" style="width:${pct}%;"></div>
+        <div class="source-dot" style="animation-duration:${dur}s;animation-delay:${delay}s;"></div>
       </div>
-      <div class="meta">${c.cross_source?`<span class="tag">跨源</span>`:''}${n} 篇报道 · 跨 ${srcCount} 个渠道</div>
-      <div class="src-list">${(c.articles||[]).map(articleLine).join('')}</div>
-      <details class="reasoning"><summary>🧠 AI 判断依据</summary><div class="body">${esc(c.ai_reasoning||'')}</div></details>
-    </div>`);
-  }));
-  if(!cards.length) return '';
-  return `<div class="section"><div class="eyebrow"><span class="dot"></span>CLUSTERS · 话题聚类</div><div class="card"><div class="bubble-grid">${cards.join('')}</div></div></div>`;
-}
-
-function buildOutputSections(monitors, date){
-  if(!monitors.length) return '';
-  const blocks=monitors.map(m=>{
-    const top=(m.clusters||[]).slice().sort((a,b)=>b.score-a.score).slice(0,3);
-    const highlight = top.length ? `<div class="highlight-box">
-      <div class="htitle">今天值得看的 ${top.length} 件事</div>
-      <ol>${top.map(c=>`<li>${esc(c.headline)}（相关度 ${c.score}/10）</li>`).join('')}</ol>
-    </div>` : '';
-
-    const cards=(m.clusters||[]).map(c=>`
-      <div class="selected-card">
-        <div class="head">
-          <div class="headline2">${esc(c.headline)}</div>
-          <div class="head-right">
-            <div class="score-badge">相关度 ${c.score}/10</div>
-            ${copyButton(clusterCopyText(m.name, date, c))}
-          </div>
-        </div>
-        <div class="summary">${esc(c.summary)}</div>
-        <div class="why">为什么与你相关：${esc(c.why_relevant)}</div>
-        <div class="links">${(c.articles||[]).map(a=>`<a href="${esc(a.url)}" target="_blank" rel="noopener">${srcMeta(a.source_type).icon} ${esc(a.feed_name||a.title)}</a>`).join('')}</div>
-      </div>`).join('');
-
-    return `<div class="monitor-section">
-      <h3>${esc(m.name)}</h3>
-      <div class="overview-text">${esc(m.overview||'')}</div>
-      ${highlight}
-      ${cards || '<div class="empty-note">今天没有达到精选阈值的内容，见下方线索区。</div>'}
-    </div>`;
-  }).join('');
-  return `<div class="section"><div class="eyebrow"><span class="dot"></span>OUTPUT · 每日情报</div>${blocks}</div>`;
-}
-
-function buildLeads(monitors){
-  const items=[];
-  monitors.forEach(m=>(m.leads||[]).forEach(l=>items.push(l)));
-  if(!items.length) return '';
-  const rows=items.map((l,i)=>{
-    const meta=srcMeta(l.source_type);
-    const lc=l.low_confidence?'<span class="lc">低置信度</span>':'';
-    const titleHtml=l.url?`<a href="${esc(l.url)}" target="_blank" rel="noopener">${meta.icon} ${esc(l.title)}</a>`:`${meta.icon} ${esc(l.title)}`;
-    return `<div class="lead-row">
-      <div class="lead-idx">${String(i+1).padStart(2,'0')}</div>
-      <div class="lead-body">
-        <div class="t">${titleHtml}${lc}</div>
-        <div class="r">${esc(l.reason||'')}</div>
-      </div>
-    </div>`;
-  }).join('');
-  return `<div class="section"><div class="eyebrow"><span class="dot"></span>LEADS · 线索区（未达精选阈值，共 ${items.length} 条）</div><div class="card">${rows}</div></div>`;
-}
-
-function buildSourcesAndRuns(stats){
-  const sources=stats.sources||{};
-  const entries=Object.entries(sources);
-  const max=Math.max(1,...entries.map(e=>e[1]),1);
-  const srcRows=entries.sort((a,b)=>b[1]-a[1]).map(([type,count])=>{
-    const meta=srcMeta(type);
-    const pct=Math.round(count/max*100);
-    return `<div class="src-row">
-      <div class="src-icon">${meta.icon}</div>
-      <div class="src-name">${esc(meta.name)}</div>
-      <div class="src-track"><div class="src-fill" data-pct="${pct}"></div></div>
-      <div class="src-count">${count}</div>
     </div>`;
   }).join('') || '<div class="empty-note">暂无数据</div>';
 
-  const runs=REPORT_DATA.ingest_runs||[];
-  const runRows=runs.map(r=>{
-    const dotCls=r.status==='ok'?'ok':'error';
-    const delta=r.status==='ok'?`+${r.new} / ${r.fetched}`:'失败';
-    return `<div class="run-row">
-      <div class="run-dot ${dotCls}"></div>
-      <div class="run-time">${esc((r.run_at||'').replace('T',' ').slice(0,16))}</div>
-      <div class="run-delta">${delta}</div>
+  const fanDots = Array.from({length:9},(_,i)=>{
+    const left = 6+i*11;
+    const dur=(1.5+(i%4)*0.35).toFixed(2), delay=((i%6)*0.32).toFixed(2);
+    return `<div class="fan-drop" style="left:${left}%;"><div class="fan-dot" style="animation-duration:${dur}s;animation-delay:${delay}s;"></div></div>`;
+  }).join('');
+
+  const mstats = mon.stats || {};
+  const statValues = { fetched: globalStats.fetched||0, after_dedup: globalStats.after_dedup||0,
+    after_llm_filter: mstats.after_llm_filter||0, clusters: mstats.clusters||0, selected: mstats.selected||0 };
+  const first = statValues.fetched || 1;
+
+  const nodes = STAGE_DEFS.map(([no,label,key,prevKey,note],i)=>{
+    const val = statValues[key]||0;
+    const prevVal = prevKey ? (statValues[prevKey]||0) : null;
+    const retain = prevVal ? Math.round(val/Math.max(1,prevVal)*100) : null;
+    const retainLabel = retain===null ? '全量进入' : (i===STAGE_DEFS.length-1 ? `命中 ${retain}%` : `保留 ${retain}%`);
+    const retainColor = retain===null ? 'var(--text-weak)'
+      : i===STAGE_DEFS.length-1 ? '#22D3EE'
+      : retain>=90 ? 'var(--good)' : retain>=40 ? 'var(--warn)' : '#F87171';
+    const color = i>=5 ? '#22D3EE' : i===4 ? '#C4B5FD' : i===3 ? '#93C5FD' : 'var(--text-main)';
+    const pct = Math.max(5, Math.round(val/first*100));
+    const dur=(2.4+i*0.18).toFixed(2), delay=(i*0.28).toFixed(2);
+    return `<div class="pipeline-node">
+      <div class="pipeline-idx">${no}</div>
+      <div class="pipeline-label-row">
+        <span class="pipeline-label">${label}</span>
+        <div class="pipeline-flow-track"><div class="pipeline-flow-dot" style="animation-duration:${dur}s;animation-delay:${delay}s;"></div></div>
+      </div>
+      <div class="pipeline-value" data-target="${val}" style="color:${color};">0</div>
+      <div class="pipeline-note">${note}</div>
+      <div class="pipeline-retain" style="color:${retainColor};">${retainLabel}</div>
+      <div class="pipeline-bar-track"><div class="pipeline-bar-fill" data-pct="${pct}"></div></div>
     </div>`;
-  }).join('') || '<div class="empty-note">暂无采集记录</div>';
+  }).join('');
 
-  return `<div class="section">
-    <div class="eyebrow"><span class="dot"></span>SOURCES · 信源与采集</div>
-    <div class="sources-grid">
-      <div class="card"><div class="section-title" style="font-size:13px;color:var(--text-sub);">来源分布</div>${srcRows}</div>
-      <div class="card"><div class="section-title" style="font-size:13px;color:var(--text-sub);">采集批次</div>${runRows}</div>
+  const totalIn = statValues.fetched;
+  const output = statValues.selected;
+  const filteredPct = totalIn ? Math.round((1-output/totalIn)*100) : 0;
+
+  return `<section class="workflow">
+    <div class="workflow-head">
+      <span class="workflow-eyebrow">Workflow</span>
+      <span class="workflow-title">海量信源 → 你能用的判断</span>
+      <span class="workflow-note">${totalIn} 条输入 → ${output} 条产出，替你过滤掉 ${filteredPct}%</span>
     </div>
+    <div class="source-fanin">${sourceCards}</div>
+    <div class="fan-channel"><div class="fan-line"></div>${fanDots}</div>
+    <div class="pipeline">${nodes}</div>
+  </section>`;
+}
+
+function buildAdvice(mon){
+  const advice = mon.advice || [];
+  if(mon.output_kind !== 'decision' || !advice.length) return '';
+  const tone = { good:{color:'var(--good)',tint:'rgba(16,185,129,.12)'}, warn:{color:'var(--warn)',tint:'rgba(245,158,11,.12)'}, info:{color:'var(--accent)',tint:'rgba(6,182,212,.12)'} };
+  const cards = advice.map(a=>{
+    const t = tone[a.tone] || tone.info;
+    const signals = (a.signals||[]).map(s=>`<div class="advice-signal"><span style="color:${t.color};flex-shrink:0;">→</span><span>${esc(s)}</span></div>`).join('');
+    return `<div class="advice-card" style="border-left-color:${t.color};">
+      <div class="advice-top">
+        <span class="advice-action" style="color:${t.color};background:${t.tint};">${esc(a.action||'')}</span>
+        <span class="advice-meta">窗口 ${esc(a.window||'')} · 置信度 ${esc(a.confidence||'')}</span>
+      </div>
+      <div class="advice-title">${esc(a.title||'')}</div>
+      <p class="advice-rationale">${esc(a.rationale||'')}</p>
+      <div class="advice-signals-wrap">
+        <div class="advice-signals-label">依据 · 来自今日动态</div>
+        ${signals}
+      </div>
+    </div>`;
+  }).join('');
+  return `<section class="advice-section">
+    <div class="section-head"><h2 class="section-title">今日结论</h2><span class="section-sub">该做什么、什么时候做 —— 依据附在每条下面</span></div>
+    <div class="advice-list">${cards}</div>
+  </section>`;
+}
+
+function articleLine(a){
+  const meta = srcMeta(a.source_type);
+  return `<a href="${esc(a.url)}" target="_blank" rel="noopener">${meta.icon} ${esc(a.feed_name||meta.name)}</a>`;
+}
+
+function buildTopStories(mon, date){
+  const top = (mon.clusters||[]).filter(c=>c.cross_source).sort((a,b)=>b.score-a.score);
+  const isAdvice = mon.output_kind === 'decision';
+  const heading = isAdvice ? '关键动态' : '今日头条';
+  const cards = top.map(c=>{
+    const srcCount = new Set((c.articles||[]).map(a=>a.source_type)).size;
+    return `<div class="story-card">
+      <div class="story-top">
+        <div class="story-headline">${esc(c.headline)}</div>
+        <div class="story-head-right"><span class="story-score">${c.score}/10</span>${copyButton(clusterCopyText(mon.name,date,c))}</div>
+      </div>
+      <p class="story-summary">${esc(c.summary)}</p>
+      <div class="story-why"><span class="tag">为什么给你看</span><br>${esc(c.why_relevant)}</div>
+      <div class="story-sources">${(c.articles||[]).map(articleLine).join('')}</div>
+      <div class="story-meta-row">
+        <span class="story-meta">${(c.articles||[]).length} 篇 · ${srcCount} 个独立渠道</span>
+        <details class="story-reasoning"><summary>AI 判断依据 ▾</summary><div class="body">${esc(c.ai_reasoning||'')}</div></details>
+      </div>
+    </div>`;
+  }).join('') || '<div class="empty-note">今天没有跨源交叉验证的动态。</div>';
+  return `<section class="story-section">
+    <div class="section-head"><h2 class="section-title">${heading}</h2><span class="section-sub">跨多个独立信源交叉验证 · ${top.length} 条</span></div>
+    ${cards}
+  </section>`;
+}
+
+function notableCard(item, mon, date){
+  const srcSuffix = item.articles.length>1 ? ` · 等 ${item.articles.length} 篇` : '';
+  const first = item.articles[0]||{};
+  const meta = srcMeta(first.source_type);
+  return `<div class="notable-card">
+    <div class="notable-top"><div class="notable-headline">${esc(item.headline)}</div><span class="notable-score">${item.score}/10</span></div>
+    <div class="notable-meta">${meta.icon} ${esc(first.feed_name||meta.name)}${srcSuffix}</div>
+    <details>
+      <summary>展开详情 ▾</summary>
+      <div class="body">${esc(item.summary)}</div>
+      <div class="why">${esc(item.why_relevant)}</div>
+      <a href="${esc(first.url)}" target="_blank" rel="noopener">查看原文 →</a>
+    </details>
   </div>`;
 }
 
-function buildTimeline(){
-  const tl=REPORT_DATA.timeline||[];
-  if(tl.length<2) return '';
-  const w=900,h=140,pad=30;
-  const max=Math.max(1,...tl.map(t=>t.fetched));
-  const stepX=(w-pad*2)/Math.max(1,tl.length-1);
-  const pts=tl.map((t,i)=>{
-    const x=pad+i*stepX;
-    const y=h-pad-(t.fetched/max)*(h-pad*2);
-    return [x,y];
-  });
-  const path=pts.map((p,i)=>(i===0?'M':'L')+p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
-  const dots=pts.map((p,i)=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.5" fill="#06B6D4"/>
-    <text x="${p[0].toFixed(1)}" y="${h-8}" text-anchor="middle">${tl[i].date.slice(5)}</text>
-    <text x="${p[0].toFixed(1)}" y="${p[1]-10}" text-anchor="middle" fill="#9CA3AF">${tl[i].fetched}</text>`).join('');
-  return `<div class="section"><div class="eyebrow"><span class="dot"></span>TIMELINE · 最近 ${tl.length} 天采集量趋势</div>
-    <div class="card timeline-wrap">
-    <svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}">
-      <path d="${path}" fill="none" stroke="url(#g)" stroke-width="2"/>
-      <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#8B5CF6"/>
-      </linearGradient></defs>
-      ${dots}
-    </svg>
-    </div>
-  </div>`;
+function buildNotableDynamics(mon, date, visibleN){
+  const rest = (mon.clusters||[]).filter(c=>!c.cross_source).sort((a,b)=>b.score-a.score);
+  if(!rest.length) return '';
+  const visible = rest.slice(0, visibleN);
+  const overflow = rest.slice(visibleN);
+  const visibleCards = visible.map(c=>notableCard(c, mon, date)).join('');
+  const overflowCards = overflow.length ? `<details class="notable-more">
+    <summary class="notable-more-toggle">展开剩余 ${overflow.length} 条 ▾</summary>
+    <div class="notable-grid notable-more-body">${overflow.map(c=>notableCard(c, mon, date)).join('')}</div>
+  </details>` : '';
+  return `<section class="story-section">
+    <div class="section-head"><h2 class="section-title">更多动态</h2><span class="section-sub">单信源报道，供你补充背景 · ${rest.length} 条</span></div>
+    <div class="notable-grid">${visibleCards}</div>
+    ${overflowCards}
+  </section>`;
 }
 
-function buildFooter(date){
+function buildRunDetails(mon){
+  const examples = (mon.filter_examples||[]).map(ex=>{
+    const keep = ex.action === 'keep';
+    return `<div class="filter-example ${keep?'keep':''}">
+      <span class="mark">${keep?'✓ 保留':'✗ 排除'}</span>「${esc(ex.title)}」
+      <span class="reason"> — ${esc(ex.reason)}</span>
+    </div>`;
+  }).join('') || '<div class="empty-note">暂无筛选实例。</div>';
+
+  const leads = mon.leads||[];
+  const leadRows = leads.map((l,i)=>{
+    const meta = srcMeta(l.source_type);
+    const lc = l.low_confidence ? '<span class="lead-lc"> 低置信度</span>' : '';
+    const titleHtml = l.url ? `<a href="${esc(l.url)}" target="_blank" rel="noopener">${meta.icon} ${esc(l.title)}</a>` : `${meta.icon} ${esc(l.title)}`;
+    return `<div class="lead-row">
+      <div class="lead-idx">${String(i+1).padStart(2,'0')}</div>
+      <div class="lead-title">${titleHtml}${lc}<div class="lead-meta">${esc(l.feed_name||meta.name)} · ${esc(l.reason||'')}</div></div>
+    </div>`;
+  }).join('') || '<div class="empty-note">暂无长尾线索。</div>';
+
+  return `<section class="rundetails">
+    <details>
+      <summary class="rundetails-summary"><span class="t">运行详情</span><span class="s">关注点定义 · AI 筛选实例 · 长尾线索 ${leads.length} 条</span></summary>
+      <div class="rundetails-body">
+        <div class="rundetails-block">
+          <div class="rundetails-label">关注点定义</div>
+          <div class="rundetails-desc">${esc(mon.description||'')}</div>
+        </div>
+        <div class="rundetails-block">
+          <div class="rundetails-label">AI 筛选实例</div>
+          ${examples}
+        </div>
+        <div class="rundetails-block">
+          <details>
+            <summary class="leads-summary">长尾线索 ${leads.length} 条 ▾</summary>
+            <div class="leads-body">${leadRows}</div>
+          </details>
+        </div>
+      </div>
+    </details>
+  </section>`;
+}
+
+function buildFooter(date, generatedAt){
   return `<footer>
-    <div>Powered by 零一实验室 · <a href="https://lingyilabs.com/" target="_blank" rel="noopener">https://lingyilabs.com/</a></div>
-    <div>monitor-anything · ${date}</div>
+    <div>Monitor Anything · 零一实验室 · <a href="https://lingyilabs.com/" target="_blank" rel="noopener">lingyilabs.com</a></div>
+    <div>${date} · 生成于 ${esc(generatedAt||'')}</div>
   </footer>`;
 }
 
-function render(date){
-  const report=REPORT_DATA.reports[date];
-  const app=document.getElementById('app');
-  if(!report){ app.innerHTML='<p>没有找到这一天的报告。</p>'; return; }
-  const monitors=report.monitors||[];
+// ---------------------------------------------------------------------
+// 主渲染
+
+function render(date, monitorId){
+  const report = REPORT_DATA.reports[date];
+  const app = document.getElementById('app');
+  if(!report){ app.innerHTML = '<p>没有找到这一天的报告。</p>'; return; }
+  const monitors = report.monitors || [];
+  if(!monitors.length){
+    app.innerHTML = buildShareRail() + buildBrand(date) + buildAlerts(report) + '<div class="empty-note">这一天还没有配置任何关注点。</div>' + buildFooter(date, report.generated_at);
+    return;
+  }
+  let mon = monitors.find(m=>m.id === monitorId) || monitors[0];
+  state.date = date;
+  state.monitorId = mon.id;
+  state.mon = mon;
+  state.shareUrl = report.share_url || '';
+
   app.innerHTML = [
-    buildHeader(date),
+    buildShareRail(),
+    buildBrand(date),
+    buildMonitorSwitch(monitors, mon.id),
     buildAlerts(report),
-    buildAssetOverview(),
-    buildWorkflow(report.stats||{}),
-    buildProfiles(monitors),
-    buildOutputSections(monitors, date),
-    buildFilterExamples(report),
-    buildClusterBubbles(monitors, date),
-    buildLeads(monitors),
-    buildSourcesAndRuns(report.stats||{}),
-    buildTimeline(),
-    buildFooter(date),
+    buildFocusHeader(mon),
+    buildWorkflow(mon, report.stats||{}),
+    buildAdvice(mon),
+    mon.output_kind==='decision' && (mon.advice||[]).length ? `<div class="dynamics-divider"><div class="line"></div><span class="label">以下是支撑上述结论的今日动态</span><div class="line"></div></div>` : '',
+    buildTopStories(mon, date),
+    buildNotableDynamics(mon, date, 5),
+    buildRunDetails(mon),
+    buildFooter(date, report.generated_at),
   ].join('');
 
-  document.getElementById('dateSelect').addEventListener('change',e=>render(e.target.value));
+  document.getElementById('dateSelect').addEventListener('change', e=>{
+    const newDate = e.target.value;
+    render(newDate, state.monitorId);
+  });
+  document.querySelectorAll('.monitor-tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>render(state.date, btn.dataset.monitorId));
+  });
 
-  document.querySelectorAll('.asset-cell .n, .wf-node .val').forEach(el=>animateNumber(el,parseInt(el.dataset.target||'0',10)));
+  document.querySelectorAll('.pipeline-value').forEach(el=>animateNumber(el, parseInt(el.dataset.target||'0',10)));
   requestAnimationFrame(()=>{
     setTimeout(()=>{
-      document.querySelectorAll('.wf-bar-fill').forEach(el=>{el.style.width=el.dataset.pct+'%';});
-      document.querySelectorAll('.src-fill').forEach(el=>{el.style.width=el.dataset.pct+'%';});
-    },80);
+      document.querySelectorAll('.pipeline-bar-fill').forEach(el=>{ el.style.width = el.dataset.pct+'%'; });
+    }, 80);
   });
 }
 
-render(REPORT_DATA.current_date);
+render(state.date, null);
 </script>
 </body>
 </html>

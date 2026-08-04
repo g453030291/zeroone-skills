@@ -33,6 +33,13 @@ import common
 CANDIDATE_CONTENT_SNIPPET = 400
 CLUSTER_CONTENT_SNIPPET = 300
 
+# output_kind 决定 dashboard 用「日报型」还是「决策型」布局渲染这个 monitor。
+# decision 目前只是预留的 schema 开关——本版没有实现§做什么/何时做的语义判断，
+# 所以任何 monitor 的 advice 都固定是空数组，dashboard 侧「今日结论」区块因此
+# 天然不会渲染。真要支持 decision，需要新增一版 prompts/decision.md 与配套的
+# report.py 子命令，属于后续工作。
+OUTPUT_LABELS = {"digest": "每日日报", "decision": "决策建议"}
+
 
 # --------------------------------------------------------------------------
 # 通用辅助
@@ -180,7 +187,7 @@ def cmd_candidates(args: argparse.Namespace) -> int:
 
 def cmd_filtered(args: argparse.Namespace) -> int:
     cfg = common.load_config()
-    get_monitor(cfg, args.monitor_id)  # 校验存在
+    monitor = get_monitor(cfg, args.monitor_id)
     date = args.date or common.today_str()
     result = common.read_json(Path(args.input))
     kept_ids: list[str] = result.get("kept", [])
@@ -234,7 +241,13 @@ def cmd_filtered(args: argparse.Namespace) -> int:
 
     common.print_stage_table(state["stats"], active_stage=4)
     print(f"聚类输入已写入：{out_path}")
-    print(json.dumps({"kept": len(kept_ids), "path": str(out_path)}, ensure_ascii=False))
+    payload = {"kept": len(kept_ids), "path": str(out_path), "needs_search_augment": len(kept_ids) == 0}
+    if not kept_ids:
+        # v2：当前数据池对这个 monitor 一条都没命中，把 description 带出来方便 Agent
+        # 直接拟检索词——见 SKILL.md ③筛选一节"补充检索"的说明，只在这里触发一次，
+        # 不是每次筛选都建议去调用 search（那样既没必要也浪费额度）。
+        payload["monitor_description"] = monitor.get("description", "")
+    print(json.dumps(payload, ensure_ascii=False))
     return 0
 
 
@@ -371,6 +384,13 @@ def cmd_summarized(args: argparse.Namespace) -> int:
             "也可以考虑放宽关注范围。"
         )
 
+    output_kind = monitor.get("output_kind", "digest")
+    output_label = monitor.get("output_label") or OUTPUT_LABELS.get(output_kind, OUTPUT_LABELS["digest"])
+    setup_note = monitor.get("setup_note") or (
+        f"配置时你说：{monitor.get('description', '')}。之后每天会按这个方向筛选、聚类、生成摘要，"
+        "判断始终基于当天实际抓到的数据，不会为了好看而夸大。"
+    )
+
     monitor_report = {
         "id": monitor["id"],
         "name": monitor.get("name", monitor["id"]),
@@ -379,6 +399,21 @@ def cmd_summarized(args: argparse.Namespace) -> int:
         "clusters": selected_clusters,
         "leads": leads,
         "filter_examples": filter_examples,
+        # dashboard §新版布局所需的额外字段：output_kind/advice 是给「决策型」
+        # monitor 预留的开关，本版恒为 digest/空数组（见上方 OUTPUT_LABELS 注释）。
+        "output_kind": output_kind,
+        "output_label": output_label,
+        "focus_tags": monitor.get("focus_tags", []),
+        "setup_note": setup_note,
+        "advice": [],
+        # 该 monitor 独立的漏斗计数（③~⑥），用于 dashboard 里每个 monitor 各自的
+        # workflow 展示；①②两阶段是全局值，不存在这里，渲染时从 report.stats 取。
+        "stats": {
+            "after_prefilter": monitor_state.get("after_prefilter", 0),
+            "after_llm_filter": monitor_state.get("after_llm_filter", 0),
+            "clusters": monitor_state.get("clusters", 0),
+            "selected": len(selected_clusters),
+        },
     }
 
     _merge_into_report(date, monitor_report)
