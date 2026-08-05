@@ -29,16 +29,10 @@ from pathlib import Path
 from typing import Any
 
 import common
+import validate
 
 CANDIDATE_CONTENT_SNIPPET = 400
 CLUSTER_CONTENT_SNIPPET = 300
-
-# output_kind 决定 dashboard 用「日报型」还是「决策型」布局渲染这个 monitor。
-# decision 目前只是预留的 schema 开关——本版没有实现§做什么/何时做的语义判断，
-# 所以任何 monitor 的 advice 都固定是空数组，dashboard 侧「今日结论」区块因此
-# 天然不会渲染。真要支持 decision，需要新增一版 prompts/decision.md 与配套的
-# report.py 子命令，属于后续工作。
-OUTPUT_LABELS = {"digest": "每日日报", "decision": "决策建议"}
 
 
 # --------------------------------------------------------------------------
@@ -60,14 +54,20 @@ def window_articles(conn, hours: int = 24) -> list[dict[str, Any]]:
     return [dict(r) for r in cur.fetchall()]
 
 
-def window_run_totals(conn, hours: int = 24) -> dict[str, int]:
+def latest_run_fetched(conn, hours: int = 24) -> int:
+    """①"采集"展示数字用的原始条数——只取窗口内**最近一次** run 的 fetched，不再对
+    runs 表求和。接口固定返回"近 24 小时"快照（不支持增量/分页参数），默认一天跑
+    4 次 harvest，每次几乎看到同一批数据；对 runs.fetched 求和会让这个数字虚高
+    约 4 倍。最近一次 run 的 fetched 本身就是当前这份 24 小时快照的原始体量，不需要
+    也不应该再跟前几次的快照叠加。
+    """
     cur = conn.cursor()
     cur.execute(
-        "SELECT COALESCE(SUM(fetched),0), COALESCE(SUM(new),0) FROM runs WHERE run_at >= datetime('now', ?)",
+        "SELECT fetched FROM runs WHERE run_at >= datetime('now', ?) ORDER BY run_at DESC LIMIT 1",
         (f"-{hours} hours",),
     )
-    fetched, new = cur.fetchone()
-    return {"fetched": fetched, "new": new}
+    row = cur.fetchone()
+    return row[0] if row else 0
 
 
 def source_breakdown(articles: list[dict[str, Any]]) -> dict[str, int]:
@@ -103,16 +103,22 @@ def recompute_aggregate_stats(state: dict[str, Any]) -> None:
         state["stats"][key] = sum(m.get(key, 0) for m in monitors.values())
 
 
-def check_recent_failures(conn) -> list[str]:
-    """§13 失败告警：连续 2 次采集失败，或最近一次新增为 0，则给出人话提示。"""
+def check_recent_failures(conn, language: str = "zh") -> list[str]:
+    """§13 失败告警：连续 2 次采集失败，或连续 3 次新增为 0，才给出人话提示。
+
+    "最近一次 new=0 就报警" 是误报的主要来源——接口每次固定返回近 24 小时快照，
+    默认一天跑 4 次 harvest，大多数时候后面几次自然就是"这批我都见过了"，new=0
+    是完全正常的现象，不代表连接有问题。改成要求**连续 3 次**都是 new=0 才提示，
+    单次或两次为 0 不再触发误报。
+    """
     cur = conn.cursor()
-    cur.execute("SELECT status, new FROM runs ORDER BY run_at DESC LIMIT 2")
+    cur.execute("SELECT status, new FROM runs ORDER BY run_at DESC LIMIT 3")
     rows = cur.fetchall()
     alerts = []
-    if len(rows) >= 2 and all(r[0] == "error" for r in rows):
-        alerts.append("最近的数据采集出现了问题，今天的报告可能不完整。")
-    elif rows and rows[0][0] == "ok" and rows[0][1] == 0:
-        alerts.append("最近一次采集没有抓到新内容，可能是数据源暂时没有更新，也可能是连接异常。")
+    if len(rows) >= 2 and all(r[0] == "error" for r in rows[:2]):
+        alerts.append(common.t(language, "alert_fetch_failed"))
+    elif len(rows) >= 3 and all(r[0] == "ok" and r[1] == 0 for r in rows):
+        alerts.append(common.t(language, "alert_no_new"))
     return alerts
 
 
@@ -120,13 +126,14 @@ def check_recent_failures(conn) -> list[str]:
 # 阶段③ 前半：脚本预过滤 -> 产出候选给 Agent
 
 def cmd_candidates(args: argparse.Namespace) -> int:
+    common.validate_monitor_id(args.monitor_id)
     cfg = common.load_config()
     monitor = get_monitor(cfg, args.monitor_id)
     conn = common.connect_db()
-    date = args.date or common.today_str()
+    date = common.validate_date(args.date or common.today_str())
 
     all_articles = window_articles(conn)
-    run_totals = window_run_totals(conn)
+    latest_fetched = latest_run_fetched(conn)
     sources = source_breakdown(all_articles)
 
     exclude_keywords = monitor.get("exclude_keywords", [])
@@ -152,8 +159,11 @@ def cmd_candidates(args: argparse.Namespace) -> int:
     state = common.load_run_state(date)
     state["stats"].update(
         {
-            "fetched": run_totals["fetched"] or len(all_articles),
-            "after_dedup": run_totals["new"] or len(all_articles),
+            "fetched": latest_fetched or len(all_articles),
+            # after_dedup 直接用 articles 表里这个时间窗内的行数（window_articles 已经
+            # 按 fetched_at 查过一遍），不再用 runs.new 求和——articles 表本身就是"去重后
+            # 落库了什么"的权威来源，不管当天跑了几次 harvest 都不会重复计数。
+            "after_dedup": len(all_articles),
             "sources": sources,
         }
     )
@@ -172,6 +182,10 @@ def cmd_candidates(args: argparse.Namespace) -> int:
             "description": monitor.get("description", ""),
         },
         "candidates": candidates,
+        # ③④⑤三个语义阶段生成的自由文本（examples[].reason / ai_reasoning / headline /
+        # summary / why_relevant / overview）都要用这个语言写——读 prompts/*.md 时按这个
+        # 字段判断，不要一律写中文。目前只支持 "zh" / "en"。
+        "language": common.normalize_language(cfg.get("language", "zh")),
         "instructions": "读取 prompts/filter.md，对以下候选执行标题级别的语义筛选。",
     }
     common.write_json(out_path, payload)
@@ -186,21 +200,43 @@ def cmd_candidates(args: argparse.Namespace) -> int:
 # 接收筛选结果 -> 产出聚类输入
 
 def cmd_filtered(args: argparse.Namespace) -> int:
+    common.validate_monitor_id(args.monitor_id)
     cfg = common.load_config()
     monitor = get_monitor(cfg, args.monitor_id)
-    date = args.date or common.today_str()
+    date = common.validate_date(args.date or common.today_str())
     result = common.read_json(Path(args.input))
-    kept_ids: list[str] = result.get("kept", [])
-    low_confidence_ids: set[str] = set(result.get("low_confidence", []))
+
+    candidates_path = common.work_dir() / f"candidates-{args.monitor_id}-{date}.json"
+    if not candidates_path.exists():
+        print(f"找不到候选文件：{candidates_path}，请先跑一遍 candidates 子命令。", file=sys.stderr)
+        return 1
+    candidates_payload = common.read_json(candidates_path)
+    candidate_ids = {c["id"] for c in candidates_payload["candidates"]}
+    # 跟 cmd_clustered 一样，语言字段跟着上一步写下来的中间产物走，不重新读 config.json，
+    # 保持同一次流水线运行里所有阶段语言设置一致。
+    language = common.normalize_language(candidates_payload.get("language", "zh"))
+
+    try:
+        kept_ids = validate.validate_kept_ids(result.get("kept", []), candidate_ids)
+    except validate.ValidationError as e:
+        print(f"筛选结果校验失败：{e}\n请检查 {args.input} 里的 kept 字段后重新生成。", file=sys.stderr)
+        return 1
+
+    low_confidence_ids: set[str] = set(result.get("low_confidence", [])) & set(kept_ids)
     filter_examples = result.get("examples", [])
 
     conn = common.connect_db()
     cur = conn.cursor()
     articles = []
+    missing_in_db: list[str] = []
     for aid in kept_ids:
         cur.execute("SELECT * FROM articles WHERE id = ?", (aid,))
         row = cur.fetchone()
         if not row:
+            # kept_ids 已经校验过是候选 id 的子集，正常不会走到这里；只有
+            # candidates 和 filtered 两次调用之间数据被清理（比如触发了过期清理）
+            # 这种罕见时序问题才会命中，明确记下来而不是悄悄吞掉。
+            missing_in_db.append(aid)
             continue
         a = dict(row)
         content = a["content"] or ""
@@ -216,9 +252,15 @@ def cmd_filtered(args: argparse.Namespace) -> int:
                 "description": a.get("description") or "",
                 "content_snippet": content[:CLUSTER_CONTENT_SNIPPET],
                 "publish_time": a.get("publish_time") or "",
-                "url": a.get("url") or "",
+                "url": common.safe_article_url(a.get("url")),
                 "low_confidence": aid in low_confidence_ids,
             }
+        )
+    if missing_in_db:
+        print(
+            f"警告：{len(missing_in_db)} 个通过校验的 id 在数据库里查不到（可能是与 candidates "
+            f"之间发生了数据清理），已跳过：{missing_in_db}",
+            file=sys.stderr,
         )
 
     state = common.load_run_state(date)
@@ -226,7 +268,10 @@ def cmd_filtered(args: argparse.Namespace) -> int:
     mstate = state.setdefault("monitors", {}).setdefault(args.monitor_id, {})
     mstate["low_confidence_ids"] = list(low_confidence_ids)
     mstate["filter_examples"] = filter_examples
-    mstate["after_llm_filter"] = len(kept_ids)
+    # 用实际查到的文章数而不是 len(kept_ids) —— 后者只反映 Agent 声称保留了多少个 id，
+    # 前者才是真正会进入下一步聚类的条数。两者理应相等，但只有以实际值为准，才不会在
+    # 出现 missing_in_db 这种边缘情况时把漏斗数字变成谎话。
+    mstate["after_llm_filter"] = len(articles)
     recompute_aggregate_stats(state)
     common.save_run_state(date, state)
 
@@ -235,14 +280,19 @@ def cmd_filtered(args: argparse.Namespace) -> int:
         out_path,
         {
             "articles": articles,
+            "language": language,
+            # 后面 cmd_clustered 会继续往下透传给 summarize-input——摘要阶段需要用户的
+            # 关注方向来写 why_relevant/overview，不应该让 Agent 在读 prompt 时自己再去
+            # 猜"拿不到就读 config.json"，那样等于让脚本以外的地方多了一个隐性数据源。
+            "monitor_description": monitor.get("description", ""),
             "instructions": "读取 prompts/cluster.md，对以下条目做跨源同事件归并。",
         },
     )
 
     common.print_stage_table(state["stats"], active_stage=4)
     print(f"聚类输入已写入：{out_path}")
-    payload = {"kept": len(kept_ids), "path": str(out_path), "needs_search_augment": len(kept_ids) == 0}
-    if not kept_ids:
+    payload = {"kept": len(articles), "path": str(out_path), "needs_search_augment": len(articles) == 0}
+    if not articles:
         # v2：当前数据池对这个 monitor 一条都没命中，把 description 带出来方便 Agent
         # 直接拟检索词——见 SKILL.md ③筛选一节"补充检索"的说明，只在这里触发一次，
         # 不是每次筛选都建议去调用 search（那样既没必要也浪费额度）。
@@ -255,18 +305,32 @@ def cmd_filtered(args: argparse.Namespace) -> int:
 # 接收聚类结果 -> 产出摘要输入
 
 def cmd_clustered(args: argparse.Namespace) -> int:
-    date = args.date or common.today_str()
+    common.validate_monitor_id(args.monitor_id)
+    date = common.validate_date(args.date or common.today_str())
     result = common.read_json(Path(args.input))
     clusters: list[dict[str, Any]] = result.get("clusters", [])
 
     cluster_input_path = common.work_dir() / f"cluster-input-{args.monitor_id}-{date}.json"
-    articles_by_id = {a["id"]: a for a in common.read_json(cluster_input_path)["articles"]}
+    if not cluster_input_path.exists():
+        print(f"找不到聚类输入：{cluster_input_path}，请先跑一遍 filtered 子命令。", file=sys.stderr)
+        return 1
+    cluster_input = common.read_json(cluster_input_path)
+    articles_by_id = {a["id"]: a for a in cluster_input["articles"]}
+    # 语言字段跟着上一步（filtered）写下来的中间产物走，而不是重新读一遍 config.json——
+    # 保持"同一次流水线运行里所有阶段用同一份语言设置"，不会因为运行期间用户改了配置
+    # 就出现前后阶段语言不一致的情况。monitor_description 同理，原样透传给下一步。
+    language = common.normalize_language(cluster_input.get("language", "zh"))
+    monitor_description = cluster_input.get("monitor_description", "")
+
+    try:
+        validate.validate_clusters(clusters, set(articles_by_id.keys()))
+    except validate.ValidationError as e:
+        print(f"聚类结果校验失败：{e}\n请检查 {args.input} 后重新生成。", file=sys.stderr)
+        return 1
 
     enriched = []
     for idx, c in enumerate(clusters):
-        members = [articles_by_id[i] for i in c.get("ids", []) if i in articles_by_id]
-        if not members:
-            continue
+        members = [articles_by_id[i] for i in c.get("ids", [])]  # 已通过校验，全部存在
         sources = {m["source_type"] for m in members}
         enriched.append(
             {
@@ -289,6 +353,8 @@ def cmd_clustered(args: argparse.Namespace) -> int:
         out_path,
         {
             "clusters": enriched,
+            "language": language,
+            "monitor_description": monitor_description,
             "instructions": "读取 prompts/summarize.md，为每个聚类生成 headline/summary/why_relevant/score。",
         },
     )
@@ -303,9 +369,10 @@ def cmd_clustered(args: argparse.Namespace) -> int:
 # 接收摘要结果 -> 组装该 monitor 的最终报告小节
 
 def cmd_summarized(args: argparse.Namespace) -> int:
+    common.validate_monitor_id(args.monitor_id)
     cfg = common.load_config()
     monitor = get_monitor(cfg, args.monitor_id)
-    date = args.date or common.today_str()
+    date = common.validate_date(args.date or common.today_str())
     min_score = monitor.get("min_score", cfg.get("min_score", 6))
 
     result = common.read_json(Path(args.input))
@@ -313,11 +380,25 @@ def cmd_summarized(args: argparse.Namespace) -> int:
     summaries: list[dict[str, Any]] = result.get("clusters", [])
 
     summarize_input_path = common.work_dir() / f"summarize-input-{args.monitor_id}-{date}.json"
-    clusters_by_index = {c["cluster_index"]: c for c in common.read_json(summarize_input_path)["clusters"]}
+    if not summarize_input_path.exists():
+        print(f"找不到摘要输入：{summarize_input_path}，请先跑一遍 clustered 子命令。", file=sys.stderr)
+        return 1
+    summarize_input = common.read_json(summarize_input_path)
+    clusters_by_index = {c["cluster_index"]: c for c in summarize_input["clusters"]}
+    language = common.normalize_language(summarize_input.get("language", "zh"))
+
+    try:
+        summaries = validate.validate_summaries(summaries, set(clusters_by_index.keys()))
+    except validate.ValidationError as e:
+        print(f"摘要结果校验失败：{e}\n请检查 {args.input} 后重新生成。", file=sys.stderr)
+        return 1
 
     state = common.load_run_state(date)
     _record_handoff_elapsed(state, "summarize")
-    monitor_state = state.get("monitors", {}).get(args.monitor_id, {})
+    # 用 setdefault 而不是 get(..., {}) —— 后者拿到的是游离 dict，后面对它的写入
+    # （比如 monitor_state["selected"] = ...）不会写回 state["monitors"]，导致
+    # recompute_aggregate_stats 统计不到这个 monitor 刚产出的 selected 数字。
+    monitor_state = state.setdefault("monitors", {}).setdefault(args.monitor_id, {})
     low_confidence_ids = set(monitor_state.get("low_confidence_ids", []))
     filter_examples = monitor_state.get("filter_examples", [])
 
@@ -357,11 +438,17 @@ def cmd_summarized(args: argparse.Namespace) -> int:
             cross_source = c.get("cross_source", False)
             feed_name = articles[0]["feed_name"] if articles else ""
             if article_count <= 1:
-                reason = f"仅 1 篇（{feed_name or '单一来源'}），不足 2 个独立信源"
+                reason = common.t(
+                    language,
+                    "lead_reason_single",
+                    feed_name=feed_name or common.t(language, "single_source_fallback"),
+                )
             elif cross_source:
-                reason = f"{article_count} 篇 · 跨 {source_count} 个渠道，相关度 {score}/10 未达阈值"
+                reason = common.t(
+                    language, "lead_reason_cross", count=article_count, sources=source_count, score=score
+                )
             else:
-                reason = f"{article_count} 篇 · 同源转载，相关度 {score}/10 未达阈值"
+                reason = common.t(language, "lead_reason_same_source", count=article_count, score=score)
             leads.append(
                 {
                     "title": s.get("headline") or (articles[0]["title"] if articles else ""),
@@ -378,17 +465,10 @@ def cmd_summarized(args: argparse.Namespace) -> int:
             )
 
     if not selected_clusters:
-        overview = (
-            overview
-            or "今天你关注的方向没有明显动静，这很正常。数据每天更新，明天再来看看；"
-            "也可以考虑放宽关注范围。"
-        )
+        overview = overview or common.t(language, "overview_empty")
 
-    output_kind = monitor.get("output_kind", "digest")
-    output_label = monitor.get("output_label") or OUTPUT_LABELS.get(output_kind, OUTPUT_LABELS["digest"])
-    setup_note = monitor.get("setup_note") or (
-        f"配置时你说：{monitor.get('description', '')}。之后每天会按这个方向筛选、聚类、生成摘要，"
-        "判断始终基于当天实际抓到的数据，不会为了好看而夸大。"
+    setup_note = monitor.get("setup_note") or common.t(
+        language, "setup_note_default", description=monitor.get("description", "")
     )
 
     monitor_report = {
@@ -399,13 +479,8 @@ def cmd_summarized(args: argparse.Namespace) -> int:
         "clusters": selected_clusters,
         "leads": leads,
         "filter_examples": filter_examples,
-        # dashboard §新版布局所需的额外字段：output_kind/advice 是给「决策型」
-        # monitor 预留的开关，本版恒为 digest/空数组（见上方 OUTPUT_LABELS 注释）。
-        "output_kind": output_kind,
-        "output_label": output_label,
         "focus_tags": monitor.get("focus_tags", []),
         "setup_note": setup_note,
-        "advice": [],
         # 该 monitor 独立的漏斗计数（③~⑥），用于 dashboard 里每个 monitor 各自的
         # workflow 展示；①②两阶段是全局值，不存在这里，渲染时从 report.stats 取。
         "stats": {
@@ -435,7 +510,7 @@ def _merge_into_report(date: str, monitor_report: dict[str, Any]) -> None:
         report = {
             "date": date,
             "generated_at": common.now_iso_local(),
-            "language": cfg.get("language", "zh"),
+            "language": common.normalize_language(cfg.get("language", "zh")),
             "stats": {},
             "monitors": [],
             "alerts": [],
@@ -450,23 +525,48 @@ def _merge_into_report(date: str, monitor_report: dict[str, Any]) -> None:
 # 收尾：写入 stats、告警，供 render.py 使用
 
 def cmd_finalize(args: argparse.Namespace) -> int:
-    date = args.date or common.today_str()
+    date = common.validate_date(args.date or common.today_str())
+    cfg = common.load_config()
     conn = common.connect_db()
     state = common.load_run_state(date)
-    alerts = check_recent_failures(conn)
 
     path = common.reports_dir() / f"{date}.json"
     if not path.exists():
         print("没有找到当日报告草稿，无法收尾。请先跑完 candidates/filtered/clustered/summarized。", file=sys.stderr)
         return 1
     report = common.read_json(path)
+
+    # 状态污染修复：只保留当前 config.monitors 里还存在的 monitor 小节。改配置
+    # （删除/新增 monitor）之后再当天重跑，之前旧 monitor 留下的小节和 run_state
+    # 累加值不会自动清理，finalize 是唯一一个能看到"完整当前配置"的时机，在这里
+    # 兜底裁剪，而不是信任中途各阶段的累加状态。
+    current_ids = {m["id"] for m in cfg.get("monitors", [])}
+    kept_monitors = [m for m in report.get("monitors", []) if m["id"] in current_ids]
+    stale_ids = [m["id"] for m in report.get("monitors", []) if m["id"] not in current_ids]
+    if stale_ids:
+        print(f"警告：已从报告中移除不在当前配置中的 monitor：{stale_ids}", file=sys.stderr)
+    report["monitors"] = kept_monitors
+
+    missing_ids = sorted(current_ids - {m["id"] for m in kept_monitors})
+    exit_code = 0
+    if missing_ids:
+        print(f"警告：当前配置的以下 monitor 尚未处理，报告不完整：{missing_ids}", file=sys.stderr)
+        exit_code = 1
+
+    alerts = check_recent_failures(conn, common.normalize_language(report.get("language", "zh")))
+    # after_prefilter/after_llm_filter/clusters/selected 改成直接对裁剪后的
+    # kept_monitors 各自的 stats 求和，而不是信任 run_state 里的累加值——run_state
+    # 是"这次进程调用序列里发生过什么"的流水账，不知道 monitor 是否已经被从配置里
+    # 删除；report.json 里刚裁剪过的 monitors 列表才是"当前配置下真正该展示什么"
+    # 的权威来源。fetched/after_dedup/sources 是①②两阶段的全局值，与 monitor 无关，
+    # 仍然从 state["stats"] 取。
     report["stats"] = {
         "fetched": state["stats"].get("fetched", 0),
         "after_dedup": state["stats"].get("after_dedup", 0),
-        "after_prefilter": state["stats"].get("after_prefilter", 0),
-        "after_llm_filter": state["stats"].get("after_llm_filter", 0),
-        "clusters": state["stats"].get("clusters", 0),
-        "selected": state["stats"].get("selected", 0),
+        "after_prefilter": sum(m.get("stats", {}).get("after_prefilter", 0) for m in kept_monitors),
+        "after_llm_filter": sum(m.get("stats", {}).get("after_llm_filter", 0) for m in kept_monitors),
+        "clusters": sum(m.get("stats", {}).get("clusters", 0) for m in kept_monitors),
+        "selected": sum(m.get("stats", {}).get("selected", 0) for m in kept_monitors),
         "sources": state["stats"].get("sources", {}),
         "stage_ms": state.get("stage_ms", {}),
     }
@@ -476,8 +576,13 @@ def cmd_finalize(args: argparse.Namespace) -> int:
     state["stats"]["done"] = True
     common.print_stage_table(state["stats"], active_stage=6)
     print(f"报告 JSON 已生成：{path}")
-    print(json.dumps({"path": str(path), "alerts": alerts}, ensure_ascii=False))
-    return 0
+    print(
+        json.dumps(
+            {"path": str(path), "alerts": alerts, "stale_monitors_removed": stale_ids, "missing_monitors": missing_ids},
+            ensure_ascii=False,
+        )
+    )
+    return exit_code
 
 
 def main() -> int:

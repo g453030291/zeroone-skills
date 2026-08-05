@@ -65,7 +65,9 @@ def clean_and_store(conn, raw_articles: list[dict[str, Any]]) -> dict[str, int]:
         "new": 0,
     }
     cur = conn.cursor()
-    fetched_at = common.now_iso_local()
+    # 用 UTC 格式写入，跟 purge_expired() / report.py 里 `datetime('now', '-N hours')`
+    # 窗口查询用的是同一个时区、同一种格式，字符串比较才是对的（见 common.now_utc_sql()）。
+    fetched_at = common.now_utc_sql()
 
     # 已知 url_hash 集合，用于本批次内 + 历史的二次去重
     cur.execute("SELECT url_hash FROM articles WHERE url_hash != ''")
@@ -171,7 +173,7 @@ def record_run(conn, stats: dict[str, int], status: str, message: str) -> None:
     cur = conn.cursor()
     cur.execute(
         "INSERT OR REPLACE INTO runs (run_at, fetched, new, status, message) VALUES (?,?,?,?,?)",
-        (common.now_iso_local(), stats.get("fetched", 0), stats.get("new", 0), status, message),
+        (common.now_utc_sql(), stats.get("fetched", 0), stats.get("new", 0), status, message),
     )
     conn.commit()
 

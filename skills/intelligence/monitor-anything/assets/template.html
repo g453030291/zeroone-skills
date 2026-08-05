@@ -47,8 +47,7 @@
   .brand-mark span{width:10px;height:10px;border-radius:50%;background:#fff;}
   .brand-name{font-family:var(--mono);font-size:13.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;line-height:1.25;}
   .brand-tag{font-size:11.5px;color:var(--text-weak);line-height:1.35;}
-  .date-switch{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;color:var(--text-weak);}
-  .date-switch select{background:var(--card);color:var(--text-main);border:1px solid var(--card-border);border-radius:6px;padding:5px 8px;font-family:var(--mono);font-size:11.5px;}
+  .brand-date{font-family:var(--mono);font-size:11.5px;color:var(--text-weak);}
 
   /* ---------- monitor 切换 ---------- */
   .monitor-switch{margin-bottom:14px;}
@@ -57,7 +56,6 @@
   .monitor-tab{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.02);border:1px solid var(--card-border);color:var(--text-sub);border-radius:11px;padding:10px 15px;font-size:13.5px;font-family:var(--sans);cursor:pointer;text-align:left;}
   .monitor-tab .dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.18);flex-shrink:0;}
   .monitor-tab .name{font-weight:600;}
-  .monitor-tab .kind{font-family:var(--mono);font-size:11px;color:var(--text-weak);white-space:nowrap;}
   .monitor-tab.active{background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.45);color:#DBEAFE;}
   .monitor-tab.active .dot{background:#3B82F6;}
 
@@ -66,17 +64,13 @@
 
   /* ---------- FOCUS 头部 ---------- */
   .focus-header{background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:clamp(18px,3.2vw,26px);margin-bottom:14px;}
-  .focus-kind-row{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:13px;}
-  .focus-kind{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;border-radius:999px;padding:4px 12px;}
-  .focus-kind .dot{width:6px;height:6px;border-radius:50%;}
-  .focus-kind-note{font-size:11.5px;color:var(--text-weak);}
   .focus-title{font-size:clamp(21px,4.2vw,32px);font-weight:700;line-height:1.32;margin:0 0 12px;letter-spacing:-.015em;}
   .focus-title .claim{background:linear-gradient(90deg,var(--p1),var(--p2),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent;}
   .focus-overview{color:var(--text-sub);font-size:clamp(13.5px,1.6vw,15px);max-width:680px;margin:0 0 16px;}
   .focus-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px;}
   .focus-tag{font-size:12px;color:#93C5FD;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.28);border-radius:999px;padding:4px 11px;}
   .focus-setup{display:flex;gap:10px;border-top:1px dashed var(--card-border);padding-top:14px;}
-  .focus-setup .quote{font-size:13px;flex-shrink:0;}
+  .focus-setup .quote{font-size:13px;flex-shrink:0;color:var(--accent);}
   .focus-setup .text{font-size:12.5px;color:var(--text-weak);line-height:1.6;}
 
   /* ---------- WORKFLOW ---------- */
@@ -113,28 +107,11 @@
   .pipeline-bar-track{height:3px;border-radius:2px;background:rgba(255,255,255,.06);overflow:hidden;}
   .pipeline-bar-fill{height:100%;width:0;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--p2));transition:width 1s ease;}
 
-  /* ---------- 今日结论（决策型，预留） ---------- */
-  .advice-section{margin-bottom:32px;}
+  /* ---------- 今日头条 / 更多动态 ---------- */
+  .story-section{margin-bottom:30px;}
   .section-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin-bottom:14px;}
   .section-title{font-size:clamp(16px,2.4vw,19px);font-weight:600;margin:0;}
   .section-sub{font-size:12.5px;color:var(--text-weak);}
-  .advice-list{display:flex;flex-direction:column;gap:12px;}
-  .advice-card{background:var(--card);border:1px solid var(--card-border);border-left:3px solid var(--accent);border-radius:14px;padding:clamp(16px,2.6vw,22px);}
-  .advice-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px;}
-  .advice-action{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;border-radius:5px;padding:3px 8px;}
-  .advice-meta{font-size:11.5px;color:var(--text-weak);font-family:var(--mono);}
-  .advice-title{font-size:clamp(15px,2vw,17.5px);font-weight:600;line-height:1.45;margin-bottom:9px;}
-  .advice-rationale{color:var(--text-sub);font-size:13.5px;margin:0 0 13px;}
-  .advice-signals-wrap{border-top:1px dashed var(--card-border);padding-top:12px;}
-  .advice-signals-label{font-size:10.5px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-weak);margin-bottom:7px;}
-  .advice-signal{display:flex;gap:7px;font-size:12.5px;color:var(--text-sub);margin-bottom:5px;}
-
-  .dynamics-divider{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
-  .dynamics-divider .line{flex:1;height:1px;background:var(--card-border);}
-  .dynamics-divider .label{font-size:11.5px;color:var(--text-weak);font-family:var(--mono);letter-spacing:.1em;white-space:nowrap;}
-
-  /* ---------- 今日头条 / 更多动态 ---------- */
-  .story-section{margin-bottom:30px;}
   .story-card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:clamp(16px,2.6vw,22px);margin-bottom:12px;}
   .story-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:9px;}
   .story-headline{font-size:clamp(15px,2vw,17.5px);font-weight:600;line-height:1.42;}
@@ -203,7 +180,7 @@
     .source-dot,.fan-dot,.pipeline-flow-dot{animation:none !important;opacity:.6;}
   }
 </style>
-<!-- 百度统计（v2 新增）：这是这份 HTML 里唯一一处需要联网的外部脚本，专门用来统计 dashboard
+<!-- 百度统计（v2 新增）：这是这份 HTML 里唯一一处需要联网的外部脚本，专门用来统计报告页
      被打开/转发后的访问情况，属于对「零 CDN、可离线」这条设计原则的刻意例外——分享出去的
      报告本来就是要被别人在联网环境下打开查看的，加载失败也不影响页面其余内容渲染。 -->
 <script>
@@ -220,32 +197,153 @@ var _hmt = _hmt || [];
 <div class="wrap" id="app"></div>
 
 <script>
+// v3 起这份 HTML 只承载一天的数据（REPORT_DATA.date / REPORT_DATA.report），不再嵌入
+// 历史窗口——回看历史现在是首页 dashboard.html 上的日期链接，点进来就是普通的页面
+// 跳转，不是在这份 HTML 内部切换。
 const REPORT_DATA = /*__REPORT_DATA_JSON__*/{};
 
-const STAGE_DEFS=[
-  ['①','采集','fetched',null,'接口拉取近24小时增量'],
-  ['②','清洗','after_dedup','fetched','按id/URL去重+规范化'],
-  ['③','筛选','after_llm_filter','after_dedup','关键词预过滤 + AI 语义复筛'],
-  ['④','聚类','clusters','after_llm_filter','归并跨源同事件报道'],
-  ['⑤','摘要','selected','clusters','打分+生成为什么相关'],
-  ['⑥','生成报告','selected','selected','渲染 HTML'],
-];
+// --------------------------------------------------------------------------
+// i18n：只支持 zh/en（config.json 的 language 字段，见 setup.py）。这里管的是页面上
+// 固定的界面文案（按钮、区块标题、空状态提示……）；标题/摘要/判断依据这类自由文本内容
+// 由 Agent 在③④⑤阶段按同一个 language 写成对应语言，已经是 REPORT_DATA 里现成的
+// 目标语言文本，不需要在这里再翻一遍。
 
-const OUTPUT_KIND_STYLE = {
-  digest:   { color:'#67E8F9', tint:'rgba(6,182,212,.1)',  border:'rgba(6,182,212,.32)' },
-  decision: { color:'#C4B5FD', tint:'rgba(139,92,246,.12)', border:'rgba(139,92,246,.4)' },
+const I18N = {
+  zh: {
+    stages: [
+      ['①','采集','接口拉取近24小时增量'],
+      ['②','清洗','按id/URL去重+规范化'],
+      ['③','筛选','关键词预过滤 + AI 语义复筛'],
+      ['④','聚类','归并跨源同事件报道'],
+      ['⑤','摘要','打分+生成为什么相关'],
+      ['⑥','生成报告','渲染 HTML'],
+    ],
+    shareBtnTitle: '一键分享给多人',
+    shareLabel: '分享今日洞察',
+    copyDone: '已复制', copyFail: '复制失败', copy: '复制',
+    shareLabelLinkCopied: '已复制链接',
+    shareToastLinkCopied: '链接已复制，发给谁都能看',
+    shareLabelTextCopied: '已复制文案',
+    shareToastRetry: '今天的链接生成失败了，跟 Claude 说"重新生成分享链接"再试一次',
+    shareTextTemplate: (name, count) => `我正在关注：\n${name}\n今日发现 ${count} 个重要变化`,
+    clusterCopyRelevance: (score) => `相关度 ${score}/10`,
+    clusterCopyWhy: '为什么相关：',
+    clusterCopySources: '原文：',
+    clusterCopyFooter: (monitor, date) => `来自 monitor-anything 日报 · ${monitor} · ${date}`,
+    monitorSwitchLabel: (n) => `你的关注点 · ${n} 个${n>1?' · 可切换':''}`,
+    noReport: '没有找到这一天的报告。',
+    noMonitors: '这一天还没有配置任何关注点。',
+    claim: (n) => `今天有 ${n} 件事值得你关注`,
+    workflowEyebrow: 'Workflow',
+    workflowTitle: '海量信源 → 你能用的判断',
+    workflowNote: (totalIn, output, pct) => `${totalIn} 条输入 → ${output} 条产出，替你过滤掉 ${pct}%`,
+    noDataYet: '暂无数据',
+    retainFull: '全量进入',
+    retainHit: (pct) => `命中 ${pct}%`,
+    retainKeep: (pct) => `保留 ${pct}%`,
+    topStoriesHeading: '今日头条',
+    topStoriesSub: (n) => `跨多个独立信源交叉验证 · ${n} 条`,
+    topStoriesEmpty: '今天没有跨源交叉验证的动态。',
+    whyTag: '为什么给你看',
+    storyMeta: (count, sources) => `${count} 篇 · ${sources} 个独立渠道`,
+    aiReasoning: 'AI 判断依据 ▾',
+    expandDetail: '展开详情 ▾',
+    viewOriginal: '查看原文 →',
+    moreDynamicsHeading: '更多动态',
+    moreDynamicsSub: (n) => `单信源报道，供你补充背景 · ${n} 条`,
+    expandMore: (n) => `展开剩余 ${n} 条 ▾`,
+    runDetailsTitle: '运行详情',
+    runDetailsSub: (n) => `关注点定义 · AI 筛选实例 · 长尾线索 ${n} 条`,
+    focusDefLabel: '关注点定义',
+    filterExamplesLabel: 'AI 筛选实例',
+    filterExamplesEmpty: '暂无筛选实例。',
+    markKeep: '✓ 保留', markExclude: '✗ 排除',
+    leadsToggle: (n) => `长尾线索 ${n} 条 ▾`,
+    leadsEmpty: '暂无长尾线索。',
+    lowConfidence: '低置信度',
+    generatedAt: (date, time) => `${date} · 生成于 ${time}`,
+    locale: 'zh-CN',
+  },
+  en: {
+    stages: [
+      ['①','Collect','Pull the last 24h from the API'],
+      ['②','Clean','Dedup by id/URL + normalize'],
+      ['③','Filter','Keyword prefilter + AI semantic pass'],
+      ['④','Cluster','Merge cross-source coverage of the same event'],
+      ['⑤','Summarize','Score + explain why it matters'],
+      ['⑥','Render','Render HTML'],
+    ],
+    shareBtnTitle: 'Share with others',
+    shareLabel: "Share today's insights",
+    copyDone: 'Copied', copyFail: 'Copy failed', copy: 'Copy',
+    shareLabelLinkCopied: 'Link copied',
+    shareToastLinkCopied: 'Link copied — send it to anyone',
+    shareLabelTextCopied: 'Text copied',
+    shareToastRetry: 'Today\'s link failed to generate. Tell Claude to "regenerate the share link" to try again.',
+    shareTextTemplate: (name, count) => `I'm tracking:\n${name}\nFound ${count} important updates today`,
+    clusterCopyRelevance: (score) => `Relevance ${score}/10`,
+    clusterCopyWhy: 'Why it matters: ',
+    clusterCopySources: 'Sources:',
+    clusterCopyFooter: (monitor, date) => `From the monitor-anything report · ${monitor} · ${date}`,
+    monitorSwitchLabel: (n) => `Your focus points · ${n}${n>1?' · switchable':''}`,
+    noReport: 'No report found for this day.',
+    noMonitors: 'No focus points were configured on this day.',
+    claim: (n) => `${n} things worth your attention today`,
+    workflowEyebrow: 'Workflow',
+    workflowTitle: 'Massive sources → judgment you can use',
+    workflowNote: (totalIn, output, pct) => `${totalIn} in → ${output} out, ${pct}% filtered for you`,
+    noDataYet: 'No data yet',
+    retainFull: 'Full pass-through',
+    retainHit: (pct) => `${pct}% match`,
+    retainKeep: (pct) => `${pct}% kept`,
+    topStoriesHeading: 'Top Stories',
+    topStoriesSub: (n) => `Cross-verified across independent sources · ${n}`,
+    topStoriesEmpty: 'No cross-verified updates today.',
+    whyTag: 'Why this matters to you',
+    storyMeta: (count, sources) => `${count} articles · ${sources} independent channels`,
+    aiReasoning: 'AI reasoning ▾',
+    expandDetail: 'Show details ▾',
+    viewOriginal: 'View original →',
+    moreDynamicsHeading: 'More Updates',
+    moreDynamicsSub: (n) => `Single-source coverage for background · ${n}`,
+    expandMore: (n) => `Show ${n} more ▾`,
+    runDetailsTitle: 'Run Details',
+    runDetailsSub: (n) => `Focus definition · AI filter examples · ${n} long-tail leads`,
+    focusDefLabel: 'Focus definition',
+    filterExamplesLabel: 'AI filter examples',
+    filterExamplesEmpty: 'No filter examples yet.',
+    markKeep: '✓ Kept', markExclude: '✗ Excluded',
+    leadsToggle: (n) => `${n} long-tail leads ▾`,
+    leadsEmpty: 'No long-tail leads.',
+    lowConfidence: 'Low confidence',
+    generatedAt: (date, time) => `${date} · Generated at ${time}`,
+    locale: 'en-US',
+  },
 };
 
-// state：当前查看的日期 + 当前选中的 monitor（切换日期时尽量保留同一个 monitor id）；
+const lang = (REPORT_DATA.report && REPORT_DATA.report.language === 'en') ? 'en' : 'zh';
+const T = I18N[lang];
+document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
+document.title = lang === 'en' ? 'Monitor Anything · Daily Report' : 'Monitor Anything · 日报';
+
+// state：当前选中的 monitor（这份 HTML 只有一天的数据，不需要记录日期了）；
 // state.mon 是当前渲染用到的完整 monitor 对象，分享按钮要用它拼分享文案。
 // state.shareUrl（v2 新增）：这一天的报告如果已经被上传过（scripts/share.py），
 // 这里会有一个真正能在浏览器打开的公开链接；没有的话就是空字符串，此时分享按钮
 // 只复制文案，不复制 location.href —— 本地文件的 file:// 路径对别人没有意义。
-const state = { date: REPORT_DATA.current_date, monitorId: null, mon: null, shareUrl: '' };
+const state = { monitorId: null, mon: null, shareUrl: '' };
 
 function esc(s){
   if(s===undefined||s===null) return '';
   return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+// 文章 url 来自抓取到的原文数据，esc() 只管 HTML 转义、管不住协议头——
+// "javascript:..." 这类值转义后依然是一个能点击执行的合法 href。这里做协议白名单，
+// 只放行 http/https，其余一律当成不可点击处理，避免点击原文链接变成执行任意脚本。
+function safeUrl(u){
+  const s = String(u||'').trim();
+  if(/^https?:\/\//i.test(s)) return s;
+  return '';
 }
 function srcMeta(t){ return (REPORT_DATA.source_labels && REPORT_DATA.source_labels[t]) || {name:t,icon:'📡'}; }
 
@@ -254,8 +352,8 @@ function srcMeta(t){ return (REPORT_DATA.source_labels && REPORT_DATA.source_lab
 function copyText(btn){
   const text=btn.dataset.copy;
   const original=btn.textContent;
-  const done=()=>{ btn.textContent='已复制'; btn.classList.add('copied'); setTimeout(()=>{btn.textContent=original; btn.classList.remove('copied');},1400); };
-  const fail=()=>{ btn.textContent='复制失败'; setTimeout(()=>{btn.textContent=original;},1400); };
+  const done=()=>{ btn.textContent=T.copyDone; btn.classList.add('copied'); setTimeout(()=>{btn.textContent=original; btn.classList.remove('copied');},1400); };
+  const fail=()=>{ btn.textContent=T.copyFail; setTimeout(()=>{btn.textContent=original;},1400); };
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(text).then(done).catch(()=>fallbackCopy(text,done,fail));
   } else {
@@ -270,43 +368,42 @@ function fallbackCopy(text,done,fail){
   document.body.removeChild(ta);
 }
 function copyButton(text){
-  return `<button type="button" class="copy-btn" data-copy="${esc(text)}" onclick="copyText(this)">复制</button>`;
+  return `<button type="button" class="copy-btn" data-copy="${esc(text)}" onclick="copyText(this)">${esc(T.copy)}</button>`;
 }
 function clusterCopyText(monitorName, date, c){
-  const lines=[`${c.headline}（相关度 ${c.score}/10）`];
+  const lines=[`${c.headline}（${T.clusterCopyRelevance(c.score)}）`];
   if(c.summary){ lines.push('',c.summary); }
-  if(c.why_relevant){ lines.push('',`为什么相关：${c.why_relevant}`); }
+  if(c.why_relevant){ lines.push('',`${T.clusterCopyWhy}${c.why_relevant}`); }
   if(c.articles && c.articles.length){
-    lines.push('','原文：');
+    lines.push('',T.clusterCopySources);
     c.articles.forEach(a=>{
       const meta=srcMeta(a.source_type);
       lines.push(`- ${a.title}（${a.feed_name||meta.name}）${a.url}`);
     });
   }
-  lines.push('',`来自 monitor-anything 日报 · ${monitorName} · ${date}`);
+  lines.push('',T.clusterCopyFooter(monitorName, date));
   return lines.join('\n');
 }
 
 // 分享文案：「我正在关注：<monitor 名称>\n今日发现 N 个重要变化」。N 用跨源交叉验证的
-// 「今日头条」条数（decision 型 monitor 目前恒无 advice，用 advice 条数兜底，实际不会触发）。
+// 「今日头条」条数。
 function insightCount(mon){
   if(!mon) return 0;
-  if(mon.output_kind === 'decision') return (mon.advice||[]).length;
   return (mon.clusters||[]).filter(c=>c.cross_source).length;
 }
 function shareText(mon){
   const name = mon ? mon.name : 'Monitor Anything';
   const count = insightCount(mon);
-  return `我正在关注：\n${name}\n今日发现 ${count} 个重要变化`;
+  return T.shareTextTemplate(name, count);
 }
 
-// v3：这个按钮不会自己发网络请求去上传当前页面——dashboard.html 是会被转发出去的
+// v3：这个按钮不会自己发网络请求去上传当前页面——<date>.html 是会被转发出去的
 // 静态文件，把能通过鉴权的 token 写进它的 JS 里，等于把 token 一起发给收到文件的
 // 任何人。真正的上传由 scripts/share.py 完成，v3 起改成每天渲染完就自动触发一次
 // （不用等用户开口要分享），拿到的公开链接会被写回 reports/<date>.json 的 share_url
 // 并重新渲染进这份 HTML——所以正常情况下打开这份 HTML 时 state.shareUrl 已经有值，
 // 下面 if(publicUrl) 才是最常见的路径；没有值的分支现在代表"今天自动上传失败了"这个
-// 边界情况，不是"功能还没触发"（详见 ARCHITECTURE.md §20）。
+// 边界情况，不是"功能还没触发"。
 function shareUrl(){
   const mon = state.mon;
   const text = shareText(mon);
@@ -329,14 +426,14 @@ function shareUrl(){
     }
     toast.textContent = toastText;
     setTimeout(()=>{
-      if(btn) btn.textContent = '分享今日洞察';
+      if(btn) btn.textContent = T.shareLabel;
       if(toast) toast.remove();
     }, 2400);
   };
 
   if(publicUrl){
     const payload = `${text}\n\n${publicUrl}`;
-    const finish = ()=>done('已复制链接', '链接已复制，发给谁都能看');
+    const finish = ()=>done(T.shareLabelLinkCopied, T.shareToastLinkCopied);
     if(navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(payload).then(finish).catch(finish);
     } else {
@@ -345,9 +442,8 @@ function shareUrl(){
   } else {
     // 没有公开链接：v3 起这只会在当天的自动上传失败时出现（网络问题/token 过期等），
     // 不是常规路径。本地文件的 file:// 路径对别人没有意义，先复制文案兜底，并提示这是
-    // 一次失败后的重试，不是在申请一个还没做的功能。文案要短——toast 贴着屏幕右边缘，
-    // 即使现在允许换行、有 max-width 兜底，太长的句子读起来也吃力。
-    const finish = ()=>done('已复制文案', '今天的链接生成失败了，跟 Claude 说"重新生成分享链接"再试一次');
+    // 一次失败后的重试，不是在申请一个还没做的功能。
+    const finish = ()=>done(T.shareLabelTextCopied, T.shareToastRetry);
     if(navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(text).then(finish).catch(finish);
     } else {
@@ -361,7 +457,7 @@ function animateNumber(el,target){
   function step(now){
     const p=Math.min(1,(now-start)/dur);
     const eased=1-Math.pow(1-p,3);
-    el.textContent=Math.round(from+(target-from)*eased).toLocaleString('zh-CN');
+    el.textContent=Math.round(from+(target-from)*eased).toLocaleString(T.locale);
     if(p<1) requestAnimationFrame(step);
   }
   requestAnimationFrame(step);
@@ -372,19 +468,17 @@ function animateNumber(el,target){
 
 function buildShareRail(){
   return `<div class="share-rail" id="shareRail">
-    <button type="button" class="share-btn" onclick="shareUrl()" title="一键分享给多人">
+    <button type="button" class="share-btn" onclick="shareUrl()" title="${esc(T.shareBtnTitle)}">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle>
         <line x1="8.6" y1="10.5" x2="15.4" y2="6.5"></line><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line>
       </svg>
-      <span class="label">分享今日洞察</span>
+      <span class="label">${esc(T.shareLabel)}</span>
     </button>
   </div>`;
 }
 
 function buildBrand(date){
-  const dates = REPORT_DATA.dates || [date];
-  const opts = dates.map(d=>`<option value="${d}" ${d===date?'selected':''}>${d}</option>`).join('');
   return `<div class="brand-row">
     <div class="brand-left">
       <div class="brand-mark"><span></span></div>
@@ -393,10 +487,7 @@ function buildBrand(date){
         <div class="brand-tag">Understand what matters, not just what happens.</div>
       </div>
     </div>
-    <div class="date-switch">
-      <span>查看日期</span>
-      <select id="dateSelect">${opts}</select>
-    </div>
+    <div class="brand-date">${esc(date)}</div>
   </div>`;
 }
 
@@ -407,11 +498,10 @@ function buildMonitorSwitch(monitors, activeId){
     return `<button type="button" class="monitor-tab ${on?'active':''}" data-monitor-id="${esc(m.id)}">
       <span class="dot"></span>
       <span class="name">${esc(m.name)}</span>
-      <span class="kind">${esc(m.output_label||'')}</span>
     </button>`;
   }).join('');
   return `<div class="monitor-switch">
-    <div class="monitor-switch-label">你的关注点 · ${count} 个${count>1?' · 可切换':''}</div>
+    <div class="monitor-switch-label">${esc(T.monitorSwitchLabel(count))}</div>
     <div class="monitor-tabs">${tabs}</div>
   </div>`;
 }
@@ -422,25 +512,15 @@ function buildAlerts(report){
 }
 
 function buildFocusHeader(mon){
-  const kind = OUTPUT_KIND_STYLE[mon.output_kind] || OUTPUT_KIND_STYLE.digest;
   const top = (mon.clusters||[]).filter(c=>c.cross_source);
-  const isAdvice = mon.output_kind === 'decision';
-  const claim = isAdvice
-    ? `今天有 ${(mon.advice||[]).length} 条建议需要你决定`
-    : `今天有 ${top.length} 件事值得你关注`;
+  const claim = T.claim(top.length);
   const tags = (mon.focus_tags||[]).map(t=>`<span class="focus-tag">${esc(t)}</span>`).join('');
   return `<header class="focus-header">
-    <div class="focus-kind-row">
-      <span class="focus-kind" style="color:${kind.color};background:${kind.tint};border:1px solid ${kind.border};">
-        <span class="dot" style="background:${kind.color};"></span>${esc(mon.output_label||'')}
-      </span>
-      <span class="focus-kind-note">在你创建这个关注点时就已定下</span>
-    </div>
     <h1 class="focus-title">${esc(mon.name)}<br><span class="claim">${esc(claim)}</span></h1>
     <p class="focus-overview">${esc(mon.overview||'')}</p>
     ${tags ? `<div class="focus-tags">${tags}</div>` : ''}
     <div class="focus-setup">
-      <span class="quote" style="color:${kind.color};">"</span>
+      <span class="quote">"</span>
       <div class="text">${esc(mon.setup_note||'')}</div>
     </div>
   </header>`;
@@ -460,7 +540,7 @@ function buildWorkflow(mon, globalStats){
         <div class="source-dot" style="animation-duration:${dur}s;animation-delay:${delay}s;"></div>
       </div>
     </div>`;
-  }).join('') || '<div class="empty-note">暂无数据</div>';
+  }).join('') || `<div class="empty-note">${esc(T.noDataYet)}</div>`;
 
   const fanDots = Array.from({length:9},(_,i)=>{
     const left = 6+i*11;
@@ -472,14 +552,17 @@ function buildWorkflow(mon, globalStats){
   const statValues = { fetched: globalStats.fetched||0, after_dedup: globalStats.after_dedup||0,
     after_llm_filter: mstats.after_llm_filter||0, clusters: mstats.clusters||0, selected: mstats.selected||0 };
   const first = statValues.fetched || 1;
+  const statKeys = ['fetched','after_dedup','after_llm_filter','clusters','selected','selected'];
+  const prevKeys = [null,'fetched','after_dedup','after_llm_filter','clusters','selected'];
 
-  const nodes = STAGE_DEFS.map(([no,label,key,prevKey,note],i)=>{
+  const nodes = T.stages.map(([no,label,note],i)=>{
+    const key = statKeys[i], prevKey = prevKeys[i];
     const val = statValues[key]||0;
     const prevVal = prevKey ? (statValues[prevKey]||0) : null;
     const retain = prevVal ? Math.round(val/Math.max(1,prevVal)*100) : null;
-    const retainLabel = retain===null ? '全量进入' : (i===STAGE_DEFS.length-1 ? `命中 ${retain}%` : `保留 ${retain}%`);
+    const retainLabel = retain===null ? T.retainFull : (i===T.stages.length-1 ? T.retainHit(retain) : T.retainKeep(retain));
     const retainColor = retain===null ? 'var(--text-weak)'
-      : i===STAGE_DEFS.length-1 ? '#22D3EE'
+      : i===T.stages.length-1 ? '#22D3EE'
       : retain>=90 ? 'var(--good)' : retain>=40 ? 'var(--warn)' : '#F87171';
     const color = i>=5 ? '#22D3EE' : i===4 ? '#C4B5FD' : i===3 ? '#93C5FD' : 'var(--text-main)';
     const pct = Math.max(5, Math.round(val/first*100));
@@ -487,12 +570,12 @@ function buildWorkflow(mon, globalStats){
     return `<div class="pipeline-node">
       <div class="pipeline-idx">${no}</div>
       <div class="pipeline-label-row">
-        <span class="pipeline-label">${label}</span>
+        <span class="pipeline-label">${esc(label)}</span>
         <div class="pipeline-flow-track"><div class="pipeline-flow-dot" style="animation-duration:${dur}s;animation-delay:${delay}s;"></div></div>
       </div>
       <div class="pipeline-value" data-target="${val}" style="color:${color};">0</div>
-      <div class="pipeline-note">${note}</div>
-      <div class="pipeline-retain" style="color:${retainColor};">${retainLabel}</div>
+      <div class="pipeline-note">${esc(note)}</div>
+      <div class="pipeline-retain" style="color:${retainColor};">${esc(retainLabel)}</div>
       <div class="pipeline-bar-track"><div class="pipeline-bar-fill" data-pct="${pct}"></div></div>
     </div>`;
   }).join('');
@@ -503,9 +586,9 @@ function buildWorkflow(mon, globalStats){
 
   return `<section class="workflow">
     <div class="workflow-head">
-      <span class="workflow-eyebrow">Workflow</span>
-      <span class="workflow-title">海量信源 → 你能用的判断</span>
-      <span class="workflow-note">${totalIn} 条输入 → ${output} 条产出，替你过滤掉 ${filteredPct}%</span>
+      <span class="workflow-eyebrow">${esc(T.workflowEyebrow)}</span>
+      <span class="workflow-title">${esc(T.workflowTitle)}</span>
+      <span class="workflow-note">${esc(T.workflowNote(totalIn, output, filteredPct))}</span>
     </div>
     <div class="source-fanin">${sourceCards}</div>
     <div class="fan-channel"><div class="fan-line"></div>${fanDots}</div>
@@ -513,41 +596,15 @@ function buildWorkflow(mon, globalStats){
   </section>`;
 }
 
-function buildAdvice(mon){
-  const advice = mon.advice || [];
-  if(mon.output_kind !== 'decision' || !advice.length) return '';
-  const tone = { good:{color:'var(--good)',tint:'rgba(16,185,129,.12)'}, warn:{color:'var(--warn)',tint:'rgba(245,158,11,.12)'}, info:{color:'var(--accent)',tint:'rgba(6,182,212,.12)'} };
-  const cards = advice.map(a=>{
-    const t = tone[a.tone] || tone.info;
-    const signals = (a.signals||[]).map(s=>`<div class="advice-signal"><span style="color:${t.color};flex-shrink:0;">→</span><span>${esc(s)}</span></div>`).join('');
-    return `<div class="advice-card" style="border-left-color:${t.color};">
-      <div class="advice-top">
-        <span class="advice-action" style="color:${t.color};background:${t.tint};">${esc(a.action||'')}</span>
-        <span class="advice-meta">窗口 ${esc(a.window||'')} · 置信度 ${esc(a.confidence||'')}</span>
-      </div>
-      <div class="advice-title">${esc(a.title||'')}</div>
-      <p class="advice-rationale">${esc(a.rationale||'')}</p>
-      <div class="advice-signals-wrap">
-        <div class="advice-signals-label">依据 · 来自今日动态</div>
-        ${signals}
-      </div>
-    </div>`;
-  }).join('');
-  return `<section class="advice-section">
-    <div class="section-head"><h2 class="section-title">今日结论</h2><span class="section-sub">该做什么、什么时候做 —— 依据附在每条下面</span></div>
-    <div class="advice-list">${cards}</div>
-  </section>`;
-}
-
 function articleLine(a){
   const meta = srcMeta(a.source_type);
-  return `<a href="${esc(a.url)}" target="_blank" rel="noopener">${meta.icon} ${esc(a.feed_name||meta.name)}</a>`;
+  const label = `${meta.icon} ${esc(a.feed_name||meta.name)}`;
+  const url = safeUrl(a.url);
+  return url ? `<a href="${esc(url)}" target="_blank" rel="noopener">${label}</a>` : `<span>${label}</span>`;
 }
 
 function buildTopStories(mon, date){
   const top = (mon.clusters||[]).filter(c=>c.cross_source).sort((a,b)=>b.score-a.score);
-  const isAdvice = mon.output_kind === 'decision';
-  const heading = isAdvice ? '关键动态' : '今日头条';
   const cards = top.map(c=>{
     const srcCount = new Set((c.articles||[]).map(a=>a.source_type)).size;
     return `<div class="story-card">
@@ -556,32 +613,32 @@ function buildTopStories(mon, date){
         <div class="story-head-right"><span class="story-score">${c.score}/10</span>${copyButton(clusterCopyText(mon.name,date,c))}</div>
       </div>
       <p class="story-summary">${esc(c.summary)}</p>
-      <div class="story-why"><span class="tag">为什么给你看</span><br>${esc(c.why_relevant)}</div>
+      <div class="story-why"><span class="tag">${esc(T.whyTag)}</span><br>${esc(c.why_relevant)}</div>
       <div class="story-sources">${(c.articles||[]).map(articleLine).join('')}</div>
       <div class="story-meta-row">
-        <span class="story-meta">${(c.articles||[]).length} 篇 · ${srcCount} 个独立渠道</span>
-        <details class="story-reasoning"><summary>AI 判断依据 ▾</summary><div class="body">${esc(c.ai_reasoning||'')}</div></details>
+        <span class="story-meta">${esc(T.storyMeta((c.articles||[]).length, srcCount))}</span>
+        <details class="story-reasoning"><summary>${esc(T.aiReasoning)}</summary><div class="body">${esc(c.ai_reasoning||'')}</div></details>
       </div>
     </div>`;
-  }).join('') || '<div class="empty-note">今天没有跨源交叉验证的动态。</div>';
+  }).join('') || `<div class="empty-note">${esc(T.topStoriesEmpty)}</div>`;
   return `<section class="story-section">
-    <div class="section-head"><h2 class="section-title">${heading}</h2><span class="section-sub">跨多个独立信源交叉验证 · ${top.length} 条</span></div>
+    <div class="section-head"><h2 class="section-title">${esc(T.topStoriesHeading)}</h2><span class="section-sub">${esc(T.topStoriesSub(top.length))}</span></div>
     ${cards}
   </section>`;
 }
 
 function notableCard(item, mon, date){
-  const srcSuffix = item.articles.length>1 ? ` · 等 ${item.articles.length} 篇` : '';
+  const srcSuffix = item.articles.length>1 ? ` · ${item.articles.length}` : '';
   const first = item.articles[0]||{};
   const meta = srcMeta(first.source_type);
   return `<div class="notable-card">
     <div class="notable-top"><div class="notable-headline">${esc(item.headline)}</div><span class="notable-score">${item.score}/10</span></div>
-    <div class="notable-meta">${meta.icon} ${esc(first.feed_name||meta.name)}${srcSuffix}</div>
+    <div class="notable-meta">${meta.icon} ${esc(first.feed_name||meta.name)}${esc(srcSuffix)}</div>
     <details>
-      <summary>展开详情 ▾</summary>
+      <summary>${esc(T.expandDetail)}</summary>
       <div class="body">${esc(item.summary)}</div>
       <div class="why">${esc(item.why_relevant)}</div>
-      <a href="${esc(first.url)}" target="_blank" rel="noopener">查看原文 →</a>
+      ${safeUrl(first.url) ? `<a href="${esc(safeUrl(first.url))}" target="_blank" rel="noopener">${esc(T.viewOriginal)}</a>` : ''}
     </details>
   </div>`;
 }
@@ -593,11 +650,11 @@ function buildNotableDynamics(mon, date, visibleN){
   const overflow = rest.slice(visibleN);
   const visibleCards = visible.map(c=>notableCard(c, mon, date)).join('');
   const overflowCards = overflow.length ? `<details class="notable-more">
-    <summary class="notable-more-toggle">展开剩余 ${overflow.length} 条 ▾</summary>
+    <summary class="notable-more-toggle">${esc(T.expandMore(overflow.length))}</summary>
     <div class="notable-grid notable-more-body">${overflow.map(c=>notableCard(c, mon, date)).join('')}</div>
   </details>` : '';
   return `<section class="story-section">
-    <div class="section-head"><h2 class="section-title">更多动态</h2><span class="section-sub">单信源报道，供你补充背景 · ${rest.length} 条</span></div>
+    <div class="section-head"><h2 class="section-title">${esc(T.moreDynamicsHeading)}</h2><span class="section-sub">${esc(T.moreDynamicsSub(rest.length))}</span></div>
     <div class="notable-grid">${visibleCards}</div>
     ${overflowCards}
   </section>`;
@@ -607,37 +664,38 @@ function buildRunDetails(mon){
   const examples = (mon.filter_examples||[]).map(ex=>{
     const keep = ex.action === 'keep';
     return `<div class="filter-example ${keep?'keep':''}">
-      <span class="mark">${keep?'✓ 保留':'✗ 排除'}</span>「${esc(ex.title)}」
+      <span class="mark">${keep?esc(T.markKeep):esc(T.markExclude)}</span>「${esc(ex.title)}」
       <span class="reason"> — ${esc(ex.reason)}</span>
     </div>`;
-  }).join('') || '<div class="empty-note">暂无筛选实例。</div>';
+  }).join('') || `<div class="empty-note">${esc(T.filterExamplesEmpty)}</div>`;
 
   const leads = mon.leads||[];
   const leadRows = leads.map((l,i)=>{
     const meta = srcMeta(l.source_type);
-    const lc = l.low_confidence ? '<span class="lead-lc"> 低置信度</span>' : '';
-    const titleHtml = l.url ? `<a href="${esc(l.url)}" target="_blank" rel="noopener">${meta.icon} ${esc(l.title)}</a>` : `${meta.icon} ${esc(l.title)}`;
+    const lc = l.low_confidence ? `<span class="lead-lc"> ${esc(T.lowConfidence)}</span>` : '';
+    const leadUrl = safeUrl(l.url);
+    const titleHtml = leadUrl ? `<a href="${esc(leadUrl)}" target="_blank" rel="noopener">${meta.icon} ${esc(l.title)}</a>` : `${meta.icon} ${esc(l.title)}`;
     return `<div class="lead-row">
       <div class="lead-idx">${String(i+1).padStart(2,'0')}</div>
       <div class="lead-title">${titleHtml}${lc}<div class="lead-meta">${esc(l.feed_name||meta.name)} · ${esc(l.reason||'')}</div></div>
     </div>`;
-  }).join('') || '<div class="empty-note">暂无长尾线索。</div>';
+  }).join('') || `<div class="empty-note">${esc(T.leadsEmpty)}</div>`;
 
   return `<section class="rundetails">
     <details>
-      <summary class="rundetails-summary"><span class="t">运行详情</span><span class="s">关注点定义 · AI 筛选实例 · 长尾线索 ${leads.length} 条</span></summary>
+      <summary class="rundetails-summary"><span class="t">${esc(T.runDetailsTitle)}</span><span class="s">${esc(T.runDetailsSub(leads.length))}</span></summary>
       <div class="rundetails-body">
         <div class="rundetails-block">
-          <div class="rundetails-label">关注点定义</div>
+          <div class="rundetails-label">${esc(T.focusDefLabel)}</div>
           <div class="rundetails-desc">${esc(mon.description||'')}</div>
         </div>
         <div class="rundetails-block">
-          <div class="rundetails-label">AI 筛选实例</div>
+          <div class="rundetails-label">${esc(T.filterExamplesLabel)}</div>
           ${examples}
         </div>
         <div class="rundetails-block">
           <details>
-            <summary class="leads-summary">长尾线索 ${leads.length} 条 ▾</summary>
+            <summary class="leads-summary">${esc(T.leadsToggle(leads.length))}</summary>
             <div class="leads-body">${leadRows}</div>
           </details>
         </div>
@@ -649,24 +707,24 @@ function buildRunDetails(mon){
 function buildFooter(date, generatedAt){
   return `<footer>
     <div>Monitor Anything · 零一实验室 · <a href="https://lingyilabs.com/" target="_blank" rel="noopener">lingyilabs.com</a></div>
-    <div>${date} · 生成于 ${esc(generatedAt||'')}</div>
+    <div>${esc(T.generatedAt(date, generatedAt||''))}</div>
   </footer>`;
 }
 
 // ---------------------------------------------------------------------
 // 主渲染
 
-function render(date, monitorId){
-  const report = REPORT_DATA.reports[date];
+function render(monitorId){
+  const date = REPORT_DATA.date;
+  const report = REPORT_DATA.report;
   const app = document.getElementById('app');
-  if(!report){ app.innerHTML = '<p>没有找到这一天的报告。</p>'; return; }
+  if(!report){ app.innerHTML = `<p>${esc(T.noReport)}</p>`; return; }
   const monitors = report.monitors || [];
   if(!monitors.length){
-    app.innerHTML = buildShareRail() + buildBrand(date) + buildAlerts(report) + '<div class="empty-note">这一天还没有配置任何关注点。</div>' + buildFooter(date, report.generated_at);
+    app.innerHTML = buildShareRail() + buildBrand(date) + buildAlerts(report) + `<div class="empty-note">${esc(T.noMonitors)}</div>` + buildFooter(date, report.generated_at);
     return;
   }
   let mon = monitors.find(m=>m.id === monitorId) || monitors[0];
-  state.date = date;
   state.monitorId = mon.id;
   state.mon = mon;
   state.shareUrl = report.share_url || '';
@@ -678,20 +736,14 @@ function render(date, monitorId){
     buildAlerts(report),
     buildFocusHeader(mon),
     buildWorkflow(mon, report.stats||{}),
-    buildAdvice(mon),
-    mon.output_kind==='decision' && (mon.advice||[]).length ? `<div class="dynamics-divider"><div class="line"></div><span class="label">以下是支撑上述结论的今日动态</span><div class="line"></div></div>` : '',
     buildTopStories(mon, date),
     buildNotableDynamics(mon, date, 5),
     buildRunDetails(mon),
     buildFooter(date, report.generated_at),
   ].join('');
 
-  document.getElementById('dateSelect').addEventListener('change', e=>{
-    const newDate = e.target.value;
-    render(newDate, state.monitorId);
-  });
   document.querySelectorAll('.monitor-tab').forEach(btn=>{
-    btn.addEventListener('click', ()=>render(state.date, btn.dataset.monitorId));
+    btn.addEventListener('click', ()=>render(btn.dataset.monitorId));
   });
 
   document.querySelectorAll('.pipeline-value').forEach(el=>animateNumber(el, parseInt(el.dataset.target||'0',10)));
@@ -702,7 +754,7 @@ function render(date, monitorId){
   });
 }
 
-render(state.date, null);
+render(null);
 </script>
 </body>
 </html>

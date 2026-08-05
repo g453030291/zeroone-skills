@@ -1,22 +1,28 @@
 #!/usr/bin/env python3
-"""share.py —— v2 新增：把 dashboard.html 上传到零一实验室的分享服务，换回一个可以直接
-在浏览器打开、随意转发的公开链接。这是 dashboard 上「分享今日洞察」按钮想要达成的效果。
+"""share.py —— 把当天的独立报告页 data/reports/<date>.html 上传到零一实验室的分享服务，
+换回一个可以直接在浏览器打开、随意转发的公开链接。这是报告页上「分享今日洞察」按钮想要
+达成的效果。
 
-**为什么上传逻辑不写进 assets/template.html 的按钮点击事件里**：dashboard.html 本身就是
-会被分享出去的文件——单文件、可离线、双击即开是这个项目刻意保留的能力（§设计原则）。如果
-把上传请求写进它的 `<script>`，就必须把能通过鉴权的 Bearer token 一起打包进这份到处转发的
-静态文件，任何拿到这个文件的人都能读到源码里的 token 并冒用你的额度，这和「token 只留在
-本地 config.json，从不离开用户机器」的既有原则冲突。所以「上传」被设计成一次显式的、由
-Agent 触发的脚本调用；浏览器里的按钮本身仍然只做本地文案复制/系统分享面板，不需要网络。
+**为什么上传逻辑不写进 assets/template.html 的按钮点击事件里**：<date>.html 本身就是
+会被分享出去的文件——单文件、可离线、双击即开是这个项目刻意保留的能力。如果把上传请求
+写进它的 `<script>`，就必须把能通过鉴权的 Bearer token 一起打包进这份到处转发的静态文件，
+任何拿到这个文件的人都能读到源码里的 token 并冒用你的额度，这和「token 只留在本地
+config.json，从不离开用户机器」的既有原则冲突。所以「上传」被设计成一次显式的、由 Agent
+触发的脚本调用；浏览器里的按钮本身仍然只做本地文案复制/系统分享面板，不需要网络。
+
+v3 起收窄了上传范围：每份 `<date>.html` 天生就只含那一天的数据（见 render.py），所以
+「分享今日洞察」上传的就是这一个文件本身，不会像旧版那样把首页嵌入的历史窗口、其他
+monitor 一起带出去——因为现在首页压根不内嵌任何报告内容了。也因此这个脚本不再接受
+`--file`（任意本地文件都能传的口子，没有必要保留）。
 
 跑完这个脚本、拿到公开链接后，脚本会把链接写回 reports/<date>.json 的 share_url 字段并
-重新渲染一次 dashboard.html——下次用户打开这份 HTML 再点「分享今日洞察」，按钮里用的就是
-这个真正能发给别人的公开链接，而不是本地文件路径（file:// 对别人没有意义）。
+重新渲染那一天的 `<date>.html`——下次用户打开这份 HTML 再点「分享今日洞察」，按钮里用的
+就是这个真正能发给别人的公开链接，而不是本地文件路径（file:// 对别人没有意义）。首页
+dashboard.html 和 dates-manifest.js 不受影响，不需要重新生成。
 
 用法：
-    python share.py upload                              # 上传今天的 dashboard.html
-    python share.py upload --date 2026-08-04             # 指定日期（决定往哪份 <date>.json 写回链接）
-    python share.py upload --file /path/to/xxx.html      # 上传指定文件而非 dashboard.html
+    python share.py upload                              # 上传今天的 <date>.html
+    python share.py upload --date 2026-08-04             # 指定日期
 """
 
 from __future__ import annotations
@@ -81,8 +87,7 @@ def upload_html(url: str, token: str, file_path: Path, timeout: int = 30) -> Any
 
 
 def extract_share_url(data: Any) -> str:
-    """接口返回结构以实际线上为准，这里尽量兼容几种常见形状；取不到就返回空字符串，
-    调用方会把原始 data 一并打印出来，Agent 可以直接读原始返回内容转述给用户。"""
+    """接口返回结构以实际线上为准，这里尽量兼容几种常见形状。"""
     if isinstance(data, str):
         return data
     if isinstance(data, dict):
@@ -99,8 +104,8 @@ def cmd_upload(args: argparse.Namespace) -> int:
         print("未配置 API token，无法分享。请先完成 setup（python3 scripts/setup.py check-token）。", file=sys.stderr)
         return 1
 
-    date = args.date or common.today_str()
-    file_path = Path(args.file) if args.file else (common.reports_dir() / "dashboard.html")
+    date = common.validate_date(args.date or common.today_str())
+    file_path = common.reports_dir() / f"{date}.html"
 
     try:
         data = upload_html(common.SHARE_HTML_URL, token, file_path, timeout=args.timeout)
@@ -109,30 +114,36 @@ def cmd_upload(args: argparse.Namespace) -> int:
         return 1
 
     share_url = extract_share_url(data)
+    if not share_url:
+        # 接口返回了 200，但没能从返回内容里提取到链接——不能当成功处理，不然用户会
+        # 拿着一句"分享成功"却没有任何真链接。把原始返回内容打出来，方便 Agent 直接
+        # 读原始返回转述给用户，或者据此调整 extract_share_url() 兼容新的返回形状。
+        print(
+            f"分享接口返回了 200，但没能从返回内容里提取到链接，原始返回：{json.dumps(data, ensure_ascii=False)}",
+            file=sys.stderr,
+        )
+        return 1
 
     report_path = common.reports_dir() / f"{date}.json"
-    if share_url and report_path.exists():
+    if report_path.exists():
         report = common.read_json(report_path)
         report["share_url"] = share_url
         common.write_json(report_path, report)
         # 把新链接带进这次重渲染，之后按钮里用的就是这个公开链接，而不是本地文件路径。
-        # 历史天数跟 render.py 保持同一个取值来源（config.json 的 retention.reports_days）。
-        history_days = cfg.get("retention", {}).get("reports_days", render.DEFAULT_HISTORY_DAYS)
-        recent = render.load_recent_reports(date, days=history_days)
-        html = render.render_html(date, recent)
-        (common.reports_dir() / "dashboard.html").write_text(html, encoding="utf-8")
+        # 只重渲染这一天的独立文件，首页 dashboard.html 和 dates-manifest.js 不受影响。
+        html = render.render_day_html(date, report)
+        file_path.write_text(html, encoding="utf-8")
 
     print(json.dumps({"share_url": share_url, "raw": data}, ensure_ascii=False))
     return 0
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="上传日报 HTML，换取可分享的公开链接")
+    parser = argparse.ArgumentParser(description="上传当天的独立报告页，换取可分享的公开链接")
     sub = parser.add_subparsers(dest="cmd", required=True)
 
-    p_upload = sub.add_parser("upload", help="上传 dashboard.html（或指定文件）到分享服务")
-    p_upload.add_argument("--date", help="报告日期，默认今天；决定把链接写回哪份 reports/<date>.json")
-    p_upload.add_argument("--file", help="要上传的文件路径，默认 data/reports/dashboard.html")
+    p_upload = sub.add_parser("upload", help="上传 data/reports/<date>.html 到分享服务")
+    p_upload.add_argument("--date", help="报告日期，默认今天；决定上传哪一天的独立文件")
     p_upload.add_argument("--timeout", type=int, default=30)
     p_upload.set_defaults(func=cmd_upload)
 

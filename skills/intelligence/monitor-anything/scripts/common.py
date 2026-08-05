@@ -1,4 +1,4 @@
-"""共享工具模块 —— 供 harvest.py / report.py / render.py / setup.py / schedule.py 复用。
+"""共享工具模块 —— 供 harvest.py / report.py / render.py / setup.py 复用。
 
 设计原则（详见 ARCHITECTURE.md）：
 - 零第三方依赖，只用标准库
@@ -15,8 +15,38 @@ import sqlite3
 import sys
 import time
 import unicodedata
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Iterable, Optional
+from typing import Any, Optional
+
+# --------------------------------------------------------------------------
+# 输入校验（防路径穿越）
+#
+# monitor_id 会被直接拼进 .work/ 下的中间产物文件名（candidates-<id>-<date>.json 等），
+# date 同理。如果不做白名单校验，像 "../../../pwned" 这样的值会让拼接出的路径跳出
+# .work/ 目录，把文件写到仓库里任意可写的地方。这里用白名单而非黑名单——只允许安全
+# 字符通过，而不是尝试列举要拦截哪些危险字符。
+
+_MONITOR_ID_RE = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
+_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
+def validate_monitor_id(monitor_id: str) -> str:
+    if not monitor_id or not _MONITOR_ID_RE.match(monitor_id):
+        print(
+            f"非法的 monitor id：{monitor_id!r}（只允许字母、数字、下划线、短横线，1~64 个字符）",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    return monitor_id
+
+
+def validate_date(date: str) -> str:
+    if not date or not _DATE_RE.match(date):
+        print(f"非法的日期：{date!r}（格式应为 YYYY-MM-DD）", file=sys.stderr)
+        sys.exit(1)
+    return date
+
 
 # --------------------------------------------------------------------------
 # 路径
@@ -83,7 +113,12 @@ DEFAULT_CONFIG: dict[str, Any] = {
     # v2：不再有可插拔的 outputs 数组（email / webhook 扩展层已移除，见 ARCHITECTURE.md），
     # 产出路径固定为 html（render.py 无条件生成，不再生成 Markdown）+ 按需触发的 HTML 分享（share.py）。
     "retention": {"articles_days": 30, "reports_days": 30},
+    # v3：这两个字段驱动的不是脚本内部逻辑，而是 Setup 阶段 Agent 创建的两条宿主平台
+    # 定时任务（见 SKILL.md「建立自动化」一节）——report_time 是「报告任务」（跑③~⑥）
+    # 每天触发一次的时间点，harvest_hours 是「采集任务」（只跑 harvest.py run）一天内
+    # 触发的时刻列表，默认 4 次覆盖 24 小时窗口，单次漏跑不丢数据。
     "report_time": "08:00",
+    "harvest_hours": [0, 6, 12, 18],
     "min_score": 6,
 }
 
@@ -105,10 +140,84 @@ def load_config() -> dict[str, Any]:
 
 
 def save_config(cfg: dict[str, Any]) -> None:
+    """config.json 含 API token，权限必须锁定为仅当前用户可读写（0600），不能依赖
+    系统 umask 的默认结果——多数系统的默认 umask 会让新建文件变成 0644（同机器的
+    其他账号也能读）。用 os.open 以目标权限直接创建文件，避免"先按默认权限创建、
+    再补 chmod"这种做法之间出现的短暂窗口；如果文件已经存在（比如是旧版本产生的、
+    权限更宽），os.open 的 mode 参数不会生效，所以后面再显式 chmod 一次兜底。
+    """
     path = config_path()
     path.parent.mkdir(parents=True, exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+    with os.fdopen(fd, "w", encoding="utf-8") as f:
         json.dump(cfg, f, ensure_ascii=False, indent=2)
+    os.chmod(path, 0o600)
+
+
+# --------------------------------------------------------------------------
+# 文案 i18n（v3 新增）
+#
+# ③④⑤三个语义阶段（headline/summary/why_relevant/overview/ai_reasoning/examples）的
+# 语言由 Agent 在读 prompts/*.md 时根据 report.py 传入的 language 字段自己写成对应
+# 语言，不归这里管。这里管的是 report.py/render.py 自己拼出来的固定文案——比如零命中
+# 时的兜底 overview、线索区的排除原因、失败告警——这些是 Python 代码直接生成的字符串，
+# 不经过 Agent，所以需要在这里维护一份 zh/en 对照表，而不能指望"Agent 会自己翻译"。
+#
+# 只支持 zh/en 两种（config.json 的 language 字段选择范围见 setup.py），不认识的语言
+# 一律回退到 zh。
+
+SUPPORTED_LANGUAGES = ("zh", "en")
+
+_STRINGS: dict[str, dict[str, str]] = {
+    "zh": {
+        "output_label_digest": "每日日报",
+        "overview_empty": (
+            "今天你关注的方向没有明显动静，这很正常。数据每天更新，明天再来看看；"
+            "也可以考虑放宽关注范围。"
+        ),
+        "setup_note_default": (
+            "配置时你说：{description}。之后每天会按这个方向筛选、聚类、生成摘要，"
+            "判断始终基于当天实际抓到的数据，不会为了好看而夸大。"
+        ),
+        "lead_reason_single": "仅 1 篇（{feed_name}），不足 2 个独立信源",
+        "lead_reason_cross": "{count} 篇 · 跨 {sources} 个渠道，相关度 {score}/10 未达阈值",
+        "lead_reason_same_source": "{count} 篇 · 同源转载，相关度 {score}/10 未达阈值",
+        "single_source_fallback": "单一来源",
+        "alert_fetch_failed": "最近的数据采集出现了问题，今天的报告可能不完整。",
+        "alert_no_new": "最近一次采集没有抓到新内容，可能是数据源暂时没有更新，也可能是连接异常。",
+    },
+    "en": {
+        "output_label_digest": "Daily Digest",
+        "overview_empty": (
+            "Nothing notable happened today in what you're tracking — that's normal. "
+            "Data refreshes daily, check back tomorrow, or consider broadening your focus."
+        ),
+        "setup_note_default": (
+            "When you set this up you said: {description}. Every day it filters, clusters, "
+            "and summarizes based on this direction, always grounded in what was actually "
+            "fetched that day — never exaggerated for effect."
+        ),
+        "lead_reason_single": "Only 1 article ({feed_name}), fewer than 2 independent sources",
+        "lead_reason_cross": "{count} articles · across {sources} channels, relevance {score}/10 below threshold",
+        "lead_reason_same_source": "{count} articles · same-source reposts, relevance {score}/10 below threshold",
+        "single_source_fallback": "single source",
+        "alert_fetch_failed": "Recent data collection ran into a problem — today's report may be incomplete.",
+        "alert_no_new": (
+            "The last collection run didn't find anything new. The source may not have "
+            "updated, or the connection may be having issues."
+        ),
+    },
+}
+
+
+def normalize_language(language: str) -> str:
+    return language if language in SUPPORTED_LANGUAGES else "zh"
+
+
+def t(language: str, key: str, **kwargs: Any) -> str:
+    table = _STRINGS.get(normalize_language(language), _STRINGS["zh"])
+    template = table.get(key, _STRINGS["zh"].get(key, key))
+    return template.format(**kwargs) if kwargs else template
 
 
 def get_token(cfg: dict[str, Any]) -> str:
@@ -179,9 +288,17 @@ CREATE TABLE IF NOT EXISTS runs (
 
 
 def connect_db() -> sqlite3.Connection:
-    conn = sqlite3.connect(db_path())
+    path = db_path()
+    conn = sqlite3.connect(path)
     conn.executescript(SCHEMA)
     conn.row_factory = sqlite3.Row
+    # monitor.db 存的是抓取到的公众号、纽约时报等全文内容，同样不该让同机器的其他
+    # 账号读到。sqlite3.connect() 建库时的权限也受 umask 影响，这里显式收紧一次；
+    # 只读文件系统等异常情况不应该阻断主流程，静默跳过即可。
+    try:
+        os.chmod(path, 0o600)
+    except OSError:
+        pass
     return conn
 
 
@@ -210,11 +327,18 @@ def check_data_not_tracked_by_git() -> None:
         )
     except Exception:
         return  # 没有 git 可执行文件等异常情况，不阻断主流程
-    if out.returncode == 0 and out.stdout.strip():
+    if out.returncode != 0 or not out.stdout.strip():
+        return
+    # .gitkeep 是有意跟踪的占位文件（用于让 data/ 这个空目录结构本身进仓库），
+    # 不算误提交，检查时要排除它，否则每次都会误报。真正需要拦截的是全文数据库、
+    # config.json（含 token）之类被不小心加进 git 的文件。
+    tracked = [line for line in out.stdout.splitlines() if Path(line).name != ".gitkeep"]
+    if tracked:
         print(
-            "检测到 data/ 目录已被 git 跟踪。data/ 存放抓取到的公众号、纽约时报等全文内容，"
-            "误提交到公开仓库存在版权风险。\n"
-            "请先执行：git rm -r --cached data/ 并确认 .gitignore 中包含 data/，再重新运行。",
+            "检测到 data/ 目录下有以下文件被 git 跟踪，可能误提交了抓取到的全文内容或 "
+            "API token：\n  " + "\n  ".join(tracked) + "\n"
+            "存在版权风险和凭据泄露风险。请先执行：git rm -r --cached <上述文件> "
+            "并确认 .gitignore 中包含 data/*（保留 data/.gitkeep 例外），再重新运行。",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -268,6 +392,23 @@ def url_hash(url: Optional[str]) -> str:
     if not normalized:
         return ""
     return hashlib.sha256(normalized.encode("utf-8")).hexdigest()[:24]
+
+
+_SAFE_URL_RE = re.compile(r"^https?://", re.IGNORECASE)
+
+
+def safe_article_url(url: Optional[str]) -> str:
+    """服务端侧 URL 协议白名单：只放行 http(s)，非法协议（`javascript:` / `data:` 等）
+    在数据层就地清空成空字符串。
+
+    这是「防御纵深」的第一层——`assets/template.html` 的 `safeUrl()` 是第二层，在
+    渲染时再兜一次底。只留客户端那一层的话，任何人以后改坏那份手写 JS（或者干脆
+    绕过它直接读 REPORT_DATA）就会让恶意协议重新变得可点击；在这里让恶意协议
+    根本不会出现在下发给浏览器的报告 JSON 里，两层缺一层都还有另一层兜底。
+    """
+    if not url:
+        return ""
+    return url if _SAFE_URL_RE.match(url) else ""
 
 
 def normalize_publish_time(raw: Optional[str]) -> str:
@@ -416,7 +557,29 @@ def today_str() -> str:
 
 
 def now_iso_local() -> str:
-    return time.strftime("%Y-%m-%dT%H:%M:%S+08:00")
+    """给人看的本地时间戳（report.json 的 generated_at 等展示字段用）。
+
+    用系统真实的本地 UTC 偏移，不是硬编码的 `+08:00`——旧实现不管运行环境实际时区
+    是什么，一律贴 `+08:00` 标签，系统不在 UTC+8 时这个时间戳本身就是错的（只是
+    "看起来像"本地时间，数值上并不对）。这个函数只用于展示，不要拿它写数据库时间戳，
+    数据库统一用 now_utc_sql()（见下）。
+    """
+    return datetime.now().astimezone().isoformat(timespec="seconds")
+
+
+def now_utc_sql() -> str:
+    """返回 UTC 时间，格式与 SQLite `datetime('now')` 完全一致（`YYYY-MM-DD HH:MM:SS`，
+    空格分隔、不带时区后缀），专门给写入数据库的时间戳字段用（articles.fetched_at /
+    runs.run_at）。
+
+    这两个字段全靠字符串比较去判断"是否在最近 N 小时内"（`WHERE fetched_at >=
+    datetime('now', '-24 hours')`），只要写入和比较两边不是同一种格式、同一个时区，
+    这个比较就是错的——旧的 now_iso_local() 把本地时间硬贴 +08:00 标签写进去，
+    跟 SQLite 用 UTC 算出来的 `datetime('now', ...)` 比较时，时区本身就对不上
+    （系统在非 UTC+8 环境下更是双重错误），实测出现过 33 小时前的数据仍被判定为
+    "24 小时内"。这里让两边都用同一种 UTC、同一种格式，从根上消掉这个偏差。
+    """
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
 
 
 def read_json(path: Path) -> Any:

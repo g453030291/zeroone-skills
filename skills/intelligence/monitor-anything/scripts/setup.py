@@ -134,12 +134,10 @@ def cmd_init_config(args: argparse.Namespace) -> int:
         m.setdefault("mute_feeds", [])
         if not m.get("id"):
             raise SystemExit("每个 monitor 必须有 id 字段")
+        common.validate_monitor_id(m["id"])
         if not m.get("description"):
             raise SystemExit(f"monitor {m['id']} 缺少 description（唯一必填字段）")
         m.setdefault("name", m["id"])
-        # output_kind 目前只有 digest 会被实际渲染（decision 是给未来「决策型」
-        # 输出预留的 schema 开关，本版不生成 advice 内容，见 report.py 顶部注释）。
-        m.setdefault("output_kind", "digest")
         m.setdefault("focus_tags", [])
         m.setdefault("setup_note", "")
     cfg["monitors"] = monitors
@@ -166,7 +164,13 @@ def main() -> int:
 
     p3 = sub.add_parser("init-config", help="写入 monitors / language / retention 等设置")
     p3.add_argument("--monitors-json", required=True, help="Agent 与用户确认后的 monitor 定义 JSON 路径")
-    p3.add_argument("--language", default="zh", choices=["zh", "en", "raw"])
+    p3.add_argument(
+        "--language",
+        default="zh",
+        choices=list(common.SUPPORTED_LANGUAGES),
+        help="报告用哪种语言输出——目前只支持中文/英文，决定③④⑤阶段 Agent 写作用的语言，"
+        "以及 report.py/render.py 自己生成的固定文案（零命中兜底、线索原因、失败告警等）",
+    )
     p3.add_argument("--report-time", default="08:00")
     p3.add_argument("--retention-days", type=int, default=30)
     p3.set_defaults(func=cmd_init_config)
