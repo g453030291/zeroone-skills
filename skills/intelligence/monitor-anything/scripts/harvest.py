@@ -152,16 +152,28 @@ def purge_expired(conn, articles_days: int, reports_days: int) -> None:
 
     reports = common.reports_dir()
     cutoff = time.time() - reports_days * 86400
+    removed_any = False
     for f in reports.glob("*.json"):
         if f.stem == "dashboard" or f.name == "dashboard.html":
             continue
         if f.stat().st_mtime < cutoff:
             f.unlink(missing_ok=True)
+            removed_any = True
     for f in reports.glob("*.html"):
         if f.name == "dashboard.html":
             continue
         if f.stat().st_mtime < cutoff:
             f.unlink(missing_ok=True)
+            removed_any = True
+
+    if removed_any:
+        # 首页展示哪些日期完全由 dates-manifest.js 决定。只删文件不更新清单，首页会
+        # 继续列出这些已经不存在的日期，点进去是死链——用户看到的是"报告坏了"，
+        # 而不是"这一天已经过期清理了"。render.py 只在生成报告时才跑，清理发生在
+        # harvest 里，所以必须在这里补一次。
+        import render
+
+        render.write_manifest()
 
     work_cutoff = time.time() - common.WORK_RETENTION_DAYS * 86400
     for f in common.work_dir().glob("*.json"):

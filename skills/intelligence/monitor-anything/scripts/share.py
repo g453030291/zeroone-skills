@@ -16,9 +16,14 @@ monitor 一起带出去——因为现在首页压根不内嵌任何报告内容
 `--file`（任意本地文件都能传的口子，没有必要保留）。
 
 跑完这个脚本、拿到公开链接后，脚本会把链接写回 reports/<date>.json 的 share_url 字段并
-重新渲染那一天的 `<date>.html`——下次用户打开这份 HTML 再点「分享今日洞察」，按钮里用的
-就是这个真正能发给别人的公开链接，而不是本地文件路径（file:// 对别人没有意义）。首页
-dashboard.html 和 dates-manifest.js 不受影响，不需要重新生成。
+重新渲染那一天的 `<date>.html`——**这一步只服务于本地那份文件**：用户在自己机器上用
+file:// 打开报告点「分享今日洞察」时，按钮需要一个能发给别人的链接，而 file:// 路径对
+别人没有意义，所以本地文件里必须写死一个 share_url。
+
+已经上传上去的那份公开副本不依赖这个回写，也不可能依赖——上传的必然是"还不知道自己
+URL"的那个版本，写死进去的 share_url 永远滞后一轮。公开副本改成直接读 location.href
+看自己在哪（见 assets/template.html 里 shareUrl() 的注释），因此**不需要**为了让分享
+按钮可用而上传两次。首页 dashboard.html 和 dates-manifest.js 不受影响，不需要重新生成。
 
 用法：
     python share.py upload                              # 上传今天的 <date>.html
@@ -129,8 +134,9 @@ def cmd_upload(args: argparse.Namespace) -> int:
         report = common.read_json(report_path)
         report["share_url"] = share_url
         common.write_json(report_path, report)
-        # 把新链接带进这次重渲染，之后按钮里用的就是这个公开链接，而不是本地文件路径。
-        # 只重渲染这一天的独立文件，首页 dashboard.html 和 dates-manifest.js 不受影响。
+        # 把新链接带进这次重渲染，本地这份文件的分享按钮才有东西可复制（公开副本不靠
+        # 它，见文件顶部注释）。只重渲染这一天的独立文件，首页 dashboard.html 和
+        # dates-manifest.js 不受影响。
         html = render.render_day_html(date, report)
         file_path.write_text(html, encoding="utf-8")
 

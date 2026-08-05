@@ -42,10 +42,37 @@ def validate_monitor_id(monitor_id: str) -> str:
 
 
 def validate_date(date: str) -> str:
+    """既校验外形（YYYY-MM-DD，防路径穿越），也校验它是不是一个真实存在的日期。
+
+    只做正则匹配是不够的——`2026-99-99` 外形完全合法，会一路带着往下走，最终产出
+    一份日期本身就不存在的 reports/2026-99-99.json，而且一切都"成功"了没有任何提示。
+    这里用 strptime 再过一道，把不存在的日期（含 2 月 30 日、非闰年的 2 月 29 日）
+    在入口处就拦掉。
+    """
     if not date or not _DATE_RE.match(date):
         print(f"非法的日期：{date!r}（格式应为 YYYY-MM-DD）", file=sys.stderr)
         sys.exit(1)
+    try:
+        datetime.strptime(date, "%Y-%m-%d")
+    except ValueError:
+        print(f"不存在的日期：{date!r}（外形合法，但这一天并不存在）", file=sys.stderr)
+        sys.exit(1)
     return date
+
+
+def new_run_id() -> str:
+    """给"一个 monitor 的一轮③~⑥流水线"生成的唯一标识。
+
+    存在的理由：同一天可以重复跑（改了配置、上午跑失败了下午重来、补充检索后重跑
+    candidates）。没有这个标识时，`finalize` 只能看到"报告里有没有这个 monitor 的
+    小节"，无法分辨那一节是本轮刚生成的，还是昨天/上午那一轮留下来的——于是
+    "只跑 candidates 就直接 finalize" 这种明显没跑完的情况也会返回 0，把陈旧报告当
+    成功收尾。加上 run_id 之后，finalize 要求每个 monitor 小节的 run_id 与本轮
+    candidates 写下的那个完全一致，对不上就是没跑完。
+
+    用时间戳 + 随机后缀而不是纯随机：出问题时肉眼就能看出这一轮是什么时候开始的。
+    """
+    return f"{time.strftime('%Y%m%dT%H%M%S')}-{os.urandom(4).hex()}"
 
 
 # --------------------------------------------------------------------------
@@ -57,7 +84,15 @@ def skill_root() -> Path:
 
 
 def data_dir() -> Path:
-    d = skill_root() / "data"
+    """运行期数据（config.json、monitor.db、reports/、.work/）的根目录。
+
+    默认仍然是 Skill 安装目录下的 `data/`，保持既有安装的零迁移。但允许用环境变量
+    `MONITOR_DATA_DIR` 指向别处——Skill 安装目录在有些环境里是只读的，或者会在
+    升级时被整目录替换，那样配置和历史报告会一起消失。想把数据放到 Skill 之外
+    （比如 `~/.monitor-anything`），设这个环境变量即可，所有脚本都会跟着走。
+    """
+    override = os.environ.get("MONITOR_DATA_DIR")
+    d = Path(override).expanduser().resolve() if override else skill_root() / "data"
     (d / "reports").mkdir(parents=True, exist_ok=True)
     (d / ".work").mkdir(parents=True, exist_ok=True)
     return d
@@ -180,11 +215,10 @@ _STRINGS: dict[str, dict[str, str]] = {
             "判断始终基于当天实际抓到的数据，不会为了好看而夸大。"
         ),
         "lead_reason_single": "仅 1 篇（{feed_name}），不足 2 个独立信源",
-        "lead_reason_cross": "{count} 篇 · 跨 {sources} 个渠道，相关度 {score}/10 未达阈值",
+        "lead_reason_cross": "{count} 篇 · 跨 {sources} 个独立信源，相关度 {score}/10 未达阈值",
         "lead_reason_same_source": "{count} 篇 · 同源转载，相关度 {score}/10 未达阈值",
         "single_source_fallback": "单一来源",
         "alert_fetch_failed": "最近的数据采集出现了问题，今天的报告可能不完整。",
-        "alert_no_new": "最近一次采集没有抓到新内容，可能是数据源暂时没有更新，也可能是连接异常。",
     },
     "en": {
         "output_label_digest": "Daily Digest",
@@ -198,14 +232,13 @@ _STRINGS: dict[str, dict[str, str]] = {
             "fetched that day — never exaggerated for effect."
         ),
         "lead_reason_single": "Only 1 article ({feed_name}), fewer than 2 independent sources",
-        "lead_reason_cross": "{count} articles · across {sources} channels, relevance {score}/10 below threshold",
+        "lead_reason_cross": (
+            "{count} articles · across {sources} independent sources, "
+            "relevance {score}/10 below threshold"
+        ),
         "lead_reason_same_source": "{count} articles · same-source reposts, relevance {score}/10 below threshold",
         "single_source_fallback": "single source",
         "alert_fetch_failed": "Recent data collection ran into a problem — today's report may be incomplete.",
-        "alert_no_new": (
-            "The last collection run didn't find anything new. The source may not have "
-            "updated, or the connection may be having issues."
-        ),
     },
 }
 
@@ -394,6 +427,49 @@ def url_hash(url: Optional[str]) -> str:
     return hashlib.sha256(normalized.encode("utf-8")).hexdigest()[:24]
 
 
+# 这些域名是"多个互不相关的信源共用一个平台域名"的情况——mp.weixin.qq.com 下面有几十万
+# 个彼此独立的公众号，光看域名会把它们全都算成同一个信源。对这类平台域名，账号名
+# （feed_name）才是信源身份；其余情况域名本身就是最可靠的信源身份。
+SHARED_PLATFORM_HOSTS = {
+    "mp.weixin.qq.com",
+    "weixin.qq.com",
+    "xiaohongshu.com",
+    "xhslink.com",
+}
+
+
+def source_key(source_type: str, feed_name: str, url: str) -> str:
+    """返回一篇文章的**独立信源**标识，用于判断一个聚类是不是真的"跨源"。
+
+    以前这里用的是 `source_type`（wx / xhs / nytimes / search / aihot），但那是**渠道
+    类别**，不是信源。用它判断"跨源"会在两个方向上都出错：
+
+    - 少算：量子位和机器之心是两个完全独立的公众号，各自独立报道同一件事本来是很强的
+      交叉验证信号，但两者 source_type 都是 `wx`，会被算成"同一个源"，交叉验证信号
+      就这么丢了；
+    - 多算：纽约时报自有渠道的一篇报道，和补充检索从 nytimes.com 搜回来的同一篇，
+      source_type 分别是 `nytimes` 和 `search`，会被算成"两个独立信源交叉验证"——
+      实际上是同一家媒体的同一篇稿子。
+
+    改成：能拿到域名且不是共享平台域名时用域名（这同时消掉了上面"多算"那种情况，
+    因为两条记录的域名都是 nytimes.com）；共享平台域名下用 `渠道:账号名`（这修好了
+    "少算"）；两者都拿不到时才退回 source_type。
+    """
+    host = ""
+    if url:
+        from urllib.parse import urlsplit
+
+        host = (urlsplit(url).netloc or "").lower().split(":")[0]
+        if host.startswith("www."):
+            host = host[4:]
+    if host and host not in SHARED_PLATFORM_HOSTS:
+        return host
+    feed_name = (feed_name or "").strip()
+    if feed_name:
+        return f"{source_type or 'unknown'}:{feed_name}"
+    return host or (source_type or "unknown")
+
+
 _SAFE_URL_RE = re.compile(r"^https?://", re.IGNORECASE)
 
 
@@ -485,7 +561,12 @@ def render_stage_table(
             n_sources = len(stats.get("sources", {}))
             suffix = f"  {stats['fetched']} 篇  ·  {n_sources} 个渠道"
         elif i == 2 and "after_dedup" in stats:
-            dedup = stats.get("fetched", 0) - stats.get("after_dedup", 0)
+            # 去重数不可能是负数。①的 fetched 是"最近一次接口快照的原始条数"，②的
+            # after_dedup 是"窗口内库里实际有多少条"，两者口径不同：补充检索写进来的
+            # 条目、前几轮 harvest 留在窗口里的旧文章，都会让后者大于前者，直接相减就会
+            # 打出"去重 -1"这种不可能的数字。report.py 那边已经把 fetched 抬到不小于
+            # after_dedup，这里再 clamp 一次，任何调用方传进来的脏数据都不会显示成负数。
+            dedup = max(0, stats.get("fetched", 0) - stats.get("after_dedup", 0))
             suffix = f"  {stats.get('fetched', 0)} → {stats['after_dedup']}   去重 {dedup}"
         elif i == 3 and "after_llm_filter" in stats:
             suffix = f"  {stats.get('after_prefilter', '?')} → {stats['after_llm_filter']}"

@@ -214,7 +214,7 @@ const I18N = {
       ['①','采集','接口拉取近24小时增量'],
       ['②','清洗','按id/URL去重+规范化'],
       ['③','筛选','关键词预过滤 + AI 语义复筛'],
-      ['④','聚类','归并跨源同事件报道'],
+      ['④','聚类','归并跨独立信源的同事件报道'],
       ['⑤','摘要','打分+生成为什么相关'],
       ['⑥','生成报告','渲染 HTML'],
     ],
@@ -245,7 +245,7 @@ const I18N = {
     topStoriesSub: (n) => `跨多个独立信源交叉验证 · ${n} 条`,
     topStoriesEmpty: '今天没有跨源交叉验证的动态。',
     whyTag: '为什么给你看',
-    storyMeta: (count, sources) => `${count} 篇 · ${sources} 个独立渠道`,
+    storyMeta: (count, sources) => `${count} 篇 · ${sources} 个独立信源`,
     aiReasoning: 'AI 判断依据 ▾',
     expandDetail: '展开详情 ▾',
     viewOriginal: '查看原文 →',
@@ -300,7 +300,7 @@ const I18N = {
     topStoriesSub: (n) => `Cross-verified across independent sources · ${n}`,
     topStoriesEmpty: 'No cross-verified updates today.',
     whyTag: 'Why this matters to you',
-    storyMeta: (count, sources) => `${count} articles · ${sources} independent channels`,
+    storyMeta: (count, sources) => `${count} articles · ${sources} independent sources`,
     aiReasoning: 'AI reasoning ▾',
     expandDetail: 'Show details ▾',
     viewOriginal: 'View original →',
@@ -329,8 +329,9 @@ document.title = lang === 'en' ? 'Monitor Anything · Daily Report' : 'Monitor A
 // state：当前选中的 monitor（这份 HTML 只有一天的数据，不需要记录日期了）；
 // state.mon 是当前渲染用到的完整 monitor 对象，分享按钮要用它拼分享文案。
 // state.shareUrl（v2 新增）：这一天的报告如果已经被上传过（scripts/share.py），
-// 这里会有一个真正能在浏览器打开的公开链接；没有的话就是空字符串，此时分享按钮
-// 只复制文案，不复制 location.href —— 本地文件的 file:// 路径对别人没有意义。
+// 这里会有一个真正能在浏览器打开的公开链接。它**只在 file:// 本地打开时才会被用到**
+// ——公开访问的那份副本直接用 location.href 看自己在哪，理由见下面 shareUrl() 的注释。
+// 两者都没有时分享按钮只复制文案，不复制 file:// 路径（对别人没有意义）。
 const state = { monitorId: null, mon: null, shareUrl: '' };
 
 function esc(s){
@@ -401,13 +402,23 @@ function shareText(mon){
 // 静态文件，把能通过鉴权的 token 写进它的 JS 里，等于把 token 一起发给收到文件的
 // 任何人。真正的上传由 scripts/share.py 完成，v3 起改成每天渲染完就自动触发一次
 // （不用等用户开口要分享），拿到的公开链接会被写回 reports/<date>.json 的 share_url
-// 并重新渲染进这份 HTML——所以正常情况下打开这份 HTML 时 state.shareUrl 已经有值，
-// 下面 if(publicUrl) 才是最常见的路径；没有值的分支现在代表"今天自动上传失败了"这个
-// 边界情况，不是"功能还没触发"。
+// 并重新渲染进这份 HTML。
+//
+// 拿"自己的公开地址"分两种情况，不能只靠写死进来的 share_url：
+//
+// 上传是"先传旧 HTML → 服务返回新 URL → 再把 URL 写进本地 HTML"，所以**远端那份
+// 副本里写死的 share_url 永远滞后一轮**：第一次上传的副本压根没有链接，第二次上传的
+// 副本里带的是第一次的旧链接。只有本地文件是最新的。想靠"上传后重新渲染再传一次"
+// 修这个，就变成每天两次上传、而且第二次传上去的又是"包含第一次链接"的版本，追不上。
+//
+// 正确的做法是让页面自己看自己在哪：在 http(s) 环境下（也就是被公开访问的那份副本），
+// location.href 就是这份页面此刻真实的公开地址，永远准确、不需要任何回写；只有
+// file:// 本地打开时 location.href 对别人没有意义，才回退到写进来的 share_url。
 function shareUrl(){
   const mon = state.mon;
   const text = shareText(mon);
-  const publicUrl = state.shareUrl || '';
+  const isWeb = location.protocol === 'http:' || location.protocol === 'https:';
+  const publicUrl = isWeb ? location.href : (state.shareUrl || '');
   const rail = document.getElementById('shareRail');
 
   if(navigator.share && publicUrl){

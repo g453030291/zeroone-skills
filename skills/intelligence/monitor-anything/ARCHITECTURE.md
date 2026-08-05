@@ -393,7 +393,7 @@ monitor-anything/
 │
 ├── prompts/                    # 三个语义阶段的提示词，Agent 直接读取执行，不经过脚本
 │   ├── filter.md                # 阶段③筛选：标题级别语义判断，输出 kept/low_confidence/examples
-│   ├── cluster.md               # 阶段④聚类：跨源同事件归并，输出 clusters + ai_reasoning
+│   ├── cluster.md               # 阶段④聚类：跨独立信源的同事件归并，输出 clusters + ai_reasoning
 │   └── summarize.md             # 阶段⑤摘要：headline/summary/why_relevant/score + 整体 overview
 │
 ├── scripts/                    # 零依赖 Python 脚本，只用标准库

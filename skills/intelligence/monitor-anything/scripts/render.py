@@ -8,8 +8,9 @@ v3 起改了产出模型，一共三样东西：
 - `reports/dates-manifest.js` —— 一份很小的清单文件（`<script src>` 加载的 JS 变量），
   列出磁盘上现存的每个日期、以及每个日期下各 monitor 的名字和精选条数（不含标题/摘要/
   链接）。每次跑这个脚本都会重新生成它，是首页能看到"最新有哪些日期"的唯一途径。
-- `reports/dashboard.html` —— 纯静态的首页/索引页，**只在第一次运行时**从
-  `assets/dashboard_static.html` 拷贝一次，之后这个脚本再也不会碰它。它在浏览器里靠
+- `reports/dashboard.html` —— 纯静态的首页/索引页，每次运行都从
+  `assets/dashboard_static.html` 覆盖一次（这个文件里没有任何用户数据，覆盖是安全的，
+  也是老用户能拿到模板修复的唯一途径）。它在浏览器里靠
   `<script src="dates-manifest.js">` 读取最新清单来展示日期列表，点日期跳转到对应的
   `<date>.html`（普通的 `<a href>` 页面跳转，不是 JS 换数据，不需要服务器也能正常工作）。
   首页本身不含任何一天的报告内容，也没有分享按钮和统计埋点——那些都只在 `<date>.html` 里。
@@ -122,14 +123,34 @@ def render_manifest_js(entries: list[dict[str, Any]], language: str) -> str:
     )
 
 
+def write_manifest(language: str | None = None) -> Path:
+    """重新扫描磁盘、覆盖写 dates-manifest.js。
+
+    抽成独立函数是因为除了这里，`harvest.py` 的过期清理删掉旧报告之后也必须调用它：
+    首页展示哪些日期完全由这份清单决定，删了 JSON/HTML 却不更新清单，首页就会继续
+    列出那些日期，点进去是 404 死链。
+    """
+    if language is None:
+        language = common.load_config().get("language", "zh")
+    path = common.reports_dir() / "dates-manifest.js"
+    path.write_text(render_manifest_js(collect_dates_manifest(), language), encoding="utf-8")
+    return path
+
+
 # --------------------------------------------------------------------------
-# 首页：只拷贝一次，之后不再触碰
+# 首页：每次渲染都用 assets/ 里的最新版覆盖
 
 def ensure_dashboard_shell() -> Path:
+    """dashboard.html 是纯静态外壳，**不含任何用户数据**——它的全部内容来自
+    `assets/dashboard_static.html`，日期列表是运行时从 dates-manifest.js 读的。
+
+    以前这里是"不存在才拷贝"，结果是老用户的首页永远停留在安装当天那一版：Skill 升级
+    修好的模板 bug（哪怕是首页本身的显示错误）对他们完全不生效，而且没有任何办法察觉。
+    既然这个文件里没有任何需要保留的东西，每次直接覆盖是最简单也最正确的做法。
+    """
     dst = common.reports_dir() / "dashboard.html"
-    if not dst.exists():
-        src = common.skill_root() / "assets" / "dashboard_static.html"
-        shutil.copyfile(src, dst)
+    src = common.skill_root() / "assets" / "dashboard_static.html"
+    shutil.copyfile(src, dst)
     return dst
 
 
@@ -151,10 +172,7 @@ def main() -> int:
     day_path = common.reports_dir() / f"{date}.html"
     day_path.write_text(day_html, encoding="utf-8")
 
-    cfg = common.load_config()
-    manifest_js = render_manifest_js(collect_dates_manifest(), cfg.get("language", "zh"))
-    (common.reports_dir() / "dates-manifest.js").write_text(manifest_js, encoding="utf-8")
-
+    write_manifest()
     dashboard_path = ensure_dashboard_shell()
 
     print(json.dumps({"html": str(day_path), "dashboard": str(dashboard_path)}, ensure_ascii=False))

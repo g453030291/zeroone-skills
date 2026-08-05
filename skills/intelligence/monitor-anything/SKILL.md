@@ -42,7 +42,10 @@ description: |
      "token 好像过期或失效了"，超时对应"暂时连不上数据服务"），不要出现状态码或堆栈。
      token 过期后**不会**自动续期——引导用户邮件联系 **gems9232@foxmail.com** 申请延长
    - 返回里如果带 `expiry_note`（临期提醒，≤5 天）：顺带提醒用户一句，不用等真的过期
-   - 如果用户自己邮件申请到了正式 token：`python3 scripts/setup.py set-token --token <token>`
+   - 如果用户自己邮件申请到了正式 token：把 token 从 stdin 喂进去，
+     `echo '<token>' | python3 scripts/setup.py set-token`。**不要**用
+     `--token <token>` 的形式——命令行参数会留在进程列表和 shell 历史里，那是一个
+     长期有效的凭据不该出现的地方（脚本仍接受 `--token`，但会警告一次）
 
 2. **推断用户关注方向**（这一步是你自己的语义判断，不是脚本能做的）
 
@@ -108,7 +111,14 @@ description: |
 python3 scripts/harvest.py run
 ```
 
-接下来对 `config.json` 里的**每一个 monitor**依次执行：
+接下来对 `config.json` 里的**每一个 monitor**依次执行。
+
+> **③~⑥必须按顺序跑完，不能从中间接上**：`candidates` 会给这个 monitor 开启新的一轮
+> （生成一个 run_id、清掉上一轮留在报告里的小节），后面每一步都会检查手里的中间产物
+> 是不是同一轮的。所以"上午跑到一半、下午从④接着跑"是不行的——脚本会明确报错让你从
+> `candidates` 重跑，而不是默默把两轮的数据拼在一起。同理，`finalize` 只认本轮生成的
+> 小节：如果某个 monitor 没跑完就 finalize，它会以非 0 退出并告诉你缺了谁，不会把
+> 昨天的旧报告当成今天的结果收尾。看到这类报错，照它说的从 `candidates` 重跑即可。
 
 ### ③ 筛选
 
@@ -152,7 +162,7 @@ python3 scripts/report.py filtered --monitor-id <id> --date <date> \
 
 上一步输出了聚类输入（`data/.work/cluster-input-<id>-<date>.json`）。
 
-**读 `prompts/cluster.md`**，对这批文章做跨源同事件归并，把结果（`clusters` 数组，
+**读 `prompts/cluster.md`**，对这批文章做跨独立信源的同事件归并，把结果（`clusters` 数组，
 每个元素含 `ids` 和 `ai_reasoning`）写到比如 `data/.work/cluster-result-<id>-<date>.json`。
 
 ```
@@ -176,8 +186,12 @@ python3 scripts/report.py summarized --monitor-id <id> --date <date> \
 ```
 python3 scripts/report.py finalize --date <date>
 ```
-这一步会裁掉不在当前配置里的 monitor、重算顶层统计、检查最近的采集有没有失败，写进
-报告 JSON 的 `alerts` 字段。
+这一步会裁掉不在当前配置里的 monitor、剔除不是本轮生成的陈旧小节、重算顶层统计、
+检查最近的采集有没有失败，写进报告 JSON 的 `alerts` 字段。
+
+**这一步的退出码是有意义的**：返回非 0 表示当前配置里还有 monitor 没跑完（或跑出来的
+小节是上一轮的），报告是不完整的。这时不要继续往⑥走、也不要告诉用户"报告好了"——
+按提示里列出的 monitor id，从 `candidates` 开始重跑它们，再 finalize 一次。
 
 ### ⑥ 渲染 + 生成分享链接
 
@@ -190,9 +204,11 @@ python3 scripts/render.py --date <date>
   报告就是分享这一个文件，不会带出任何范围外的内容。
 - `data/reports/dates-manifest.js`——一份很小的日期清单（每次都会重新生成），只有
   monitor 名字和精选条数，不含标题/摘要/链接
-- `data/reports/dashboard.html`——纯静态的首页/索引页，**只在第一次运行时**生成，之后
-  永远不会再被这个脚本改动。它靠上面那份清单文件展示"有哪些日期"，点日期跳转到对应的
-  `<date>.html`。首页本身不含任何一天的报告内容，也没有分享按钮和统计埋点。
+- `data/reports/dashboard.html`——纯静态的首页/索引页，每次运行都会用 Skill 自带的最新
+  模板覆盖一次（这个文件里没有任何用户数据，日期列表是打开时从上面那份清单读的，所以
+  覆盖是安全的，也是老用户能拿到模板修复的唯一途径）。它靠清单文件展示"有哪些日期"，
+  点日期跳转到对应的 `<date>.html`。首页本身不含任何一天的报告内容，也没有分享按钮
+  和统计埋点。
 
 **渲染完之后紧接着自动生成一次分享链接**，不用等用户开口要分享：
 ```

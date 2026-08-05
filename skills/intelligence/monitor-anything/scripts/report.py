@@ -91,6 +91,47 @@ def _record_handoff_elapsed(state: dict[str, Any], stage_key: str) -> None:
     state["_handoff_ts"] = now
 
 
+def _drop_monitor_from_report(date: str, monitor_id: str) -> None:
+    """把该 monitor 的小节从当天报告里删掉（报告文件不存在就什么都不做）。
+
+    只在 candidates 开新一轮时调用——见那里的注释。
+    """
+    path = common.reports_dir() / f"{date}.json"
+    if not path.exists():
+        return
+    report = common.read_json(path)
+    monitors = report.get("monitors", [])
+    remaining = [m for m in monitors if m.get("id") != monitor_id]
+    if len(remaining) != len(monitors):
+        report["monitors"] = remaining
+        common.write_json(path, report)
+
+
+def require_run_id(state: dict[str, Any], monitor_id: str, payload_run_id: str) -> str:
+    """确认手里这份中间产物属于**本轮**，不是上一轮残留的。
+
+    ③④⑤三步之间脚本进程会退出（中间等 Agent 推理），中间产物是靠固定文件名
+    （`cluster-input-<id>-<date>.json` 之类）在两次调用之间传递的，同一天重跑会原地
+    覆盖。如果不比对 run_id，"上午跑到一半 + 下午从中间某一步接着跑"这种混合序列
+    就会把两轮的数据拼在一起，而且全程没有任何报错。
+
+    返回本轮的 run_id；对不上就抛 SystemExit，让调用方以非 0 退出。
+    """
+    current = (state.get("monitors", {}).get(monitor_id) or {}).get("run_id", "")
+    if not current:
+        raise SystemExit(
+            f"没有找到 monitor {monitor_id} 本轮的运行标识，说明这一轮还没跑过 candidates。"
+            f"请先执行：report.py candidates --monitor-id {monitor_id}"
+        )
+    if payload_run_id and payload_run_id != current:
+        raise SystemExit(
+            f"中间产物属于上一轮运行（run_id={payload_run_id}），当前这一轮是 {current}。"
+            f"这通常意味着中途重新跑过 candidates，请从 candidates 开始按顺序重跑一遍 "
+            f"monitor {monitor_id}。"
+        )
+    return current
+
+
 def recompute_aggregate_stats(state: dict[str, Any]) -> None:
     """把各 monitor 独立记录的漏斗计数汇总到顶层 stats（支持多 monitor 场景）。
 
@@ -104,21 +145,20 @@ def recompute_aggregate_stats(state: dict[str, Any]) -> None:
 
 
 def check_recent_failures(conn, language: str = "zh") -> list[str]:
-    """§13 失败告警：连续 2 次采集失败，或连续 3 次新增为 0，才给出人话提示。
+    """§13 失败告警：只在**连续 2 次采集请求真的失败**时给出人话提示。
 
-    "最近一次 new=0 就报警" 是误报的主要来源——接口每次固定返回近 24 小时快照，
-    默认一天跑 4 次 harvest，大多数时候后面几次自然就是"这批我都见过了"，new=0
-    是完全正常的现象，不代表连接有问题。改成要求**连续 3 次**都是 new=0 才提示，
-    单次或两次为 0 不再触发误报。
+    这里曾经还有一条"连续 3 次 new=0 就告警"的规则，现在删掉了：接口固定返回近 24
+    小时快照、不支持增量，而默认一天跑 4 次 harvest——第一次之后的几次本来就该是
+    "这批我都见过了"，连续 3 次 new=0 是这个采集节奏下的**正常稳态**，不是异常。
+    按它告警等于每天都在对用户喊狼来了，而真正的问题（请求失败）反而被淹没在噪音里。
+    只有 status == "error"（网络不通、401、接口返回异常码）才是确定出了问题的信号。
     """
     cur = conn.cursor()
-    cur.execute("SELECT status, new FROM runs ORDER BY run_at DESC LIMIT 3")
+    cur.execute("SELECT status, new FROM runs ORDER BY run_at DESC LIMIT 2")
     rows = cur.fetchall()
     alerts = []
-    if len(rows) >= 2 and all(r[0] == "error" for r in rows[:2]):
+    if len(rows) >= 2 and all(r[0] == "error" for r in rows):
         alerts.append(common.t(language, "alert_fetch_failed"))
-    elif len(rows) >= 3 and all(r[0] == "ok" and r[1] == 0 for r in rows):
-        alerts.append(common.t(language, "alert_no_new"))
     return alerts
 
 
@@ -159,7 +199,13 @@ def cmd_candidates(args: argparse.Namespace) -> int:
     state = common.load_run_state(date)
     state["stats"].update(
         {
-            "fetched": latest_fetched or len(all_articles),
+            # ①展示的"采集"条数取两者较大值。latest_run_fetched 是最近一次接口快照的
+            # 原始条数，len(all_articles) 是窗口内库里实际有多少条，两者口径不同：补充
+            # 检索（search.py）写进来的条目不属于任何一次 harvest 快照，前几轮 harvest
+            # 留在 24 小时窗口里的旧文章也不在最近这一次快照里，都会让后者比前者大，
+            # 于是②算出来的"去重"变成负数——漏斗倒流。取 max 保证 fetched 永远不小于
+            # after_dedup，"采集 → 清洗"这一段读起来始终是单调收敛的。
+            "fetched": max(latest_fetched, len(all_articles)),
             # after_dedup 直接用 articles 表里这个时间窗内的行数（window_articles 已经
             # 按 fetched_at 查过一遍），不再用 runs.new 求和——articles 表本身就是"去重后
             # 落库了什么"的权威来源，不管当天跑了几次 harvest 都不会重复计数。
@@ -167,12 +213,24 @@ def cmd_candidates(args: argparse.Namespace) -> int:
             "sources": sources,
         }
     )
-    mstate = state.setdefault("monitors", {}).setdefault(args.monitor_id, {})
-    mstate["name"] = monitor.get("name", args.monitor_id)
-    mstate["after_prefilter"] = len(candidates)
+    # 每次 candidates 都开启该 monitor 的**新一轮**：换一个 run_id，并且把上一轮留下的
+    # 阶段状态整个丢掉（不是 setdefault 后局部覆盖）。否则上午那轮的 after_llm_filter /
+    # clusters / selected / low_confidence_ids 会残留在 state 里，下午重跑到一半就中断
+    # 时，这些陈旧数字仍会被 recompute_aggregate_stats 汇总进顶层 stats。
+    run_id = common.new_run_id()
+    state.setdefault("monitors", {})[args.monitor_id] = {
+        "run_id": run_id,
+        "name": monitor.get("name", args.monitor_id),
+        "after_prefilter": len(candidates),
+    }
     recompute_aggregate_stats(state)
     state["_handoff_ts"] = time.time()  # 用于下一步反推 Agent 语义筛选耗时（filter stage_ms）
     common.save_run_state(date, state)
+
+    # 同理，报告里该 monitor 的旧小节也要在开新一轮时就地清掉。留着它的话，本轮如果
+    # 在 summarized 之前中断，finalize 仍然能在报告里看到一个"看起来完整"的小节
+    # （其实是上一轮/昨天的），于是把陈旧内容当本轮结果收尾并返回 0。
+    _drop_monitor_from_report(date, args.monitor_id)
 
     out_path = common.work_dir() / f"candidates-{args.monitor_id}-{date}.json"
     payload = {
@@ -181,6 +239,7 @@ def cmd_candidates(args: argparse.Namespace) -> int:
             "name": monitor.get("name", monitor["id"]),
             "description": monitor.get("description", ""),
         },
+        "run_id": run_id,
         "candidates": candidates,
         # ③④⑤三个语义阶段生成的自由文本（examples[].reason / ai_reasoning / headline /
         # summary / why_relevant / overview）都要用这个语言写——读 prompts/*.md 时按这个
@@ -192,7 +251,12 @@ def cmd_candidates(args: argparse.Namespace) -> int:
 
     common.print_stage_table(state["stats"], active_stage=3, detail="正在理解你关注的方向...")
     print(f"候选已写入：{out_path}")
-    print(json.dumps({"candidate_count": len(candidates), "path": str(out_path)}, ensure_ascii=False))
+    print(
+        json.dumps(
+            {"candidate_count": len(candidates), "path": str(out_path), "run_id": run_id},
+            ensure_ascii=False,
+        )
+    )
     return 0
 
 
@@ -212,6 +276,8 @@ def cmd_filtered(args: argparse.Namespace) -> int:
         return 1
     candidates_payload = common.read_json(candidates_path)
     candidate_ids = {c["id"] for c in candidates_payload["candidates"]}
+    state = common.load_run_state(date)
+    run_id = require_run_id(state, args.monitor_id, candidates_payload.get("run_id", ""))
     # 跟 cmd_clustered 一样，语言字段跟着上一步写下来的中间产物走，不重新读 config.json，
     # 保持同一次流水线运行里所有阶段语言设置一致。
     language = common.normalize_language(candidates_payload.get("language", "zh"))
@@ -249,6 +315,12 @@ def cmd_filtered(args: argparse.Namespace) -> int:
                 "title": a["title"],
                 "source_type": a["source_type"],
                 "feed_name": a.get("feed_name") or "",
+                # 独立信源标识，④判断"跨源"时用的就是它而不是 source_type，
+                # 理由见 common.source_key() 的注释。在这里算好一次带下去，
+                # 后面几步不用各自再拿原始 url 重算。
+                "source_key": common.source_key(
+                    a["source_type"], a.get("feed_name") or "", a.get("url") or ""
+                ),
                 "description": a.get("description") or "",
                 "content_snippet": content[:CLUSTER_CONTENT_SNIPPET],
                 "publish_time": a.get("publish_time") or "",
@@ -263,7 +335,6 @@ def cmd_filtered(args: argparse.Namespace) -> int:
             file=sys.stderr,
         )
 
-    state = common.load_run_state(date)
     _record_handoff_elapsed(state, "filter")
     mstate = state.setdefault("monitors", {}).setdefault(args.monitor_id, {})
     mstate["low_confidence_ids"] = list(low_confidence_ids)
@@ -279,6 +350,7 @@ def cmd_filtered(args: argparse.Namespace) -> int:
     common.write_json(
         out_path,
         {
+            "run_id": run_id,
             "articles": articles,
             "language": language,
             # 后面 cmd_clustered 会继续往下透传给 summarize-input——摘要阶段需要用户的
@@ -316,6 +388,8 @@ def cmd_clustered(args: argparse.Namespace) -> int:
         return 1
     cluster_input = common.read_json(cluster_input_path)
     articles_by_id = {a["id"]: a for a in cluster_input["articles"]}
+    state = common.load_run_state(date)
+    run_id = require_run_id(state, args.monitor_id, cluster_input.get("run_id", ""))
     # 语言字段跟着上一步（filtered）写下来的中间产物走，而不是重新读一遍 config.json——
     # 保持"同一次流水线运行里所有阶段用同一份语言设置"，不会因为运行期间用户改了配置
     # 就出现前后阶段语言不一致的情况。monitor_description 同理，原样透传给下一步。
@@ -331,7 +405,14 @@ def cmd_clustered(args: argparse.Namespace) -> int:
     enriched = []
     for idx, c in enumerate(clusters):
         members = [articles_by_id[i] for i in c.get("ids", [])]  # 已通过校验，全部存在
-        sources = {m["source_type"] for m in members}
+        # 用 source_key 而不是 source_type 数"几个源"——source_type 是渠道类别，
+        # 两个不同的公众号在它眼里是同一个源。详见 common.source_key()。
+        # 兜底 source_key：filtered 之前写的旧中间产物里没有这个字段。
+        sources = {
+            m.get("source_key")
+            or common.source_key(m.get("source_type", ""), m.get("feed_name", ""), m.get("url", ""))
+            for m in members
+        }
         enriched.append(
             {
                 "cluster_index": idx,
@@ -342,7 +423,6 @@ def cmd_clustered(args: argparse.Namespace) -> int:
             }
         )
 
-    state = common.load_run_state(date)
     _record_handoff_elapsed(state, "cluster")
     state.setdefault("monitors", {}).setdefault(args.monitor_id, {})["clusters"] = len(enriched)
     recompute_aggregate_stats(state)
@@ -352,6 +432,7 @@ def cmd_clustered(args: argparse.Namespace) -> int:
     common.write_json(
         out_path,
         {
+            "run_id": run_id,
             "clusters": enriched,
             "language": language,
             "monitor_description": monitor_description,
@@ -386,6 +467,8 @@ def cmd_summarized(args: argparse.Namespace) -> int:
     summarize_input = common.read_json(summarize_input_path)
     clusters_by_index = {c["cluster_index"]: c for c in summarize_input["clusters"]}
     language = common.normalize_language(summarize_input.get("language", "zh"))
+    state = common.load_run_state(date)
+    run_id = require_run_id(state, args.monitor_id, summarize_input.get("run_id", ""))
 
     try:
         summaries = validate.validate_summaries(summaries, set(clusters_by_index.keys()))
@@ -393,7 +476,6 @@ def cmd_summarized(args: argparse.Namespace) -> int:
         print(f"摘要结果校验失败：{e}\n请检查 {args.input} 后重新生成。", file=sys.stderr)
         return 1
 
-    state = common.load_run_state(date)
     _record_handoff_elapsed(state, "summarize")
     # 用 setdefault 而不是 get(..., {}) —— 后者拿到的是游离 dict，后面对它的写入
     # （比如 monitor_state["selected"] = ...）不会写回 state["monitors"]，导致
@@ -434,7 +516,20 @@ def cmd_summarized(args: argparse.Namespace) -> int:
             )
         else:
             article_count = len(articles)
-            source_count = c.get("source_count", len({a["source_type"] for a in articles}))
+            # 兜底同样按独立信源算（c["articles"] 带着 source_key），不要退回 source_type，
+            # 否则同一份报告里会出现两套"源"的口径。
+            source_count = c.get(
+                "source_count",
+                len(
+                    {
+                        a.get("source_key")
+                        or common.source_key(
+                            a.get("source_type", ""), a.get("feed_name", ""), a.get("url", "")
+                        )
+                        for a in c["articles"]
+                    }
+                ),
+            )
             cross_source = c.get("cross_source", False)
             feed_name = articles[0]["feed_name"] if articles else ""
             if article_count <= 1:
@@ -473,6 +568,9 @@ def cmd_summarized(args: argparse.Namespace) -> int:
 
     monitor_report = {
         "id": monitor["id"],
+        # 本轮运行标识。finalize 靠它确认这一节确实是本轮生成的，而不是同一天更早
+        # 那轮（或昨天）留下来的——见 common.new_run_id() 与 cmd_finalize 的注释。
+        "run_id": run_id,
         "name": monitor.get("name", monitor["id"]),
         "description": monitor.get("description", ""),
         "overview": overview,
@@ -545,6 +643,29 @@ def cmd_finalize(args: argparse.Namespace) -> int:
     stale_ids = [m["id"] for m in report.get("monitors", []) if m["id"] not in current_ids]
     if stale_ids:
         print(f"警告：已从报告中移除不在当前配置中的 monitor：{stale_ids}", file=sys.stderr)
+
+    # 陈旧小节裁剪：光看"报告里有没有这个 monitor 的小节"是不够的，因为同一天可以
+    # 重复跑，磁盘上很可能躺着上一轮甚至昨天的小节。要求每一节的 run_id 与本轮
+    # candidates 写进 run_state 的那个完全一致——对不上就说明这一节不是本轮产物，
+    # 视同"这个 monitor 本轮没跑完"，从报告里剔除并让 finalize 以非 0 退出。
+    # 没有这道检查时，"保留昨天的小节 → 只跑 candidates → 直接 finalize" 会返回 0，
+    # 把陈旧的 selected/overview 当成今天的结果发出去。
+    state_monitors = state.get("monitors", {})
+    fresh_monitors = []
+    stale_run_ids = []
+    for m in kept_monitors:
+        expected = (state_monitors.get(m["id"]) or {}).get("run_id", "")
+        if expected and m.get("run_id") == expected:
+            fresh_monitors.append(m)
+        else:
+            stale_run_ids.append(m["id"])
+    if stale_run_ids:
+        print(
+            f"警告：以下 monitor 的报告小节不是本轮生成的（run_id 对不上或缺失），"
+            f"已从报告中移除：{stale_run_ids}。请从 candidates 开始完整重跑这些 monitor。",
+            file=sys.stderr,
+        )
+    kept_monitors = fresh_monitors
     report["monitors"] = kept_monitors
 
     missing_ids = sorted(current_ids - {m["id"] for m in kept_monitors})
@@ -578,7 +699,13 @@ def cmd_finalize(args: argparse.Namespace) -> int:
     print(f"报告 JSON 已生成：{path}")
     print(
         json.dumps(
-            {"path": str(path), "alerts": alerts, "stale_monitors_removed": stale_ids, "missing_monitors": missing_ids},
+            {
+                "path": str(path),
+                "alerts": alerts,
+                "stale_monitors_removed": stale_ids,
+                "stale_run_id_monitors_removed": stale_run_ids,
+                "missing_monitors": missing_ids,
+            },
             ensure_ascii=False,
         )
     )
