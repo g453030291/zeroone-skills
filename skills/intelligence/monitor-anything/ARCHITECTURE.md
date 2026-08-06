@@ -115,8 +115,9 @@ HTML 展示层，记录在这里避免后来者困惑：
 
 **v3 起从这份 JSON 渲染出的 HTML 产物拆成了两类，见 §15**：`reports/<date>.html`——每天
 一份，只由**这一天**的 JSON 渲染而成，不再像 v2 那样把最近 30 天的历史一起塞进同一份
-HTML；以及一份不再由 JSON 驱动的静态首页 `reports/dashboard.html`，只在首次运行时生成，
-之后固定不变。
+HTML；以及一份不再由 JSON 驱动的静态首页 `reports/dashboard.html`，每次运行都从
+`assets/dashboard_static.html` 覆盖一次（文件里没有任何用户数据，覆盖是安全的，也是老
+用户拿到模板修复的唯一途径），日期列表由 `dates-manifest.js` 在浏览器里驱动。
 
 ## 8. 多 monitor 场景下的统计口径
 
@@ -388,8 +389,8 @@ monitor-anything/
 ├── assets/
 │   ├── template.html            # 每天独立报告页 <date>.html 的模板（内联全部 CSS/JS，零 CDN，
 │   │                            # 唯一例外见 §12 前的模板改动）
-│   └── dashboard_static.html    # 首页（日期目录）模板，render.py 只在首次运行时拷贝一次，
-│                                # 之后不再被脚本触碰（§15 v3）
+│   └── dashboard_static.html    # 首页（日期目录）模板，render.py 每次运行都覆盖拷贝一次
+│                                # （无用户数据，覆盖安全，老用户靠它拿到模板修复）（§15 v3）
 │
 ├── prompts/                    # 三个语义阶段的提示词，Agent 直接读取执行，不经过脚本
 │   ├── filter.md                # 阶段③筛选：标题级别语义判断，输出 kept/low_confidence/examples
@@ -435,7 +436,7 @@ monitor-anything/
         ├── <date>.json              # 每天唯一的权威结构化产物（§7），<date>.html 只读这一份
         ├── <date>.html              # 每天一份，只由这一天的 <date>.json 渲染而成，带 share_url
         ├── dates-manifest.js        # 首页用的日期清单，render.py 每次运行都重新生成（§15 v3）
-        └── dashboard.html            # 固定文件名，只在首次运行时生成，之后不再被脚本改动
+        └── dashboard.html            # 固定文件名，render.py 每次运行都用 assets/ 里的最新模板覆盖
 ```
 
 几个文件清单本身没写清楚、容易漏掉的地方：
@@ -447,10 +448,13 @@ monitor-anything/
 - **`reports/<date>.json` 是真正意义上"每天唯一的产出数据"**——同一天的 `<date>.html`
   纯粹从它（+ `assets/template.html` 模板）渲染出来，不连接 `monitor.db`，不重新调用
   LLM，`<date>.html` 随时可以从对应的 `<date>.json` 重新生成，删掉它不会丢任何信息；反过来
-  JSON 不依赖 HTML 是否存在。`dashboard.html`（首页）是另一条独立的产出路径：只在首次
-  运行时从 `assets/dashboard_static.html` 拷贝一次，之后靠 `dates-manifest.js`（每次
+  JSON 不依赖 HTML 是否存在。`dashboard.html`（首页）是另一条独立的产出路径：每次运行
+  都从 `assets/dashboard_static.html` 覆盖拷贝一次，靠 `dates-manifest.js`（同样每次
   运行都重新生成，扫描 `reports/*.json` 得到日期清单）在浏览器里展示"有哪些日期"，
-  它自己既不含任何一天的报告内容，也不会被 `render.py` 重新生成——详见 §7、§12。
+  它自己不含任何一天的报告内容——详见 §7、§12。它同时是**每次运行的固定交付项之一**
+  （见 SKILL.md ⑥ 的交付清单）：用户第二天回来看历史报告只有这一个入口，所以不能等
+  用户主动问才给。`render.py` 因此在 JSON 之外还会打印一段人话「本次交付」块——散文
+  约束是概率性的，脚本输出不是。
 
 ## 18. v2：补充检索接入每日流程——为什么是"筛选 0 命中才触发一次"
 

@@ -114,7 +114,7 @@ monitor-anything/
 ├── prompts/                # 筛选/聚类/摘要三个阶段的 LLM 提示词
 ├── assets/
 │   ├── template.html       # 每天独立报告页 <日期>.html 的模板
-│   └── dashboard_static.html  # 首页（日期目录）模板，只在首次运行时被拷贝一次
+│   └── dashboard_static.html  # 首页（日期目录）模板，每次渲染都覆盖拷贝一次（无用户数据）
 └── data/                   # 本地数据（已 gitignore）：config.json / monitor.db /
                              #   reports/（<日期>.json、<日期>.html、dashboard.html、
                              #   dates-manifest.js）

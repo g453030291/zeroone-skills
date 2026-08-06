@@ -176,6 +176,37 @@ def ensure_dashboard_shell() -> Path:
 
 
 # --------------------------------------------------------------------------
+# 交付块：把"这次跑完用户应该拿到什么"从 SKILL.md 的散文里挪进脚本的确定性输出
+
+def print_delivery_block(date: str, day_path: Path, dashboard_path: Path) -> None:
+    """在 JSON 之后再打印一段人话交付清单。
+
+    只打 JSON 的时候，历史目录 `dashboard.html` 是 JSON 里一个不起眼的字段，Agent 大概率
+    只把当天报告和分享链接交给用户，首页要等用户主动问才出现——而首页恰恰是用户第二天
+    回来看历史的唯一入口。SKILL.md 里当然也写了这件事，但散文约束是概率性的，脚本输出
+    不是：Agent 会照原样把终端输出展示给用户，所以把交付契约放在这里最稳。
+    """
+    language = common.load_config().get("language", "zh")
+    if language == "en":
+        lines = [
+            "",
+            "── Deliverables ──",
+            f"  Today's report : {day_path}",
+            f"  Report index   : {dashboard_path}  <- bookmark this, updates itself daily",
+            "  (open/present both files to the user, don't just paste the paths)",
+        ]
+    else:
+        lines = [
+            "",
+            "── 本次交付 ──",
+            f"  今日报告：{day_path}",
+            f"  历史目录：{dashboard_path}  ← 建议收藏，每天自动更新",
+            "  （把这两个文件打开/呈现给用户，不要只贴路径）",
+        ]
+    print("\n".join(lines))
+
+
+# --------------------------------------------------------------------------
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="渲染当天的独立报告页 + 更新首页日期清单")
@@ -197,6 +228,7 @@ def main() -> int:
     dashboard_path = ensure_dashboard_shell()
 
     print(json.dumps({"html": str(day_path), "dashboard": str(dashboard_path)}, ensure_ascii=False))
+    print_delivery_block(date, day_path, dashboard_path)
     return 0
 
 
