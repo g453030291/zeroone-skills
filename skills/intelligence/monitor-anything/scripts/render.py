@@ -89,9 +89,28 @@ def render_day_html(date: str, report: dict[str, Any]) -> str:
 # --------------------------------------------------------------------------
 # 首页用的日期清单（不含标题/摘要/链接，只有 monitor 名字和精选条数）
 
+# 首页卡片上那段摘要的长度上限。截断放在这里而不是只靠 CSS 的 line-clamp：清单文件是
+# 每次打开首页都要下载解析的，把 30 天 × N 个 monitor 的完整 overview 全塞进去，文件会
+# 涨到没必要的大小，而卡片上本来也只显示这么多。CSS 那边仍然有 line-clamp 兜底排版。
+MANIFEST_OVERVIEW_LIMIT = 96
+
+
+def _clip(text: str, limit: int = MANIFEST_OVERVIEW_LIMIT) -> str:
+    text = " ".join((text or "").split())
+    if len(text) <= limit:
+        return text
+    return text[:limit].rstrip() + "…"
+
+
 def collect_dates_manifest() -> list[dict[str, Any]]:
     """扫描磁盘上现存的 reports/*.json（谁被 harvest.py 的 purge_expired 删了、谁就不在
-    清单里，不需要在这里重复判断保留期）。"""
+    清单里，不需要在这里重复判断保留期）。
+
+    每个 monitor 除了名字和精选条数，还带一段截断过的 `overview`（当天那句"今天 XX
+    领域最大的动态是……"）和跨源头条数 `cross`——首页卡片要靠它们让用户在点进去之前就
+    知道那天大概发生了什么。这**打破了 v3"首页不内嵌任何报告正文"的原则**，是有意为之，
+    理由和代价见 ARCHITECTURE.md §22。标题、正文、原文链接依然不在清单里。
+    """
     entries = []
     for f in sorted(common.reports_dir().glob("*.json"), reverse=True):
         try:
@@ -103,6 +122,8 @@ def collect_dates_manifest() -> list[dict[str, Any]]:
             {
                 "name": m.get("name") or m.get("id", ""),
                 "selected": (m.get("stats") or {}).get("selected", 0),
+                "overview": _clip(m.get("overview") or ""),
+                "cross": len([c for c in (m.get("clusters") or []) if c.get("cross_source")]),
             }
             for m in data.get("monitors", [])
         ]

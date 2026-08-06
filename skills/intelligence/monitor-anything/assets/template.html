@@ -61,7 +61,12 @@
   .brand-mark span{width:10px;height:10px;border-radius:50%;background:var(--on-brand);}
   .brand-name{font-family:var(--mono);font-size:13.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;line-height:1.25;}
   .brand-tag{font-size:11.5px;color:var(--text-weak);line-height:1.35;}
-  .brand-date{font-family:var(--mono);font-size:11.5px;color:var(--text-weak);}
+  /* 日期 eyebrow：坐在大标题正上方，用品牌色 + 等宽字 + 字距拉开，读者一眼就能确认
+     "这是哪一天的报告"。左边那条竖线把它和标题绑成同一个视觉块。 */
+  .focus-date{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:clamp(12px,1.9vw,13.5px);font-weight:600;letter-spacing:.07em;color:var(--accent-text);margin-bottom:10px;}
+  .focus-date::before{content:'';width:3px;height:1.05em;border-radius:2px;background:var(--accent);flex-shrink:0;}
+  /* 没有任何 monitor 那天，日期没有标题可依附，自己撑一块卡片，不然会飘在空白里。 */
+  .focus-date.standalone{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:12px 16px;margin-bottom:12px;}
 
   /* ---------- monitor 切换 ---------- */
   .monitor-switch{margin-bottom:14px;}
@@ -245,6 +250,8 @@ const I18N = {
     clusterCopySources: '原文：',
     clusterCopyFooter: (monitor, date) => `来自 monitor-anything 日报 · ${monitor} · ${date}`,
     monitorSwitchLabel: (n) => `你的关注点 · ${n} 个${n>1?' · 可切换':''}`,
+    weekdays: ['周日','周一','周二','周三','周四','周五','周六'],
+    dateLong: (y, m, d, wd) => `${y} 年 ${m} 月 ${d} 日 · ${wd}`,
     noReport: '没有找到这一天的报告。',
     noMonitors: '这一天还没有配置任何关注点。',
     claim: (n) => `今天有 ${n} 件事值得你关注`,
@@ -300,6 +307,8 @@ const I18N = {
     clusterCopySources: 'Sources:',
     clusterCopyFooter: (monitor, date) => `From the monitor-anything report · ${monitor} · ${date}`,
     monitorSwitchLabel: (n) => `Your focus points · ${n}${n>1?' · switchable':''}`,
+    weekdays: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+    dateLong: (y, m, d, wd) => `${['','January','February','March','April','May','June','July','August','September','October','November','December'][m]} ${d}, ${y} · ${wd}`,
     noReport: 'No report found for this day.',
     noMonitors: 'No focus points were configured on this day.',
     claim: (n) => `${n} things worth your attention today`,
@@ -425,20 +434,44 @@ function shareText(mon){
 // 副本里带的是第一次的旧链接。只有本地文件是最新的。想靠"上传后重新渲染再传一次"
 // 修这个，就变成每天两次上传、而且第二次传上去的又是"包含第一次链接"的版本，追不上。
 //
-// 正确的做法是让页面自己看自己在哪：在 http(s) 环境下（也就是被公开访问的那份副本），
-// location.href 就是这份页面此刻真实的公开地址，永远准确、不需要任何回写；只有
-// file:// 本地打开时 location.href 对别人没有意义，才回退到写进来的 share_url。
+// 正确的做法是让页面自己看自己在哪：被公开访问的那份副本，location.href 就是它此刻
+// 真实的公开地址，永远准确、不需要任何回写。
+//
+// 但"看自己在哪"必须判断到 host 一级，不能只看 protocol 是不是 http(s)。这份 HTML
+// 经常是被某个本地静态服务器端出来预览的（Cowork 的文件预览、python -m http.server、
+// VS Code Live Server 等），此时 protocol 同样是 http:，location.href 却是
+// http://127.0.0.1:<随机端口>/... —— 这个地址只在用户自己机器上、且只在那个进程活着
+// 的时候有效，发给别人必然打不开，端口下次还会变。所以只有**公网可达的 host** 才认
+// location.href；本地 host 和 file:// 一样，都回退到 share.py 写进来的 share_url。
+function isPublicHost(){
+  if(location.protocol !== 'http:' && location.protocol !== 'https:') return false;
+  const h = (location.hostname || '').toLowerCase();
+  if(!h) return false;
+  if(h === 'localhost' || h.endsWith('.localhost')) return false;
+  if(h === '::1' || h === '[::1]') return false;
+  if(h.endsWith('.local') || h.endsWith('.internal')) return false;
+  // IPv4 私网 / 环回 / 链路本地：127/8、10/8、192.168/16、172.16–31/12、169.254/16、0.0.0.0
+  const m = h.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+  if(m){
+    const a = +m[1], b = +m[2];
+    if(a === 127 || a === 10 || a === 0) return false;
+    if(a === 192 && b === 168) return false;
+    if(a === 172 && b >= 16 && b <= 31) return false;
+    if(a === 169 && b === 254) return false;
+  }
+  return true;
+}
+
+// 这个按钮统一走"复制到剪贴板 + 页面内 toast"，不调用 navigator.share。
+// navigator.share 在桌面 WebView / Safari 里会拉起系统分享面板（隔空投送、信息、
+// 备忘录……），既盖住页面、又把"分享"这件事交给了用户不一定想用的那一堆 App，而
+// 面板里的"拷贝"给出的还是我们传进去的那个 url —— 一旦 url 判断错了，用户拿到的
+// 就是个 127.0.0.1 地址。行为可预期比多一条系统路径重要，所以只保留复制。
 function shareUrl(){
   const mon = state.mon;
   const text = shareText(mon);
-  const isWeb = location.protocol === 'http:' || location.protocol === 'https:';
-  const publicUrl = isWeb ? location.href : (state.shareUrl || '');
+  const publicUrl = isPublicHost() ? location.href : (state.shareUrl || '');
   const rail = document.getElementById('shareRail');
-
-  if(navigator.share && publicUrl){
-    navigator.share({ title: mon ? mon.name : 'Monitor Anything', text, url: publicUrl }).catch(()=>{});
-    return;
-  }
 
   const done = (label, toastText)=>{
     const btn = rail.querySelector('.share-btn .label');
@@ -503,7 +536,11 @@ function buildShareRail(){
   </div>`;
 }
 
-function buildBrand(date){
+// 日期不再作为品牌行右上角那个小角标。那个位置视觉权重最低（灰色小字、贴边、和标题
+// 隔着一整块），而"这是哪一天的报告"恰恰是读者打开这份文件时最先要确认的事之一——尤其
+// 这份 HTML 会被转发出去，收到的人不一定知道它是今天的还是上周的。改成放在大标题正上方
+// 的 eyebrow（见 buildFocusHeader），跟标题同属一个视觉块。页脚仍然有完整的生成时间。
+function buildBrand(){
   return `<div class="brand-row">
     <div class="brand-left">
       <div class="brand-mark"><span></span></div>
@@ -512,7 +549,6 @@ function buildBrand(date){
         <div class="brand-tag">Understand what matters, not just what happens.</div>
       </div>
     </div>
-    <div class="brand-date">${esc(date)}</div>
   </div>`;
 }
 
@@ -536,11 +572,22 @@ function buildAlerts(report){
   return report.alerts.map(a=>`<div class="alert-banner">⚠️ ${esc(a)}</div>`).join('');
 }
 
-function buildFocusHeader(mon){
+// 'YYYY-MM-DD' 用 UTC 构造，避免在 UTC- 时区被解析成前一天、星期几跟着错一天。
+// 解析不出来（字段被改过/格式意外）时原样返回字符串，不显示 "Invalid Date"。
+function formatDateLong(dateStr){
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateStr || '');
+  if(!m) return dateStr || '';
+  const d = new Date(Date.UTC(+m[1], +m[2]-1, +m[3]));
+  if(isNaN(d.getTime())) return dateStr;
+  return T.dateLong(+m[1], +m[2], +m[3], T.weekdays[d.getUTCDay()]);
+}
+
+function buildFocusHeader(mon, date){
   const top = (mon.clusters||[]).filter(c=>c.cross_source);
   const claim = T.claim(top.length);
   const tags = (mon.focus_tags||[]).map(t=>`<span class="focus-tag">${esc(t)}</span>`).join('');
   return `<header class="focus-header">
+    <div class="focus-date">${esc(formatDateLong(date))}</div>
     <h1 class="focus-title">${esc(mon.name)}<br><span class="claim">${esc(claim)}</span></h1>
     <p class="focus-overview">${esc(mon.overview||'')}</p>
     ${tags ? `<div class="focus-tags">${tags}</div>` : ''}
@@ -746,7 +793,7 @@ function render(monitorId){
   if(!report){ app.innerHTML = `<p>${esc(T.noReport)}</p>`; return; }
   const monitors = report.monitors || [];
   if(!monitors.length){
-    app.innerHTML = buildShareRail() + buildBrand(date) + buildAlerts(report) + `<div class="empty-note">${esc(T.noMonitors)}</div>` + buildFooter(date, report.generated_at);
+    app.innerHTML = buildShareRail() + buildBrand() + buildAlerts(report) + `<div class="focus-date standalone">${esc(formatDateLong(date))}</div>` + `<div class="empty-note">${esc(T.noMonitors)}</div>` + buildFooter(date, report.generated_at);
     return;
   }
   let mon = monitors.find(m=>m.id === monitorId) || monitors[0];
@@ -756,10 +803,10 @@ function render(monitorId){
 
   app.innerHTML = [
     buildShareRail(),
-    buildBrand(date),
+    buildBrand(),
     buildMonitorSwitch(monitors, mon.id),
     buildAlerts(report),
-    buildFocusHeader(mon),
+    buildFocusHeader(mon, date),
     buildWorkflow(mon, report.stats||{}),
     buildTopStories(mon, date),
     buildNotableDynamics(mon, date, 5),

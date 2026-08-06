@@ -10,9 +10,12 @@
   现存哪些日期、每个日期下各 monitor 的名字和精选条数），本页通过下面的 <script src>
   在打开时读取最新清单。这样"首页代码不变"和"内容每天在更新"两件事不矛盾。
 
-  这个页面刻意不做三件事：不内嵌任何一天的报告正文（标题/摘要/链接都不在这里，只有
-  monitor 名字和条数）、不放分享按钮、不接统计埋点——它只是一个目录，不是可分享的
+  这个页面刻意不做两件事：不放分享按钮、不接统计埋点——它只是一个目录，不是可分享的
   报告本身；那些功能都在点进去之后的 <date>.html 里。
+
+  卡片上会显示当天的 overview 摘要（那句"今天 XX 领域最大的动态是……"，由 render.py
+  截断到 96 字写进清单）。这是有意打破了早先"首页完全不内嵌报告正文"的原则——只有一句
+  概览，标题/正文/原文链接依然不在这里，理由见 ARCHITECTURE.md §22。
 
   这份 HTML 本身是静态的、不区分语言的——界面上那几句文案（"历史日期"之类）用下面
   I18N 表在打开时挑一份，依据是 dates-manifest.js 里的 language 字段（config.json 的
@@ -40,19 +43,30 @@
     padding:clamp(18px,3.5vw,36px) clamp(14px,4vw,24px) 64px;
   }
   a{color:inherit;text-decoration:none;}
-  .wrap{max-width:640px;margin:0 auto;}
+  /* 两列卡片：640px 装不下两列摘要，首页宽度放宽到 900px。auto-fill + minmax 让窄屏
+     （手机、分屏）自动退回单列，不需要单独写媒体查询。 */
+  .wrap{max-width:900px;margin:0 auto;}
   .brand-row{display:flex;align-items:center;gap:11px;margin-bottom:22px;}
   .brand-mark{width:34px;height:34px;border-radius:10px;background:var(--brand-fill);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--brand-shadow);}
   .brand-mark span{width:10px;height:10px;border-radius:50%;background:var(--on-brand);}
   .brand-name{font-family:var(--mono);font-size:13.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;line-height:1.25;}
   .brand-tag{font-size:11.5px;color:var(--text-weak);line-height:1.35;}
   .list-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-weak);margin-bottom:12px;}
-  .date-list{display:flex;flex-direction:column;gap:8px;}
-  .date-row{display:block;background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:14px 16px;}
-  .date-row:hover{border-color:var(--tab-on-border);}
-  .date-text{font-family:var(--mono);font-size:14px;font-weight:600;margin-bottom:8px;}
-  .date-chips{display:flex;flex-wrap:wrap;gap:6px;}
-  .monitor-chip{font-size:12px;color:var(--text-sub);background:var(--fill-1);border:1px solid var(--card-border);border-radius:999px;padding:3px 10px;}
+  .date-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;align-items:start;}
+  .date-row{display:flex;flex-direction:column;gap:10px;background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:16px 18px;transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease;}
+  .date-row:hover{border-color:var(--tab-on-border);transform:translateY(-2px);box-shadow:0 8px 22px rgba(74,45,28,.08);}
+  .date-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;}
+  .date-text{font-family:var(--mono);font-size:15px;font-weight:600;letter-spacing:.02em;}
+  .date-weekday{font-size:11.5px;color:var(--text-weak);}
+  .monitor-block{display:flex;flex-direction:column;gap:5px;}
+  .monitor-block + .monitor-block{border-top:1px dashed var(--card-border);padding-top:9px;}
+  .monitor-head{display:flex;flex-wrap:wrap;align-items:center;gap:7px;}
+  .monitor-name{font-size:13px;font-weight:600;color:var(--accent-text);}
+  .monitor-chip{font-size:11px;color:var(--text-sub);background:var(--fill-1);border:1px solid var(--card-border);border-radius:999px;padding:2px 9px;white-space:nowrap;}
+  /* 摘要固定裁到 3 行，卡片高度才不会因为某天 overview 特别长而参差不齐；render.py
+     那边已经截断过一次，这里是排版兜底。 */
+  .monitor-overview{font-size:12.5px;line-height:1.62;color:var(--text-sub);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+  .monitor-overview.muted{color:var(--text-weak);font-style:italic;}
   .empty-note{color:var(--text-weak);font-size:13px;padding:8px 0;}
   footer{color:var(--text-weak);font-size:11.5px;font-family:var(--mono);border-top:1px solid var(--card-border);padding-top:16px;margin-top:22px;}
 </style>
@@ -79,14 +93,20 @@ const I18N = {
     listLabel: '历史日期',
     empty: '还没有生成过报告。',
     footer: 'Monitor Anything · 零一实验室',
-    chip: (n) => `· ${n} 条`,
+    chip: (n) => `${n} 条精选`,
+    crossChip: (n) => `${n} 条头条`,
+    noOverview: '这一天没有生成概览。',
+    weekdays: ['周日','周一','周二','周三','周四','周五','周六'],
   },
   en: {
     tagline: 'Report index · click a date to view the full report',
     listLabel: 'History',
     empty: 'No reports generated yet.',
     footer: 'Monitor Anything · Lingyi Labs',
-    chip: (n) => `· ${n}`,
+    chip: (n) => `${n} selected`,
+    crossChip: (n) => `${n} headlines`,
+    noOverview: 'No overview for this day.',
+    weekdays: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
   },
 };
 
@@ -107,17 +127,42 @@ document.getElementById('brandTag').textContent = T.tagline;
 document.getElementById('listLabel').textContent = T.listLabel;
 document.getElementById('footerText').textContent = T.footer;
 
+// 用 UTC 构造，避免 'YYYY-MM-DD' 在部分时区被解析成前一天导致星期几算错。
+function weekdayOf(dateStr){
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateStr || '');
+  if(!m) return '';
+  const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
+  return isNaN(d.getTime()) ? '' : T.weekdays[d.getUTCDay()];
+}
+
 const listEl = document.getElementById('dateList');
 if (!dates.length) {
   listEl.innerHTML = `<div class="empty-note">${esc(T.empty)}</div>`;
 } else {
   listEl.innerHTML = dates.map(d => {
-    const chips = (d.monitors || []).map(m =>
-      `<span class="monitor-chip">${esc(m.name)} ${esc(T.chip(parseInt(m.selected, 10) || 0))}</span>`
-    ).join('');
+    const blocks = (d.monitors || []).map(m => {
+      const selected = parseInt(m.selected, 10) || 0;
+      const cross = parseInt(m.cross, 10) || 0;
+      // overview 是 v3.1 才加进清单的字段；老用户目录里可能还躺着旧版 dates-manifest.js
+      // （首页每次覆盖、清单每次重写，但如果只打开首页没重新跑过 render.py 就不会更新），
+      // 那时 m.overview 是 undefined，走 noOverview 兜底而不是显示 "undefined"。
+      const ov = (m.overview || '').trim();
+      return `<div class="monitor-block">
+        <div class="monitor-head">
+          <span class="monitor-name">${esc(m.name)}</span>
+          <span class="monitor-chip">${esc(T.chip(selected))}</span>
+          ${cross ? `<span class="monitor-chip">${esc(T.crossChip(cross))}</span>` : ''}
+        </div>
+        <div class="monitor-overview${ov ? '' : ' muted'}">${esc(ov || T.noOverview)}</div>
+      </div>`;
+    }).join('');
+    const wd = weekdayOf(d.date);
     return `<a class="date-row" href="${esc(d.date)}.html">
-      <div class="date-text">${esc(d.date)}</div>
-      <div class="date-chips">${chips}</div>
+      <div class="date-head">
+        <span class="date-text">${esc(d.date)}</span>
+        ${wd ? `<span class="date-weekday">${esc(wd)}</span>` : ''}
+      </div>
+      ${blocks}
     </a>`;
   }).join('');
 }
