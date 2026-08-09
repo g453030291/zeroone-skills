@@ -43,11 +43,10 @@ def fetch_articles(base_url: str, token: str, timeout: int = 30, retries: int = 
             return payload.get("data", [])
         except urllib.error.HTTPError as e:
             if e.code == 401:
-                raise FetchError(
-                    f"Token 校验失败（401），可能已过期。如需继续使用请邮件联系 "
-                    f"{common.TOKEN_HELP_EMAIL} 申请延长有效期。"
-                ) from e
-            last_err = e
+                e.close()
+                raise FetchError(common.token_invalid_message()) from e
+            last_err = RuntimeError(f"HTTP {e.code}: {e.reason}")
+            e.close()
         except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as e:
             last_err = e
         if attempt < retries - 1:

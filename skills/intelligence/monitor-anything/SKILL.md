@@ -33,19 +33,24 @@ description: |
    ```
    python3 scripts/setup.py check-token
    ```
-   - 返回 `has_token: false, auto_provisioned` 缺失或为空：说明自动申请也失败了（通常是
-     网络问题），才需要引导用户邮件联系 **gems9232@foxmail.com**
+   - 返回 `has_token: false, reason: rate_limited`：说明当前客户端 IP 在最近 30 天内已申请
+     10 个临时 Token，直接转述返回的 `message`；不要重试，也不要把它说成网络问题
+   - 返回 `has_token: false` 且不是 `rate_limited`：说明自动申请失败了（通常是网络问题），
+     直接转述返回的 `message`
    - 返回 `has_token: true, auto_provisioned: true`：脚本已经自动向零一实验室申请了一个
      **30 天有效期的试用 token** 并写入 config.json，用户不需要做任何事——直接把返回的
      `message`（里面带着到期日期）转述给用户即可，不用等他们回邮件
    - 返回 `valid: false`：直接把返回的 `message` 转述给用户（已经是人话，401 对应
-     "token 好像过期或失效了"，超时对应"暂时连不上数据服务"），不要出现状态码或堆栈。
+     "Token 已过期、被停用或不存在"，超时对应"暂时连不上数据服务"），不要出现状态码或堆栈。
      token 过期后**不会**自动续期——引导用户邮件联系 **gems9232@foxmail.com** 申请延长
    - 返回里如果带 `expiry_note`（临期提醒，≤5 天）：顺带提醒用户一句，不用等真的过期
    - 如果用户自己邮件申请到了正式 token：把 token 从 stdin 喂进去，
      `echo '<token>' | python3 scripts/setup.py set-token`。**不要**用
      `--token <token>` 的形式——命令行参数会留在进程列表和 shell 历史里，那是一个
      长期有效的凭据不该出现的地方（脚本仍接受 `--token`，但会警告一次）
+
+   临时 Token 的申请限额按客户端 IP 计算，但 Token 创建后不绑定使用 IP，可以换网络继续使用。
+   客户端不要主动设置 `X-Forwarded-For`；可信代理与 `TRUSTED_PROXY_NETWORKS` 由服务端负责。
 
 2. **推断用户关注方向**（这一步是你自己的语义判断，不是脚本能做的）
 

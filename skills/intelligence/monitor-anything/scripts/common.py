@@ -261,12 +261,21 @@ def get_token(cfg: dict[str, Any]) -> str:
 TOKEN_HELP_EMAIL = "gems9232@foxmail.com"
 
 
+def token_invalid_message() -> str:
+    """受保护接口返回 401 时使用的统一人话提示。"""
+    return (
+        "Token 校验失败：凭据已过期、被停用或不存在。请检查当前 Token；"
+        f"如需延长或获取正式 Token，请邮件联系 {TOKEN_HELP_EMAIL}。"
+    )
+
+
 def token_expiry_note(cfg: dict[str, Any]) -> str:
     """v2 新增：临时 token 默认 30 天过期。距过期 ≤5 天或已过期时返回一句人话提示，
     正常情况下返回空字符串（调用方据此决定要不要在输出里附带这句话）。
 
     到期后的路径是明确的 SOP——邮件联系 TOKEN_HELP_EMAIL 申请延长，而不是脚本自己
-    再调一次 temporary-token 接口——那个接口是给全新用户免排队试用的，不是续期入口。
+    再调一次 temporary-token 接口。服务端允许同一客户端 IP 在滚动 30 天内申请最多
+    10 个临时 Token，但这项额度用于首次安装或配置丢失等场景，不改变本 Skill 的续期策略。
     """
     expires_at = (cfg.get("api", {}) or {}).get("expires_at", "")
     if not expires_at:

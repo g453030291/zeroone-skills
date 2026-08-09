@@ -9,6 +9,8 @@ v2 变更：`check-token` 不再要求用户先发邮件才能拿到 token —�
 体验里太致命。现在没有 token 时会自动向 temporary-token 接口申请一个 30 天有效期的
 试用 token 并直接写入 config.json，用户全程不需要做任何事。只有这个试用 token 过期后
 还想继续用，才需要走邮件联系 TOKEN_HELP_EMAIL 申请延长有效期的 SOP（见 ARCHITECTURE.md）。
+同一客户端 IP 在滚动 30 天内最多申请 10 个临时 token；达到上限时会返回明确的人话提示，
+不会把配额问题误报成网络故障，也不会无意义重试。
 
 用法：
     python setup.py check-token                          # 检测 token；没有则自动申请试用 token
@@ -31,6 +33,10 @@ import common
 import harvest
 
 
+class TempTokenRateLimitError(Exception):
+    pass
+
+
 def _provision_temp_token(timeout: int) -> dict:
     """POST temporary-token 接口，拿一个默认 30 天有效期的试用 token。
 
@@ -38,8 +44,19 @@ def _provision_temp_token(timeout: int) -> dict:
     和「已有 token 但过期了」是两条不同的路径（后者走邮件 SOP，见 SKILL.md §Setup）。
     """
     req = urllib.request.Request(common.TEMP_TOKEN_URL, data=b"", method="POST")
-    with urllib.request.urlopen(req, timeout=timeout) as resp:
-        body = resp.read().decode("utf-8")
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            body = resp.read().decode("utf-8")
+    except urllib.error.HTTPError as e:
+        if e.code == 429:
+            e.close()
+            raise TempTokenRateLimitError(
+                "当前客户端 IP 在最近 30 天内申请的临时 Token 已达到 10 个上限。"
+                "请使用已有 Token；如需帮助，"
+                f"请邮件联系 {common.TOKEN_HELP_EMAIL}。"
+            ) from e
+        e.close()
+        raise
     payload = json.loads(body)
     if payload.get("code") != 200:
         raise RuntimeError(f"code={payload.get('code')} msg={payload.get('msg')}")
@@ -57,6 +74,18 @@ def cmd_check_token(args: argparse.Namespace) -> int:
         # v2：不再引导用户先发邮件——直接自动申请一个 30 天试用 token。
         try:
             data = _provision_temp_token(args.timeout)
+        except TempTokenRateLimitError as e:
+            print(
+                json.dumps(
+                    {
+                        "has_token": False,
+                        "reason": "rate_limited",
+                        "message": str(e),
+                    },
+                    ensure_ascii=False,
+                )
+            )
+            return 0
         except Exception as e:
             print(
                 json.dumps(
@@ -105,7 +134,7 @@ def cmd_check_token(args: argparse.Namespace) -> int:
     except harvest.FetchError as e:
         msg = str(e)
         if "401" in msg or "Token" in msg:
-            friendly = f"Token 好像过期或失效了，可以邮件联系 {common.TOKEN_HELP_EMAIL} 申请延长有效期。"
+            friendly = common.token_invalid_message()
         else:
             friendly = "暂时连不上数据服务，请检查网络后重试。"
         print(json.dumps({"has_token": True, "valid": False, "message": friendly, "detail": msg}, ensure_ascii=False))

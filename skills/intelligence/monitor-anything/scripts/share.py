@@ -70,14 +70,14 @@ def upload_html(url: str, token: str, file_path: Path, timeout: int = 30) -> Any
             body = resp.read().decode("utf-8")
     except urllib.error.HTTPError as e:
         if e.code == 401:
-            raise ShareError(
-                f"Token 校验失败（401），可能已过期。如需继续使用请邮件联系 "
-                f"{common.TOKEN_HELP_EMAIL} 申请延长有效期。"
-            ) from e
+            e.close()
+            raise ShareError(common.token_invalid_message()) from e
         try:
             detail = e.read().decode("utf-8", "ignore")
         except Exception:
             detail = str(e)
+        finally:
+            e.close()
         raise ShareError(f"分享上传失败（HTTP {e.code}）：{detail[:200]}") from e
     except (urllib.error.URLError, TimeoutError) as e:
         raise ShareError(f"暂时连不上分享服务，请检查网络后重试：{e}") from e

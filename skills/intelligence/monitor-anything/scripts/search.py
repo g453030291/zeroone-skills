@@ -83,14 +83,14 @@ def search(
             raw = resp.read().decode("utf-8")
     except urllib.error.HTTPError as e:
         if e.code == 401:
-            raise SearchError(
-                f"Token 校验失败（401），可能已过期。如需继续使用请邮件联系 "
-                f"{common.TOKEN_HELP_EMAIL} 申请延长有效期。"
-            ) from e
+            e.close()
+            raise SearchError(common.token_invalid_message()) from e
         try:
             detail = e.read().decode("utf-8", "ignore")
         except Exception:
             detail = str(e)
+        finally:
+            e.close()
         raise SearchError(f"搜索接口请求失败（HTTP {e.code}）：{detail[:200]}") from e
     except (urllib.error.URLError, TimeoutError) as e:
         raise SearchError(f"暂时连不上搜索服务，请检查网络后重试：{e}") from e
