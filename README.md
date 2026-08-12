@@ -2,82 +2,45 @@
 
 [中文](README.md) | [English](README_EN.md)
 
-面向 AI Agent 的开源技能集合，聚焦信息监控、行业情报与可复用的业务工作流。
+ZeroOne Skills 是一个面向 AI Agent 的开源技能仓库。
 
-每个 Skill 都把任务说明、提示词、确定性脚本和必要的前端资源放在一个独立目录中。将需要的目录复制到支持 Agent Skills 的产品里，就可以通过自然语言触发完整工作流。
+我们关注怎样把真实工作中的方法、判断标准和操作流程，沉淀为 Agent 可以理解、执行和复用的 Skills。目前主要覆盖信息监控与行业情报，后续会持续扩展更多工程和生产力场景。
 
-## Skills
+## 浏览 Skills
 
-| Skill | 用途 | 主要产物 |
-| --- | --- | --- |
-| [monitor-anything](skills/intelligence/monitor-anything/README.md) | 用自然语言定义关注方向，自动完成采集、清洗、语义筛选、跨源聚类、摘要和渲染 | 每日独立 HTML 报告与历史目录首页，支持中文和英文 |
-| [industry-insight](skills/intelligence/industry-insight/SKILL.md) | 将资讯数据按关注点过滤、聚类并进行多信源成稿判定 | 结构化行业情报与单文件 Dashboard |
+### Intelligence · 信息与情报
 
-两个 Skill 并列提供：`monitor-anything` 侧重日常订阅与自动报告，`industry-insight` 侧重可检查、可干预的行业情报流水线。可以根据工作方式任选其一。
+| Skill | 一句话介绍 |
+| --- | --- |
+| [monitor-anything](skills/intelligence/monitor-anything/README.md) | 用自然语言定义关注方向，自动生成经过筛选、跨源聚类和摘要的每日可视化报告。 |
+| [industry-insight](skills/intelligence/industry-insight/SKILL.md) | 把资讯数据整理成一条可检查、可干预的行业情报分析流水线。 |
 
-## 安装
+## 如何阅读这个仓库
 
-### 从仓库复制
+1. **按分类浏览**：从上面的分类和一句话介绍中找到感兴趣的 Skill。
+2. **先看 `README.md`**：了解它解决什么问题、适合什么场景，以及如何开始使用。
+3. **再看 `SKILL.md`**：了解 Agent 的触发条件、工作步骤和执行边界。
+4. **按需深入**：`ARCHITECTURE.md`、`references/`、`prompts/` 和 `scripts/` 分别包含架构、规范、提示词与确定性实现。
 
-```bash
-git clone https://github.com/g453030291/zeroone-skills.git
-cd zeroone-skills
-
-# 复制你需要的 Skill；目标目录请替换成 Agent 产品的 Skills 目录
-cp -R skills/intelligence/monitor-anything /path/to/your/skills/
-cp -R skills/intelligence/industry-insight /path/to/your/skills/
-```
-
-不同 Agent 产品的 Skills 目录和加载方式可能不同，请以对应产品的说明为准。只需复制准备使用的 Skill，不必安装整个仓库。
-
-### 通过 SkillHub 安装 monitor-anything
-
-`monitor-anything` 同时发布在 [SkillHub](https://skillhub.cn/team-skills/monitor-anything)。已经安装 SkillHub CLI 时，可以运行：
-
-```bash
-skillhub install monitor-anything --dir <Agent 的 Skills 目录>
-```
-
-`--dir` 必须指向当前 Agent 实际加载 Skills 的目录。尚未安装 SkillHub CLI 时，请先查看 [SkillHub 安装说明](https://skillhub.cn/install/skillhub.md)，也可以直接把这个链接交给 Agent 处理。
-
-## 使用
-
-安装后直接用自然语言描述任务。Agent 会根据 Skill 的触发说明判断并运行相应流程。
-
-例如：
-
-> 帮我每天关注国内 AI 推理基础设施和芯片供应链的动态，排除融资八卦和课程广告。
-
-> 帮我整理最近新能源汽车行业的重要变化，只有经过多个独立信源印证的事件才进入情报。
-
-每个 Skill 的首次配置、自动化方式、数据边界和详细用法，请查看对应目录中的 `README.md` 或 `SKILL.md`。
-
-## 目录结构
+每个 Skill 都是相对独立的目录。只需阅读或安装你感兴趣的 Skill，不必理解整个仓库。
 
 ```text
-zeroone-skills/
-├── skills/
-│   └── intelligence/
-│       ├── monitor-anything/
-│       └── industry-insight/
-├── LICENSE
-├── README.md
-└── README_EN.md
+skills/
+├── intelligence/   # 信息监控、行业情报与研究
+├── engineering/    # 工程工作流（持续建设中）
+└── productivity/   # 通用生产力（持续建设中）
 ```
 
-一个 Skill 通常包含：
+具体安装方式和使用说明以各 Skill 自己的 README 为准。
 
-- `SKILL.md`：触发条件和 Agent 执行流程
-- `scripts/`：网络、存储、转换等确定性操作
-- `prompts/` 或 `references/`：语义任务说明和输出规范
-- `assets/`：报告模板等静态资源
+## 关于团队
 
-具体结构以各 Skill 目录为准。
+ZeroOne Skills 团队专注于 AI Agent 与数据智能产品。我们希望将经过真实任务验证的工作流做成清晰、可组合、可持续迭代的开放能力，而不只是一次性的提示词。
 
 ## 参与贡献
 
-欢迎通过 Issue 或 Pull Request 提交问题、文档改进和新的 Skill。请让每项改动保持聚焦，并在提交前确认示例命令、相对链接和数据边界与实际实现一致。
+欢迎通过 Issue 和 Pull Request 提交问题、改进文档或贡献新的 Skill。
 
 ## License
 
-本项目采用 [MIT License](LICENSE)。
+[MIT License](LICENSE)
